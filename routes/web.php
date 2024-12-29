@@ -171,8 +171,12 @@ Route::prefix('dashboard')
             ->name('rekap.rekapakhir');
         Route::get('rekap/rekap-akhir/pbb-danton/{id}', [RekapController::class, 'rekappbbdanton'])
             ->name('rekap.rekappbbdanton');
-        Route::get('rekap/rekap-akhir/varfor/{id}', [RekapController::class, 'rekapvarfor']) 
+        Route::get('rekap/rekap-akhir/pbb-danton/{id}/view-pdf', [RekapController::class, 'rekapPbbDantonPdf'])
+            ->name('rekap.rekappbbdantonpdf');
+        Route::get('rekap/rekap-akhir/variasi-formasi/{id}', [RekapController::class, 'rekapvarfor']) 
             ->name('rekap.rekapvarfor');
+        Route::get('rekap/rekap-akhir/variasi-formasi/{id}/view-pdf', [RekapController::class, 'rekapvarforPdf'])
+            ->name('rekap.rekapvarforpdf');
         // Foto dan Rekomendasi
         Route::get('administrasi/foto', [FotoController::class, 'index'])
             ->name('foto.index');

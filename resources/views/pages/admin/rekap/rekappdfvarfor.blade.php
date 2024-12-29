@@ -1,36 +1,112 @@
-@extends('layouts.admin')
-@section('content')
-<main>
-    <div class="container-fluid px-4">
-        <div class="row align-items-center">
-            <div class="col-sm-6 col-md-12">
-                <h1 class="mt-4">{{ $title }}</h1>
-                <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('rekap.rekapakhir') }}">Rekap Nilai Akhir</a></li>
-                    <li class="breadcrumb-item active">{{ $title }}</li>
-                </ol>
-            </div>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ $title }}</title>
+        <style>
+            body {
+                font-family: 'Times New Roman', Times, serif;
+                font-size: 16px;
+            }
+            .keterangan {
+                font-size: 16px;
+            }
+            .bg-dark {
+                background-color: darkgrey;
+            }
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 1rem;
+                background-color: transparent;
+            }
+            .table th, .table td {
+                padding: 0.5rem;
+                vertical-align: top;
+                border: 1px solid #000;
+                font-size: 16px;
+            }
+            .text-center {
+                text-align: center;
+            }
+            .kop {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 1rem;
+                border: none;
+            }
+            .logo {
+                width: 4cm;
+                text-align: center;
+                border: none;
+            }
+            .logo img {
+                width: 3cm;
+                height: 3cm;
+                object-fit: contain;
+            }
+            .judul h1 {
+                margin: 0;
+                font-size: 34px;
+            }
+            .judul h2 {
+                margin: 0;
+                font-size: 24px;
+            }
+            .judul h3 {
+                margin: 0;
+                font-size: 18px;
+            }
+        </style>
+    </head>
+    <body>
+        <table class="kop">
+            <tr>
+                <td class="logo">
+                    <img src="{{ public_path('frontend/images/Logo LKBB.png') }}" alt="Logo LKBB">
+                </td>
+                <td class="judul text-center">
+                    <h2>{{ $title }}</h2>
+                    <h1>Nama LKBB</h1>
+                    <h2>(Singkatan LKBB)</h2>
+                    <h3>
+                        Tingkat @if ($tingkatans->count())
+                        @foreach ($tingkatans as $tingkatan)
+                        {{ $tingkatan->nama_tingkatan }} 
+                        @if (!$loop->last)
+                            & 
+                        @endif
+                        @endforeach
+                        @endif
+                    </h3>
+                </td>
+                <td class="logo">
+                    <img src="{{ public_path('frontend/images/Logo Paskibra.png') }}" alt="Logo Paskibra">
+                </td>
+            </tr>
+        </table>
+        <hr>
+        <br>
         <div class="card mb-4 bg-secondary">
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead class="bg-dark align-middle text-center text-white">
-                            <tr>
-                                <th rowspan="2" style="width: 5%">No. Urut</th>
-                                <th rowspan="2">Asal Sekolah</th>
-                                <th colspan="2">Variasi</th>
-                                <th colspan="2">Formasi</th>
-                                <th colspan="2">Var-For</th>
+                        <tr>
+                                <th rowspan="2" style="vertical-align: middle !important; width: 5%">No. Urut</th>
+                                <th rowspan="2" style="vertical-align: middle !important;">Asal Sekolah</th>
+                                <th colspan="2" style="vertical-align: middle !important;">Variasi</th>
+                                <th colspan="2" style="vertical-align: middle !important;">Formasi</th>
+                                <th colspan="2" style="vertical-align: middle !important;">Var-For</th>
                             </tr>
                             <tr>
-                                <th style="width: 11%">Nilai Variasi</th>
-                                <th style="width: 14%">Ranking Variasi</th>
-                                <th style="width: 12%">Nilai Formasi</th>
-                                <th style="width: 14%">Ranking Formasi</th>
-                                <th style="width: 12%">Nilai Var-For</th>
-                                <th style="width: 18%">Ranking Var-For</th>
+                                <th style="vertical-align: middle !important; width: 11%">Nilai Variasi</th>
+                                <th style="vertical-align: middle !important; width: 14%">Ranking Variasi</th>
+                                <th style="vertical-align: middle !important; width: 11%">Nilai Formasi</th>
+                                <th style="vertical-align: middle !important; width: 14%">Ranking Formasi</th>
+                                <th style="vertical-align: middle !important; width: 11%">Nilai Var-For</th>
+                                <th style="vertical-align: middle !important; width: 18%">Ranking Var-For</th>
                             </tr>
                         </thead>
                         <tbody class="text-center">
@@ -116,11 +192,6 @@
                     </table>
                 </div>
             </div>
-            <div class="mb-3 text-center">
-                <a href="{{ route('rekap.rekapvarforpdf', $id) }}" class="btn btn-dark me-2" target="_blank">
-                    Download Rekap Nilai
-                </a>
-            </div>
         </div>
         <div class="card mb-4 bg-secondary alert">
             <h5 class="mb-2"><strong>Keterangan Warna</strong></h5>
@@ -197,6 +268,5 @@
                 @endif
             </ul>
         </div>
-    </div>
-</main>
-@endsection
+    </body>
+</html>
