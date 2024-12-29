@@ -16,7 +16,7 @@ class PortalController extends Controller
     public function index(Request $request)
     {
         return view('pages.portal', [
-            'benefits'   => Benefit::orderby('prioritas')->get(),
+            'benefits'   => Benefit::orderby('tipe')->orderby('prioritas')->get(),
             'berkas'     => Berkas::first(),
             'cps'        => Cp::all(),
             'details'    => Detail::first(),

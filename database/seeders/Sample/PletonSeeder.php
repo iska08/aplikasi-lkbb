@@ -23,8 +23,8 @@ class PletonSeeder extends Seeder
             'S2B1', 'S2B2', 'S2B3', 'S2B4', 'S2B5', 
             'S3B1', 'S3B2', 'S3B3', 'S3B4', 'S3B5'
         ];
-        // Looping setiap peserta_id (1 hingga 30 sesuai dengan PesertaSeeder)
-        for ($pesertaId = 1; $pesertaId <= 30; $pesertaId++) {
+        // Looping setiap peserta_id (1 hingga 100 sesuai dengan PesertaSeeder)
+        for ($pesertaId = 1; $pesertaId <= 90; $pesertaId++) {
             foreach ($posisiAnggota as $index => $namaAnggota) {
                 $pletons[] = [
                     'peserta_id'    => $pesertaId,

@@ -57,7 +57,7 @@
                                 <th>Trophy</th>
                                 <th>Hadiah</th>
                                 <th>Uang Pembinaan</th>
-                                <th>Prioritas</th>
+                                <th>Tipe</th>
                                 <th>Tingkatan Sekolah</th>
                                 <th style="width: 8%">Aksi</th>
                             </tr>
@@ -71,7 +71,21 @@
                                 <td>{{ $benefit->trophy }}</td>
                                 <td>{{ $benefit->hadiah }}</td>
                                 <td>Rp {{ number_format($benefit->uang, 0, ',', '.') }}</td>
-                                <td>{{ $benefit->prioritas }}</td>
+                                <td>
+                                    @if ($benefit->tipe == "1UMUM")
+                                    UMUM
+                                    @elseif ($benefit->tipe == "2UTAMA")
+                                    UTAMA
+                                    @elseif ($benefit->tipe == "3VARFOR")
+                                    VARFOR
+                                    @elseif ($benefit->tipe == "4PBB")
+                                    PBB
+                                    @elseif ($benefit->tipe == "5DANTON")
+                                    DANTON
+                                    @elseif ($benefit->tipe == "6BEST")
+                                    LAINNYA
+                                    @endif
+                                </td>
                                 <td>{{ $benefit->nama_tingkatan }}</td>
                                 <td>
                                     <a href="{{ route('benefit.edit', $benefit->id) }}" class="badge bg-warning">

@@ -89,8 +89,25 @@
                 @enderror
             </div>
             <div class="mb-3">
+                <label for="tipe" class="form-label">Tipe Kategori Juara</label>
+                <select id="tipe" name="tipe" class="form-select @error('tipe') is-invalid @enderror" required>
+                    <option value="" disabled>Pilih Tipe</option>
+                    <option value="1UMUM" {{ old('tipe', $benefits->tipe) === '1UMUM' ? 'selected' : '' }}>UMUM</option>
+                    <option value="2UTAMA" {{ old('tipe', $benefits->tipe) === '2UTAMA' ? 'selected' : '' }}>UTAMA</option>
+                    <option value="3VARFOR" {{ old('tipe', $benefits->tipe) === '3VARFOR' ? 'selected' : '' }}>VARFOR</option>
+                    <option value="4PBB" {{ old('tipe', $benefits->tipe) === '4PBB' ? 'selected' : '' }}>PBB</option>
+                    <option value="5DANTON" {{ old('tipe', $benefits->tipe) === '5DANTON' ? 'selected' : '' }}>DANTON</option>
+                    <option value="6BEST" {{ old('tipe', $benefits->tipe) === '6BEST' ? 'selected' : '' }}>LAINNYA</option>
+                </select>
+                @error('tipe')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+            <div class="mb-3">
                 <label for="prioritas" class="form-label">Prioritas</label>
-                <input type="number" min=1 class="form-control" id="prioritas" name="prioritas" value="{{ $benefits->prioritas }}">
+                <input type="number" min=0 class="form-control" id="prioritas" name="prioritas" value="{{ $benefits->prioritas }}">
                 @error('prioritas')
                 <div class="invalid-feedback">
                     {{ $message }}

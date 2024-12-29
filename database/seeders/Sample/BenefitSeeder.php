@@ -21,10 +21,11 @@ class BenefitSeeder extends Seeder
         $benefits = [
             [
                 'tingkatan_id' => 1,
-                'nama_juara'   => 'JUARA UMUM',
-                'trophy'       => 'TROPHY BERGILIR',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => 'Juara Umum',
+                'trophy'       => 'Trophy Bergilir',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
+                'tipe'         => '1UMUM',
                 'prioritas'    => 1,
                 'created_at'   => $now,
                 'updated_at'   => $now,
@@ -36,11 +37,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 1,
-                'nama_juara'   => "JUARA $i UTAMA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Utama",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => $basePrize - ($deduction * ($i - 1)),
-                'prioritas'    => $i + 1,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -49,11 +51,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 1,
-                'nama_juara'   => "JUARA $i HARAPAN",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Harapan",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 4,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 3,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -62,11 +65,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 1,
-                'nama_juara'   => "JUARA $i MADYA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Madya",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 7,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 6,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -75,11 +79,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 1,
-                'nama_juara'   => "JUARA $i BINA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Bina",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 10,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 9,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -88,11 +93,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 1,
-                'nama_juara'   => "JUARA $i MULA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Mula",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 13,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 12,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -101,11 +107,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 1,
-                'nama_juara'   => "JUARA $i UTAMA VARFOR",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Utama Varfor",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 16,
+                'tipe'         => '3VARFOR',
+                'prioritas'    => $i,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -114,11 +121,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 1,
-                'nama_juara'   => "JUARA $i HARAPAN VARFOR",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Harapan Varfor",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 19,
+                'tipe'         => '3VARFOR',
+                'prioritas'    => $i + 3,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -127,11 +135,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 1,
-                'nama_juara'   => "JUARA $i MADYA VARFOR",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Madya Varfor",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 22,
+                'tipe'         => '3VARFOR',
+                'prioritas'    => $i + 6,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -140,11 +149,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 1,
-                'nama_juara'   => "BEST PBB $i",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Best PBB $i",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 25,
+                'tipe'         => '4PBB',
+                'prioritas'    => $i,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -153,20 +163,21 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 1,
-                'nama_juara'   => "BEST DANTON $i",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Best Danton $i",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 28,
+                'tipe'         => '5DANTON',
+                'prioritas'    => $i,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
         }
         Benefit::insert($benefits);
         $benefits = [
-            ['tingkatan_id' => 1, 'nama_juara' => 'BEST POPULER PASUKAN', 'trophy' => 'TROPHY TETAP', 'hadiah' => 'TIDAK ADA', 'uang' => 0, 'prioritas' => 32, 'created_at' => $now, 'updated_at' => $now,],
-            ['tingkatan_id' => 1, 'nama_juara' => 'BEST FAVORIT BALLOT 1', 'trophy' => 'TROPHY TETAP', 'hadiah' => 'TIDAK ADA', 'uang' => 0, 'prioritas' => 33, 'created_at' => $now, 'updated_at' => $now,],
-            ['tingkatan_id' => 1, 'nama_juara' => 'BEST FAVORIT BALLOT 2', 'trophy' => 'TROPHY TETAP', 'hadiah' => 'TIDAK ADA', 'uang' => 0, 'prioritas' => 34, 'created_at' => $now, 'updated_at' => $now,],
+            ['tingkatan_id' => 1, 'nama_juara' => 'Best Populer Pasukan', 'trophy' => 'Trophy Tetap', 'hadiah' => 'Tidak Ada', 'uang' => 0, 'tipe' => '6BEST', 'prioritas' => 0, 'created_at' => $now, 'updated_at' => $now,],
+            ['tingkatan_id' => 1, 'nama_juara' => 'Best Favorit Ballot 1', 'trophy' => 'Trophy Tetap', 'hadiah' => 'Tidak Ada', 'uang' => 0, 'tipe' => '6BEST', 'prioritas' => 0, 'created_at' => $now, 'updated_at' => $now,],
+            ['tingkatan_id' => 1, 'nama_juara' => 'Best Favorit Ballot 2', 'trophy' => 'Trophy Tetap', 'hadiah' => 'Tidak Ada', 'uang' => 0, 'tipe' => '6BEST', 'prioritas' => 0, 'created_at' => $now, 'updated_at' => $now,],
         ];
         Benefit::insert($benefits);
 
@@ -174,10 +185,11 @@ class BenefitSeeder extends Seeder
         $benefits = [
             [
                 'tingkatan_id' => 2,
-                'nama_juara'   => 'JUARA UMUM',
-                'trophy'       => 'TROPHY BERGILIR',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => 'Juara Umum',
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
+                'tipe'         => '1UMUM',
                 'prioritas'    => 1,
                 'created_at'   => $now,
                 'updated_at'   => $now,
@@ -189,11 +201,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 2,
-                'nama_juara'   => "JUARA $i UTAMA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Utama",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => $basePrize - ($deduction * ($i - 1)),
-                'prioritas'    => $i + 1,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -202,11 +215,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 2,
-                'nama_juara'   => "JUARA $i HARAPAN",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Harapan",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 4,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 3,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -215,11 +229,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 2,
-                'nama_juara'   => "JUARA $i MADYA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Madya",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 7,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 6,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -228,11 +243,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 2,
-                'nama_juara'   => "JUARA $i BINA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Bina",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 10,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 9,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -241,11 +257,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 2,
-                'nama_juara'   => "JUARA $i MULA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Mula",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 13,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 12,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -254,11 +271,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 2,
-                'nama_juara'   => "JUARA $i PURWA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Purwa",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 16,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 15,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -267,11 +285,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 2,
-                'nama_juara'   => "JUARA $i CARAKA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Caraka",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 19,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 18,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -280,11 +299,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 2,
-                'nama_juara'   => "JUARA $i UTAMA VARFOR",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Utama Varfor",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 22,
+                'tipe'         => '3VARFOR',
+                'prioritas'    => $i,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -293,11 +313,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 2,
-                'nama_juara'   => "JUARA $i HARAPAN VARFOR",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Harapan Varfor",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 25,
+                'tipe'         => '3VARFOR',
+                'prioritas'    => $i + 3,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -306,11 +327,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 2,
-                'nama_juara'   => "JUARA $i MADYA VARFOR",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Madya Varfor",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 28,
+                'tipe'         => '3VARFOR',
+                'prioritas'    => $i + 6,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -319,11 +341,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 2,
-                'nama_juara'   => "BEST PBB $i",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Best PBB $i",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 31,
+                'tipe'         => '4PBB',
+                'prioritas'    => $i,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -332,20 +355,21 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 2,
-                'nama_juara'   => "BEST DANTON $i",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Best Danton $i",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 34,
+                'tipe'         => '5DANTON',
+                'prioritas'    => $i,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
         }
         Benefit::insert($benefits);
         $benefits = [
-            ['tingkatan_id' => 2, 'nama_juara' => 'BEST POPULER PASUKAN', 'trophy' => 'TROPHY TETAP', 'hadiah' => 'TIDAK ADA', 'uang' => 0, 'prioritas' => 38, 'created_at' => $now, 'updated_at' => $now,],
-            ['tingkatan_id' => 2, 'nama_juara' => 'BEST FAVORIT BALLOT 1', 'trophy' => 'TROPHY TETAP', 'hadiah' => 'TIDAK ADA', 'uang' => 0, 'prioritas' => 39, 'created_at' => $now, 'updated_at' => $now,],
-            ['tingkatan_id' => 2, 'nama_juara' => 'BEST FAVORIT BALLOT 2', 'trophy' => 'TROPHY TETAP', 'hadiah' => 'TIDAK ADA', 'uang' => 0, 'prioritas' => 40, 'created_at' => $now, 'updated_at' => $now,],
+            ['tingkatan_id' => 2, 'nama_juara' => 'Best Populer Pasukan', 'trophy' => 'Trophy Tetap', 'hadiah' => 'Tidak Ada', 'uang' => 0, 'tipe' => '6BEST', 'prioritas' => 0, 'created_at' => $now, 'updated_at' => $now,],
+            ['tingkatan_id' => 2, 'nama_juara' => 'Best Favorit Ballot 1', 'trophy' => 'Trophy Tetap', 'hadiah' => 'Tidak Ada', 'uang' => 0, 'tipe' => '6BEST', 'prioritas' => 0, 'created_at' => $now, 'updated_at' => $now,],
+            ['tingkatan_id' => 2, 'nama_juara' => 'BEST Favorit Ballot 2', 'trophy' => 'Trophy Tetap', 'hadiah' => 'Tidak Ada', 'uang' => 0, 'tipe' => '6BEST', 'prioritas' => 0, 'created_at' => $now, 'updated_at' => $now,],
         ];
         Benefit::insert($benefits);
 
@@ -353,10 +377,11 @@ class BenefitSeeder extends Seeder
         $benefits = [
             [
                 'tingkatan_id' => 3,
-                'nama_juara'   => 'JUARA UMUM',
-                'trophy'       => 'TROPHY BERGILIR',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => 'Juara Umum',
+                'trophy'       => 'Trophy Bergilir',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
+                'tipe'         => '1UMUM',
                 'prioritas'    => 1,
                 'created_at'   => $now,
                 'updated_at'   => $now,
@@ -368,11 +393,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 3,
-                'nama_juara'   => "JUARA $i UTAMA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Utama",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => $basePrize - ($deduction * ($i - 1)),
-                'prioritas'    => $i + 1,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -381,11 +407,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 3,
-                'nama_juara'   => "JUARA $i HARAPAN",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Harapan",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 4,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 3,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -394,11 +421,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 3,
-                'nama_juara'   => "JUARA $i MADYA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Madya",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 7,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 6,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -407,11 +435,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 3,
-                'nama_juara'   => "JUARA $i BINA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Bina",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 10,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 9,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -420,11 +449,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 3,
-                'nama_juara'   => "JUARA $i MULA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Mula",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 13,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 12,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -433,11 +463,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 3,
-                'nama_juara'   => "JUARA $i PURWA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Purwa",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 16,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 15,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -446,11 +477,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 3,
-                'nama_juara'   => "JUARA $i CARAKA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Caraka",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 19,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 18,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -459,11 +491,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 3,
-                'nama_juara'   => "JUARA $i PERINTIS",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Perintis",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 22,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 21,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -472,11 +505,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 3,
-                'nama_juara'   => "JUARA $i POTENSIAL",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Potensial",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 25,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 24,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -485,11 +519,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 3,
-                'nama_juara'   => "JUARA $i SIAGA",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Siaga",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 28,
+                'tipe'         => '2UTAMA',
+                'prioritas'    => $i + 27,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -498,11 +533,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 3,
-                'nama_juara'   => "JUARA $i UTAMA VARFOR",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Utama Varfor",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 31,
+                'tipe'         => '3VARFOR',
+                'prioritas'    => $i,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -511,11 +547,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 3,
-                'nama_juara'   => "JUARA $i HARAPAN VARFOR",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Harapan Varfor",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 34,
+                'tipe'         => '3VARFOR',
+                'prioritas'    => $i + 3,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -524,11 +561,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 3,
-                'nama_juara'   => "JUARA $i MADYA VARFOR",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Juara $i Madya Varfor",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 37,
+                'tipe'         => '3VARFOR',
+                'prioritas'    => $i + 6,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -537,11 +575,12 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 3,
-                'nama_juara'   => "BEST PBB $i",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Best PBB $i",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 40,
+                'tipe'         => '4PBB',
+                'prioritas'    => $i,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
@@ -550,20 +589,21 @@ class BenefitSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $benefits[] = [
                 'tingkatan_id' => 3,
-                'nama_juara'   => "BEST DANTON $i",
-                'trophy'       => 'TROPHY TETAP',
-                'hadiah'       => 'SERTIFIKAT',
+                'nama_juara'   => "Best Danton $i",
+                'trophy'       => 'Trophy Tetap',
+                'hadiah'       => 'Sertifikat',
                 'uang'         => 0,
-                'prioritas'    => $i + 43,
+                'tipe'         => '5DANTON',
+                'prioritas'    => $i,
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
         }
         Benefit::insert($benefits);
         $benefits = [
-            ['tingkatan_id' => 3, 'nama_juara' => 'BEST POPULER PASUKAN', 'trophy' => 'TROPHY TETAP', 'hadiah' => 'TIDAK ADA', 'uang' => 0, 'prioritas' => 47, 'created_at' => $now, 'updated_at' => $now,],
-            ['tingkatan_id' => 3, 'nama_juara' => 'BEST FAVORIT BALLOT 1', 'trophy' => 'TROPHY TETAP', 'hadiah' => 'TIDAK ADA', 'uang' => 0, 'prioritas' => 48, 'created_at' => $now, 'updated_at' => $now,],
-            ['tingkatan_id' => 3, 'nama_juara' => 'BEST FAVORIT BALLOT 2', 'trophy' => 'TROPHY TETAP', 'hadiah' => 'TIDAK ADA', 'uang' => 0, 'prioritas' => 49, 'created_at' => $now, 'updated_at' => $now,],
+            ['tingkatan_id' => 3, 'nama_juara' => 'Best Populer Pasukan', 'trophy' => 'Trophy Tetap', 'hadiah' => 'Tidak Ada', 'uang' => 0, 'tipe' => '6BEST', 'prioritas' => 0, 'created_at' => $now, 'updated_at' => $now,],
+            ['tingkatan_id' => 3, 'nama_juara' => 'Best Favorit Ballot 1', 'trophy' => 'Trophy Tetap', 'hadiah' => 'Tidak Ada', 'uang' => 0, 'tipe' => '6BEST', 'prioritas' => 0, 'created_at' => $now, 'updated_at' => $now,],
+            ['tingkatan_id' => 3, 'nama_juara' => 'Best Favorit Ballot 2', 'trophy' => 'Trophy Tetap', 'hadiah' => 'Tidak Ada', 'uang' => 0, 'tipe' => '6BEST', 'prioritas' => 0, 'created_at' => $now, 'updated_at' => $now,],
         ];
         Benefit::insert($benefits);
     }

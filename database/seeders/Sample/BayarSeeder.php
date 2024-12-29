@@ -18,7 +18,7 @@ class BayarSeeder extends Seeder
         $now = Carbon::now(); // Waktu sekarang
         $bayars = [];
         // Looping untuk SD/MI, SMP/MTs, SMA/SMK/MA
-        for ($i = 6; $i <= 41; $i++) {
+        for ($i = 6; $i <= 100; $i++) {
             $bayars[] = [
                 'user_id'     => $i,
                 'screenshot'  => '-',

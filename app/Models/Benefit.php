@@ -14,6 +14,7 @@ class Benefit extends Model
         'nama_juara',
         'hadiah',
         'uang',
+        'tipe',
         'prioritas',
     ];
 

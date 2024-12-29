@@ -30,6 +30,7 @@ class BenefitController extends Controller
         $benefits = Benefit::join('tingkatans', 'benefits.tingkatan_id', '=', 'tingkatans.id')
             ->select('benefits.*', 'tingkatans.nama_tingkatan')
             ->orderby('benefits.tingkatan_id')
+            ->orderby('benefits.tipe')
             ->orderby('benefits.prioritas');
         
         // Filter berdasarkan pencarian (search)
@@ -100,6 +101,7 @@ class BenefitController extends Controller
         $benefits->trophy       = $request->trophy;
         $benefits->hadiah       = $request->hadiah;
         $benefits->uang         = $request->uang;
+        $benefits->tipe         = $request->tipe;
         $benefits->prioritas    = $request->prioritas;
         $benefits->save();
         return redirect('/dashboard/internal/benefit')->with('success', "Tambah Benefit Baru Berhasil");

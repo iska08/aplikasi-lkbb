@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('trophy');
             $table->string('hadiah');
             $table->integer('uang');
+            $table->string('tipe');
             $table->integer('prioritas');
             $table->timestamps();
         });

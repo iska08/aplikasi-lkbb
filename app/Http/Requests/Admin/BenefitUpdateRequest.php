@@ -28,6 +28,7 @@ class BenefitUpdateRequest extends FormRequest
             'nama_juara' => 'required',
             'hadiah'     => 'required',
             'uang'       => 'required',
+            'tipe'       => 'required',
             'prioritas'  => 'required',
         ];
     }

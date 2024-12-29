@@ -17,8 +17,8 @@ class PesertaSeeder extends Seeder
     {
         $now = Carbon::now();
         $pesertas = [];
-        // SD/MI Sederajat: user_id 6-15, tingkatan_id = 1
-        for ($i = 6; $i <= 15; $i++) {
+        // SD/MI Sederajat: user_id 6-25, tingkatan_id = 1
+        for ($i = 6; $i <= 25; $i++) {
             $pesertas[] = [
                 'user_id'      => $i,
                 'tingkatan_id' => 1,
@@ -30,7 +30,7 @@ class PesertaSeeder extends Seeder
             ];
         }
         // SMP/MTs Sederajat: user_id 18-27, tingkatan_id = 2
-        for ($i = 18; $i <= 27; $i++) {
+        for ($i = 26; $i <= 55; $i++) {
             $pesertas[] = [
                 'user_id'      => $i,
                 'tingkatan_id' => 2,
@@ -42,7 +42,7 @@ class PesertaSeeder extends Seeder
             ];
         }
         // SMA/SMK/MA Sederajat: user_id 30-39, tingkatan_id = 3
-        for ($i = 30; $i <= 39; $i++) {
+        for ($i = 56; $i <= 95; $i++) {
             $pesertas[] = [
                 'user_id'      => $i,
                 'tingkatan_id' => 3,

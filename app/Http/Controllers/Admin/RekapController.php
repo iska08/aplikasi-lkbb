@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Abaaba;
+use App\Models\Benefit;
 use App\Models\Jenis;
 use App\Models\Nilaipbbdanton;
 use App\Models\Nilaivarfor;
@@ -323,9 +324,27 @@ class RekapController extends Controller
         $pesertas = $this->calculateRank($pesertas, 'total_danton', 'rank_danton');
         $pesertas = $this->calculateRank($pesertas, 'total_utama', 'rank_utama');
 
+        $benefitpbbs = Benefit::where('tingkatan_id', '=', $tingkatan->id)
+            ->where('tipe', '=', '4PBB')
+            ->orderby('prioritas')
+            ->get();
+
+        $benefitdantons = Benefit::where('tingkatan_id', '=', $tingkatan->id)
+            ->where('tipe', '=', '5DANTON')
+            ->orderby('prioritas')
+            ->get();
+
+        $benefitutamas = Benefit::where('tingkatan_id', '=', $tingkatan->id)
+            ->where('tipe', '=', '2UTAMA')
+            ->orderby('prioritas')
+            ->get();
+
         return view('pages.admin.rekap.rekappbbdanton', [
-            'title'      => 'PBB dan Danton',
-            'pesertas'   => $pesertas,
+            'title'          => 'PBB dan Danton',
+            'pesertas'       => $pesertas,
+            'benefitpbbs'    => $benefitpbbs,
+            'benefitdantons' => $benefitdantons,
+            'benefitutamas'  => $benefitutamas,
         ]);
     }
 
@@ -358,9 +377,15 @@ class RekapController extends Controller
         $pesertas = $this->calculateRank($pesertas, 'total_formasi', 'rank_formasi');
         $pesertas = $this->calculateRank($pesertas, 'total_varfor', 'rank_varfor');
 
+        $benefitvarfors = Benefit::where('tingkatan_id', '=', $tingkatan->id)
+            ->where('tipe', '=', '3VARFOR')
+            ->orderby('prioritas')
+            ->get();
+
         return view('pages.admin.rekap.rekapvarfor', [
-            'title'      => 'Variasi dan Formasi',
-            'pesertas'   => $pesertas,
+            'title'          => 'Variasi dan Formasi',
+            'pesertas'       => $pesertas,
+            'benefitvarfors' => $benefitvarfors,
         ]);
     }
 }

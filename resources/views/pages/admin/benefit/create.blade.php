@@ -84,8 +84,25 @@
                 @enderror
             </div>
             <div class="mb-3">
+                <label for="tipe" class="form-label">Tipe Kategori Juara</label>
+                <select class="form-select @error('tipe') is-invalid @enderror" id="tipe" name="tipe" required>
+                    <option value="" disabled selected>Pilih Tipe</option>
+                    <option value="1UMUM" {{ old('tipe') === '1' ? 'selected' : '' }}>UMUM</option>
+                    <option value="2UTAMA" {{ old('tipe') === '2' ? 'selected' : '' }}>UTAMA</option>
+                    <option value="3VARFOR" {{ old('tipe') === '3' ? 'selected' : '' }}>VARFOR</option>
+                    <option value="4PBB" {{ old('tipe') === '4' ? 'selected' : '' }}>PBB</option>
+                    <option value="5DANTON" {{ old('tipe') === '4' ? 'selected' : '' }}>DANTON</option>
+                    <option value="6BEST" {{ old('tipe') === '4' ? 'selected' : '' }}>LAINNYA</option>
+                </select>
+                @error('tipe')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+                @enderror
+            </div>
+            <div class="mb-3">
                 <label for="prioritas" class="form-label">Prioritas</label>
-                <input type="number" min=1 class="form-control @error('prioritas') is-invalid @enderror" id="prioritas" name="prioritas" value="{{ old('prioritas') }}" autofocus required placeholder="Masukkan Urutan Juara">
+                <input type="number" min=0 class="form-control @error('prioritas') is-invalid @enderror" id="prioritas" name="prioritas" value="{{ old('prioritas') }}" autofocus required placeholder="Masukkan Urutan Juara">
                 @error('prioritas')
                 <div class="invalid-feedback">
                     {{ $message }}
