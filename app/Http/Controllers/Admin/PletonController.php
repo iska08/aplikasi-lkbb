@@ -8,9 +8,8 @@ use App\Http\Requests\Admin\PletonUpdateRequest;
 use App\Models\Peserta;
 use App\Models\Pleton;
 use App\Models\Posisi;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PletonController extends Controller
 {
@@ -175,8 +174,8 @@ class PletonController extends Controller
         $edPleton->nis_anggota   = $request->nis_anggota;
         $edPleton->posisi        = $request->posisi;
         if ($request->hasFile('foto_anggota')) {
-            if ($edPleton->foto_anggota && \Storage::disk('public')->exists($edPleton->foto_anggota)) {
-                \Storage::disk('public')->delete($edPleton->foto_anggota);
+            if ($edPleton->foto_anggota && Storage::disk('public')->exists($edPleton->foto_anggota)) {
+                Storage::disk('public')->delete($edPleton->foto_anggota);
             }
             $file                   = $request->file('foto_anggota');
             $filePath               = $file->store('foto_anggota', 'public');
@@ -200,7 +199,7 @@ class PletonController extends Controller
         
         $edPleton = Pleton::findOrFail($id);
         if ($edPleton->foto_anggota) {
-            \Storage::disk('public')->delete($edPleton->foto_anggota);
+            Storage::disk('public')->delete($edPleton->foto_anggota);
         }
         $edPleton->delete();
         

@@ -4,16 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\NilaivarforStoreRequest;
-use App\Http\Requests\Admin\NilaivarforUpdateRequest;
 use App\Models\Abaaba;
 use App\Models\Jenis;
 use App\Models\Nilaivarfor;
 use App\Models\Peserta;
-use App\Models\Pleton;
 use App\Models\User;
-use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class NilaivarforpurnaController extends Controller
 {

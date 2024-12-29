@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\FotoRequest;
 use App\Models\Peserta;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FotoController extends Controller
 {
@@ -29,8 +29,8 @@ class FotoController extends Controller
 
         // Update foto pleton
         if ($request->hasFile('foto_pleton')) {
-            if ($edFoto->foto_pleton && \Storage::disk('public')->exists($edFoto->foto_pleton)) {
-                \Storage::disk('public')->delete($edFoto->foto_pleton);
+            if ($edFoto->foto_pleton && Storage::disk('public')->exists($edFoto->foto_pleton)) {
+                Storage::disk('public')->delete($edFoto->foto_pleton);
             }
             $file                = $request->file('foto_pleton');
             $filePath            = $file->store('foto_pleton', 'public');
@@ -39,8 +39,8 @@ class FotoController extends Controller
 
         // Update scan surat rekomendasi
         if ($request->hasFile('rekomendasi')) {
-            if ($edFoto->rekomendasi && \Storage::disk('public')->exists($edFoto->rekomendasi)) {
-                \Storage::disk('public')->delete($edFoto->rekomendasi);
+            if ($edFoto->rekomendasi && Storage::disk('public')->exists($edFoto->rekomendasi)) {
+                Storage::disk('public')->delete($edFoto->rekomendasi);
             }
             $file                = $request->file('rekomendasi');
             $filePath            = $file->store('rekomendasi', 'public');

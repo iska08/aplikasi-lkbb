@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SosmedStoreRequest;
 use App\Http\Requests\Admin\SosmedUpdateRequest;
 use App\Models\Sosmed;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class SosmedController extends Controller
 {

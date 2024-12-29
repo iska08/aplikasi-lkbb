@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BerkasStoreRequest;
 use App\Http\Requests\Admin\BerkasUpdateRequest;
 use App\Models\Berkas;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class BerkasController extends Controller
 {

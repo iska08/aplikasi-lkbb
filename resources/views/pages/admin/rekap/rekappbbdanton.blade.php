@@ -42,10 +42,10 @@
                                         {{-- Nilai dan Ranking PBB --}}
                                         <td>{{ $peserta->total_pbb }}</td>
                                         <td class="
-                                            @if ($peserta->rank_pbb === 1) table-warning {{-- Gold --}}
-                                            @elseif ($peserta->rank_pbb === 2) table-secondary {{-- Silver --}}
-                                            @elseif ($peserta->rank_pbb === 3) table-info {{-- Bronze --}}
-                                            @elseif ($pesertas->where('rank_pbb', $peserta->rank_pbb)->count() > 1) table-danger {{-- Red for duplicate --}}
+                                            @if ($pesertas->where('rank_pbb', $peserta->rank_pbb)->count() > 1) bg-danger
+                                            @elseif ($peserta->rank_pbb === 1) bg-success
+                                            @elseif ($peserta->rank_pbb === 2) bg-primary
+                                            @elseif ($peserta->rank_pbb === 3) bg-warning
                                             @endif
                                         ">
                                             {{ $peserta->rank_pbb }}
@@ -53,10 +53,10 @@
                                         {{-- Nilai dan Ranking Danton --}}
                                         <td>{{ $peserta->total_danton }}</td>
                                         <td class="
-                                            @if ($peserta->rank_danton === 1) table-warning
-                                            @elseif ($peserta->rank_danton === 2) table-secondary
-                                            @elseif ($peserta->rank_danton === 3) table-info
-                                            @elseif ($pesertas->where('rank_danton', $peserta->rank_danton)->count() > 1) table-danger
+                                            @if ($pesertas->where('rank_danton', $peserta->rank_danton)->count() > 1) bg-danger
+                                            @elseif ($peserta->rank_danton === 1) bg-success
+                                            @elseif ($peserta->rank_danton === 2) bg-primary
+                                            @elseif ($peserta->rank_danton === 3) bg-warning
                                             @endif
                                         ">
                                             {{ $peserta->rank_danton }}
@@ -64,10 +64,10 @@
                                         {{-- Nilai dan Ranking Utama --}}
                                         <td>{{ $peserta->total_utama }}</td>
                                         <td class="
-                                            @if ($peserta->rank_utama === 1) table-warning
-                                            @elseif ($peserta->rank_utama === 2) table-secondary
-                                            @elseif ($peserta->rank_utama === 3) table-info
-                                            @elseif ($pesertas->where('rank_utama', $peserta->rank_utama)->count() > 1) table-danger
+                                            @if ($pesertas->where('rank_utama', $peserta->rank_utama)->count() > 1) bg-danger
+                                            @elseif ($peserta->rank_utama === 1) bg-success
+                                            @elseif ($peserta->rank_utama === 2) bg-primary
+                                            @elseif ($peserta->rank_utama === 3) bg-warning
                                             @endif
                                         ">
                                             {{ $peserta->rank_utama }}

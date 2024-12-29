@@ -10,7 +10,7 @@ use App\Models\Pleton;
 use App\Models\Tingkatan;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PesertaController extends Controller
 {
@@ -191,16 +191,16 @@ class PesertaController extends Controller
             $edPeserta->tingkatan_id = $request->tingkatan_id;
         } elseif($userLevel === '4PESERTA') {
             if ($request->hasFile('foto_pleton')) {
-                if ($edPeserta->foto_pleton && \Storage::disk('public')->exists($edPeserta->foto_pleton)) {
-                    \Storage::disk('public')->delete($edPeserta->foto_pleton);
+                if ($edPeserta->foto_pleton && Storage::disk('public')->exists($edPeserta->foto_pleton)) {
+                    Storage::disk('public')->delete($edPeserta->foto_pleton);
                 }
                 $file                   = $request->file('foto_pleton');
                 $filePath               = $file->store('foto_pleton', 'public');
                 $edPeserta->foto_pleton = $filePath;
             }
             if ($request->hasFile('rekomendasi')) {
-                if ($edPeserta->rekomendasi && \Storage::disk('public')->exists($edPeserta->rekomendasi)) {
-                    \Storage::disk('public')->delete($edPeserta->rekomendasi);
+                if ($edPeserta->rekomendasi && Storage::disk('public')->exists($edPeserta->rekomendasi)) {
+                    Storage::disk('public')->delete($edPeserta->rekomendasi);
                 }
                 $file                   = $request->file('rekomendasi');
                 $filePath               = $file->store('rekomendasi', 'public');

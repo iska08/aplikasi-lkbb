@@ -9,7 +9,7 @@ use App\Models\Bayar;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class BayarController extends Controller
 {
@@ -163,8 +163,8 @@ class BayarController extends Controller
     {
         $edBayar = Bayar::FindOrFail($id);
         if ($request->hasFile('screenshoot')) {
-            if ($edBayar->screenshoot && \Storage::disk('public')->exists($edBayar->screenshoot)) {
-                \Storage::disk('public')->delete($edBayar->screenshoot);
+            if ($edBayar->screenshoot && Storage::disk('public')->exists($edBayar->screenshoot)) {
+                Storage::disk('public')->delete($edBayar->screenshoot);
             }
             $file                 = $request->file('screenshoot');
             $filePath             = $file->store('bayar', 'public');
@@ -185,7 +185,7 @@ class BayarController extends Controller
     {
         $edBayar = Bayar::findOrFail($id);
         if ($edBayar->screenshoot) {
-            \Storage::disk('public')->delete($edBayar->screenshoot);
+            Storage::disk('public')->delete($edBayar->screenshoot);
         }
         $edBayar->delete();
         

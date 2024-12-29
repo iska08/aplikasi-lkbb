@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\TingkatanStoreRequest;
 use App\Http\Requests\Admin\TingkatanUpdateRequest;
 use App\Models\Tingkatan;
-use Cviebrock\EloquentSluggable\Services\SlugService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class TingkatanController extends Controller
 {
@@ -40,7 +37,7 @@ class TingkatanController extends Controller
             return redirect()->back()->with('error', 'Anda Tidak Memiliki Ijin Untuk Melakukan Tindakan Ini.');
         }
 
-        $existingTingkatans = \App\Models\Tingkatan::pluck('nama_tingkatan')->toArray();
+        $existingTingkatans = Tingkatan::pluck('nama_tingkatan')->toArray();
         return view('pages.admin.tingkatan.create', [
             'title'              => 'Tambah Tingkatan',
             'existingTingkatans' => $existingTingkatans,

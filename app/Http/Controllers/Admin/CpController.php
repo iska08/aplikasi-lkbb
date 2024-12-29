@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CpStoreRequest;
 use App\Http\Requests\Admin\CpUpdateRequest;
 use App\Models\Cp;
-use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class CpController extends Controller
 {

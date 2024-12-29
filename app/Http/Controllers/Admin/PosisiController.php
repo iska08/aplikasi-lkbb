@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PosisiStoreRequest;
 use App\Http\Requests\Admin\PosisiUpdateRequest;
 use App\Models\Posisi;
-use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class PosisiController extends Controller
 {

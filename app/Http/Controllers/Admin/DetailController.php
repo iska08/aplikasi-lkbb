@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DetailStoreRequest;
 use App\Http\Requests\Admin\DetailUpdateRequest;
 use App\Models\Detail;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class DetailController extends Controller
 {

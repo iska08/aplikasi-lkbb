@@ -9,9 +9,7 @@ use App\Models\Abaaba;
 use App\Models\Jenis;
 use App\Models\Penilaian;
 use App\Models\Tingkatan;
-use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class PenilaianController extends Controller
 {

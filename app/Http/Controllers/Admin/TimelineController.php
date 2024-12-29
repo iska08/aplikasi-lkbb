@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\TimelineStoreRequest;
 use App\Http\Requests\Admin\TimelineUpdateRequest;
 use App\Models\Timeline;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class TimelineController extends Controller
 {
