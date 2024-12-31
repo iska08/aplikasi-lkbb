@@ -223,14 +223,33 @@ class RekapController extends Controller
         ]);
     }
 
-    private function calculateRank($pesertas, $field, $rankField)
+    private function calculateRank($pesertas, $field, $rankField, $tieBreakers = [])
     {
-        $pesertas = $pesertas->sortByDesc($field)->values();
+        // Urutkan berdasarkan nilai field utama dan tie breakers
+        $pesertas = $pesertas->sort(function ($a, $b) use ($field, $tieBreakers) {
+            // Urutkan berdasarkan field utama (descending)
+            if ($a->$field != $b->$field) {
+                return $b->$field <=> $a->$field;
+            }
+            // Jika field utama sama, cek tie breakers
+            foreach ($tieBreakers as $tieBreaker) {
+                if ($a->$tieBreaker != $b->$tieBreaker) {
+                    return $b->$tieBreaker <=> $a->$tieBreaker;
+                }
+            }
+            
+            return 0; // Jika semua nilai sama
+        })->values();
+        // Tetapkan ranking
         $rank = 1;
         foreach ($pesertas as $key => $peserta) {
             if (
                 $key > 0 &&
-                $pesertas[$key - 1]->$field == $peserta->$field
+                $pesertas[$key - 1]->$field == $peserta->$field &&
+                // Cek tie breakers
+                collect($tieBreakers)->every(function ($tieBreaker) use ($peserta, $pesertas, $key) {
+                    return $pesertas[$key - 1]->$tieBreaker == $peserta->$tieBreaker;
+                })
             ) {
                 $peserta->$rankField = $pesertas[$key - 1]->$rankField;
             } else {
@@ -280,12 +299,12 @@ class RekapController extends Controller
             $peserta->total_umum   = $peserta->total_utama + $peserta->total_varfor;
         }
 
-        $pesertas = $this->calculateRank($pesertas, 'total_pbb', 'rank_pbb');
-        $pesertas = $this->calculateRank($pesertas, 'total_danton', 'rank_danton');
-        $pesertas = $this->calculateRank($pesertas, 'total_varfor', 'rank_varfor');
-        $pesertas = $this->calculateRank($pesertas, 'total_utama', 'rank_utama');
-        $pesertas = $this->calculateRank($pesertas, 'total_umum', 'rank_umum');
-        
+        $pesertas = $this->calculateRank($pesertas, 'total_pbb', 'rank_pbb', ['total_danton', 'total_varfor']);
+        $pesertas = $this->calculateRank($pesertas, 'total_danton', 'rank_danton', ['total_pbb', 'total_varfor']);
+        $pesertas = $this->calculateRank($pesertas, 'total_varfor', 'rank_varfor', ['total_pbb', 'total_danton']);
+        $pesertas = $this->calculateRank($pesertas, 'total_utama', 'rank_utama', ['total_pbb', 'total_danton', 'total_varfor']);
+        $pesertas = $this->calculateRank($pesertas, 'total_umum', 'rank_umum', ['total_pbb', 'total_danton', 'total_varfor']);
+
         $benefitumums = Benefit::where('tingkatan_id', '=', $tingkatan->id)
             ->where('tipe', '=', '1UMUM')
             ->orderby('prioritas')
@@ -374,12 +393,12 @@ class RekapController extends Controller
             $peserta->total_umum   = $peserta->total_utama + $peserta->total_varfor;
         }
 
-        $pesertas = $this->calculateRank($pesertas, 'total_pbb', 'rank_pbb');
-        $pesertas = $this->calculateRank($pesertas, 'total_danton', 'rank_danton');
-        $pesertas = $this->calculateRank($pesertas, 'total_varfor', 'rank_varfor');
-        $pesertas = $this->calculateRank($pesertas, 'total_utama', 'rank_utama');
-        $pesertas = $this->calculateRank($pesertas, 'total_umum', 'rank_umum');
-        
+        $pesertas = $this->calculateRank($pesertas, 'total_pbb', 'rank_pbb', ['total_danton', 'total_varfor']);
+        $pesertas = $this->calculateRank($pesertas, 'total_danton', 'rank_danton', ['total_pbb', 'total_varfor']);
+        $pesertas = $this->calculateRank($pesertas, 'total_varfor', 'rank_varfor', ['total_pbb', 'total_danton']);
+        $pesertas = $this->calculateRank($pesertas, 'total_utama', 'rank_utama', ['total_pbb', 'total_danton', 'total_varfor']);
+        $pesertas = $this->calculateRank($pesertas, 'total_umum', 'rank_umum', ['total_pbb', 'total_danton', 'total_varfor']);
+
         $benefitumums = Benefit::where('tingkatan_id', '=', $tingkatan->id)
             ->where('tipe', '=', '1UMUM')
             ->orderby('prioritas')

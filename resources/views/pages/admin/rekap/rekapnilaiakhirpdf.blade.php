@@ -91,7 +91,7 @@
         <div class="card mb-4 bg-secondary">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                <table class="table table-bordered">
                         <thead class="bg-dark align-middle text-center text-white">
                             <tr>
                                 <th rowspan="2" style="width: 5%">No. Urut</th>
@@ -120,16 +120,45 @@
                             <tr>
                                 <td style="vertical-align: middle !important;">{{ $peserta->no_urut }}</td>
                                 <td style="vertical-align: middle !important;">{{ $peserta->name }}</td>
-                                <td style="vertical-align: middle !important;">{{ $peserta->total_pbb }}</td>
-                                <td style="vertical-align: middle !important;">{{ $peserta->total_danton }}</td>
+                                <td 
+                                    @if ($pesertas->where('total_pbb', $peserta->total_pbb)->count() > 1) style="background-color: #dc3545; vertical-align: middle !important;"
+                                    @else style="vertical-align: middle !important;"
+                                    @endif
+                                >
+                                    {{ $peserta->total_pbb }}
+                                </td>
+                                <td 
+                                    @if ($pesertas->where('total_danton', $peserta->total_danton)->count() > 1) style="background-color: #dc3545; vertical-align: middle !important;"
+                                    @else style="vertical-align: middle !important;"
+                                    @endif
+                                >
+                                    {{ $peserta->total_danton }}
+                                </td>
                                 <td style="vertical-align: middle !important;">{{ $peserta->total_variasi }}</td>
                                 <td style="vertical-align: middle !important;">{{ $peserta->total_formasi }}</td>
-                                <td style="vertical-align: middle !important;">{{ $peserta->total_variasi + $peserta->total_formasi }}</td>
-                                <td style="vertical-align: middle !important;">{{ $peserta->total_utama }}</td>
-                                <td style="vertical-align: middle !important;">{{ $peserta->total_umum }}</td>
                                 <td 
-                                    @if ($pesertas->where('rank_pbb', $peserta->rank_pbb)->count() > 1) style="background-color: #dc3545; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_pbb === 1) style="background-color: #198754; vertical-align: middle !important;"
+                                    @if ($pesertas->where('total_varfor', $peserta->total_varfor)->count() > 1) style="background-color: #dc3545; vertical-align: middle !important;"
+                                    @else style="vertical-align: middle !important;"
+                                    @endif
+                                >
+                                    {{ $peserta->total_varfor }}
+                                </td>
+                                <td 
+                                    @if ($pesertas->where('total_utama', $peserta->total_utama)->count() > 1) style="background-color: #dc3545; vertical-align: middle !important;"
+                                    @else style="vertical-align: middle !important;"
+                                    @endif
+                                >
+                                    {{ $peserta->total_utama }}
+                                </td>
+                                <td 
+                                    @if ($pesertas->where('total_umum', $peserta->total_umum)->count() > 1) style="background-color: #dc3545; vertical-align: middle !important;"
+                                    @else style="vertical-align: middle !important;"
+                                    @endif
+                                >
+                                    {{ $peserta->total_umum }}
+                                </td>
+                                <td 
+                                    @if ($peserta->rank_pbb === 1) style="background-color: #198754; vertical-align: middle !important;"
                                     @elseif ($peserta->rank_pbb === 2) style="background-color: #0dcaf0; vertical-align: middle !important;"
                                     @elseif ($peserta->rank_pbb === 3) style="background-color: #ffc107; vertical-align: middle !important;"
                                     @else style="vertical-align: middle !important;"
@@ -148,8 +177,7 @@
                                     @endif
                                 </td>
                                 <td 
-                                    @if ($pesertas->where('rank_danton', $peserta->rank_danton)->count() > 1) style="background-color: #dc3545; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_danton === 1) style="background-color: #198754; vertical-align: middle !important;"
+                                    @if ($peserta->rank_danton === 1) style="background-color: #198754; vertical-align: middle !important;"
                                     @elseif ($peserta->rank_danton === 2) style="background-color: #0dcaf0; vertical-align: middle !important;"
                                     @elseif ($peserta->rank_danton === 3) style="background-color: #ffc107; vertical-align: middle !important;"
                                     @else style="vertical-align: middle !important;"
@@ -168,9 +196,7 @@
                                     @endif
                                 </td>
                                 <td 
-                                    @if ($pesertas->where('rank_varfor', $peserta->rank_varfor)->count() > 1) 
-                                        style="background-color: #dc3545; vertical-align: middle !important;"
-                                    @elseif (!$benefitvarfors->where('prioritas', $peserta->rank_varfor)->first()) 
+                                    @if (!$benefitvarfors->where('prioritas', $peserta->rank_varfor)->first()) 
                                         style="vertical-align: middle !important;"
                                     @elseif ($peserta->rank_varfor === 1 || $peserta->rank_varfor === 2 || $peserta->rank_varfor === 3) 
                                         style="background-color: #FFFF99; vertical-align: middle !important;"
@@ -209,9 +235,7 @@
                                     @endif
                                 </td>
                                 <td 
-                                    @if ($pesertas->where('rank_utama', $peserta->rank_utama)->count() > 1) 
-                                        style="background-color: #dc3545; vertical-align: middle !important;"
-                                    @elseif (!$benefitutamas->where('prioritas', $peserta->rank_utama)->first()) 
+                                    @if (!$benefitutamas->where('prioritas', $peserta->rank_utama)->first()) 
                                         style="vertical-align: middle !important;"
                                     @elseif ($peserta->rank_utama === 1 || $peserta->rank_utama === 2 || $peserta->rank_utama === 3) 
                                         style="background-color: #FFFF99; vertical-align: middle !important;"
@@ -250,9 +274,7 @@
                                     @endif
                                 </td>
                                 <td 
-                                    @if ($pesertas->where('rank_umum', $peserta->rank_umum)->count() > 1) 
-                                        style="background-color: #dc3545; vertical-align: middle !important;"
-                                    @elseif (!$benefitumums->where('prioritas', $peserta->rank_umum)->first()) 
+                                    @if (!$benefitumums->where('prioritas', $peserta->rank_umum)->first()) 
                                         style="vertical-align: middle !important;"
                                     @elseif ($peserta->rank_umum === 1) 
                                         style="background-color: gold; vertical-align: middle !important;"
