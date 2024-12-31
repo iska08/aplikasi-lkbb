@@ -22,25 +22,12 @@
                         <div class="service-item position-relative">
                             <br>
                             <div class="icon">
-                                <a href="{{ route('rekap.rekappbbdanton', $tingkatan->id) }}">
+                                <a href="{{ route('rekap.rekapnilaiakhir', $tingkatan->id) }}">
                                     <i class="bi-clipboard-check-fill"></i>
                                 </a>
                             </div>
                             <h4>
-                                <a href="{{ route('rekap.rekappbbdanton', $tingkatan->id) }}">Rekap PBB & Danton</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="service-item position-relative">
-                            <br>
-                            <div class="icon">
-                                <a href="{{ route('rekap.rekapvarfor', $tingkatan->id) }}">
-                                    <i class="bi-clipboard-check-fill"></i>
-                                </a>
-                            </div>
-                            <h4>
-                                <a href="{{ route('rekap.rekapvarfor', $tingkatan->id) }}">Rekap Variasi & Formasi</a>
+                                <a href="{{ route('rekap.rekapnilaiakhir', $tingkatan->id) }}">Rekap PBB & Danton</a>
                             </h4>
                         </div>
                     </div>

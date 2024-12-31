@@ -12,7 +12,6 @@ use App\Models\Peserta;
 use App\Models\Tingkatan;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\PDF;
-use Illuminate\Http\Request;
 
 class RekapController extends Controller
 {
@@ -20,23 +19,7 @@ class RekapController extends Controller
 
     public function index()
     {
-        $nilaipbbdantons = Nilaipbbdanton::join('pesertas', 'nilaipbbdantons.peserta_id', '=', 'pesertas.id')
-            ->join('users', 'pesertas.user_id', '=', 'users.id')
-            ->select('pesertas.id', 'pesertas.no_urut', 'pesertas.user_id', 'users.name')
-            ->distinct();
-        $nilaivarfors = Nilaivarfor::join('pesertas', 'nilaivarfors.peserta_id', '=', 'pesertas.id')
-            ->join('users', 'pesertas.user_id', '=', 'users.id')
-            ->select('pesertas.id', 'pesertas.no_urut', 'pesertas.user_id', 'users.name')
-            ->distinct();
-        return view('pages.admin.rekap.data', [
-            'title'           => 'Rekap Nilai Peserta',
-            'nilaipbbdantons' => $nilaipbbdantons,
-            'nilaivarfors'    => $nilaivarfors,
-        ]);
-    }
-
-    public function pbbdanton(Request $request, $id)
-    {
+        $id      = auth()->user()->id;
         $peserta = Peserta::where('user_id', '=', $id)->firstOrFail();
         $users   = $peserta->user_id;
         if (auth()->user()->id !== $users) {
@@ -55,15 +38,42 @@ class RekapController extends Controller
             })
             ->orderBy('urutan')
             ->get();
-        $juris = User::where('level', '=', '2JURIPBB')->get();
+        $jenisVariasis = Jenis::where('tipe', '=', '3VARIASI')
+            ->whereHas('tingkatan', function ($query) use ($tingkatanId) {
+                $query->where('id', $tingkatanId);
+            })
+            ->orderBy('urutan')
+            ->get();
+        $jenisFormasis = Jenis::where('tipe', '=', '4FORMASI')
+            ->whereHas('tingkatan', function ($query) use ($tingkatanId) {
+                $query->where('id', $tingkatanId);
+            })
+            ->orderBy('urutan')
+            ->get();
+        $juriPDs = User::where('level', '=', '2JURIPBB')->get();
+        $juriVFs = User::where('level', '=', '3JURIVARFOR')->get();
         $edPeserta = User::findOrFail($id);
         $abaabaPBBs = Abaaba::join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
             ->where('jenis.tipe', '=', '1PBB')
+            ->where('jenis.tingkatan_id', '=', $tingkatanId)
             ->select('abaabas.id', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
             ->orderBy('abaabas.urutan_abaaba')
             ->get();
         $abaabaDantons = Abaaba::join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
             ->where('jenis.tipe', '=', '2DANTON')
+            ->where('jenis.tingkatan_id', '=', $tingkatanId)
+            ->select('abaabas.id', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
+            ->orderBy('abaabas.urutan_abaaba')
+            ->get();
+        $abaabaVariasis = Abaaba::join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
+            ->where('jenis.tipe', '=', '3VARIASI')
+            ->where('jenis.tingkatan_id', '=', $tingkatanId)
+            ->select('abaabas.id', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
+            ->orderBy('abaabas.urutan_abaaba')
+            ->get();
+        $abaabaFormasis = Abaaba::join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
+            ->where('jenis.tipe', '=', '4FORMASI')
+            ->where('jenis.tingkatan_id', '=', $tingkatanId)
             ->select('abaabas.id', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
             ->orderBy('abaabas.urutan_abaaba')
             ->get();
@@ -74,86 +84,50 @@ class RekapController extends Controller
             ->select('nilaipbbdantons.*', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
             ->orderBy('abaabas.urutan_abaaba')
             ->get();
-        return view('pages.admin.rekap.pbbdanton', [
-            'title'           => "Nilai PBB dan Danton $edPeserta->name",
+        $nilaivarfors = Nilaivarfor::join('abaabas', 'nilaivarfors.abaaba_id', '=', 'abaabas.id')
+            ->join('pesertas', 'nilaivarfors.peserta_id', '=', 'pesertas.id')
+            ->join('users', 'pesertas.user_id', '=', 'users.id')
+            ->where('pesertas.user_id', '=', $id)
+            ->select('nilaivarfors.*', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
+            ->orderBy('abaabas.urutan_abaaba')
+            ->get();
+        return view('pages.admin.rekap.nilaipeserta', [
+            'title'           => "Rekap Nilai $edPeserta->name",
             'abaabaPBBs'      => $abaabaPBBs,
             'abaabaDantons'   => $abaabaDantons,
-            'juris'           => $juris,
+            'abaabaVariasis'  => $abaabaVariasis,
+            'abaabaFormasis'  => $abaabaFormasis,
+            'juriPDs'         => $juriPDs,
+            'juriVFs'         => $juriVFs,
             'jenisPBBs'       => $jenisPBBs,
             'jenisDantons'    => $jenisDantons,
+            'jenisVariasis'   => $jenisVariasis,
+            'jenisFormasis'   => $jenisFormasis,
             'nilaipbbdantons' => $nilaipbbdantons,
+            'nilaivarfors'    => $nilaivarfors,
             'id'              => $id,
         ]);
     }
 
-    public function varfor(Request $request, $id)
+    public function nilaiPesertaPdf()
     {
-        $peserta = Peserta::where('user_id', '=', $id)->firstOrFail();
-        $users   = $peserta->user_id;
-        if (auth()->user()->id !== $users) {
-            return redirect()->back()->with('error', 'Anda Tidak Memiliki Ijin Untuk Mengakses Data Ini.');
-        }
-        $tingkatanId = $peserta->tingkatan_id;
-        $jenisVariasis = Jenis::where('tipe', '=', '3VARIASI')
-            ->whereHas('tingkatan', function ($query) use ($tingkatanId) {
-                $query->where('id', $tingkatanId);
-            })
-            ->orderBy('urutan')
-            ->get();
-        $jenisFormasis = Jenis::where('tipe', '=', '4FORMASI')
-            ->whereHas('tingkatan', function ($query) use ($tingkatanId) {
-                $query->where('id', $tingkatanId);
-            })
-            ->orderBy('urutan')
-            ->get();
-        $juris = User::where('level', '=', '3JURIVARFOR')->get();
-        $edPeserta = User::findOrFail($id);
-        $abaabaVariasis = Abaaba::join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
-            ->where('jenis.tipe', '=', '3VARIASI')
-            ->select('abaabas.id', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
-            ->orderBy('abaabas.urutan_abaaba')
-            ->get();
-        $abaabaFormasis = Abaaba::join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
-            ->where('jenis.tipe', '=', '4FORMASI')
-            ->select('abaabas.id', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
-            ->orderBy('abaabas.urutan_abaaba')
-            ->get();
-        $nilaivarfors = Nilaivarfor::join('abaabas', 'nilaivarfors.abaaba_id', '=', 'abaabas.id')
-            ->join('pesertas', 'nilaivarfors.peserta_id', '=', 'pesertas.id')
-            ->join('users', 'pesertas.user_id', '=', 'users.id')
-            ->where('pesertas.user_id', '=', $id)
-            ->select('nilaivarfors.*', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
-            ->orderBy('abaabas.urutan_abaaba')
-            ->get();
-        return view('pages.admin.rekap.varfor', [
-            'title'          => "Nilai Variasi dan Formasi $edPeserta->name",
-            'abaabaVariasis' => $abaabaVariasis,
-            'abaabaFormasis' => $abaabaFormasis,
-            'juris'          => $juris,
-            'jenisVariasis'  => $jenisVariasis,
-            'jenisFormasis'  => $jenisFormasis,
-            'nilaivarfors'   => $nilaivarfors,
-            'id'             => $id,
-        ]);
-    }
-
-    public function pbbDantonPdf($id)
-    {
+        $id      = auth()->user()->id;
         set_time_limit(300);
         $peserta = Peserta::where('user_id', '=', $id)->firstOrFail();
         $users   = $peserta->user_id;
         if (auth()->user()->id !== $users) {
             return redirect()->back()->with('error', 'Anda Tidak Memiliki Ijin Untuk Mengakses Data Ini.');
         }
-        $pdfData = $this->generatePdfDataPbbDanton($id);
+        $pdfData = $this->generateNilaiPesertaPDF($id);
         // Load view ke dalam PDF
-        $pdf = PDF::loadView('pages.admin.rekap.pbbdantonpdf', $pdfData);
+        $pdf = PDF::loadView('pages.admin.rekap.nilaipesertapdf', $pdfData);
         // Menampilkan PDF di browser
-        return $pdf->stream("rekap_pbb_danton_{$pdfData['edPeserta']->name}.pdf");
+        return $pdf->stream("rekap_nilai_peserta_{$pdfData['edPeserta']->name}.pdf");
     }
 
-    private function generatePdfDataPbbDanton($id)
+    private function generateNilaiPesertaPDF()
     {
+        $id      = auth()->user()->id;
         $peserta = Peserta::where('user_id', '=', $id)->firstOrFail();
         $tingkatanId = $peserta->tingkatan_id;
         $jenisPBBs = Jenis::where('tipe', '=', '1PBB')
@@ -168,7 +142,20 @@ class RekapController extends Controller
             })
             ->orderBy('urutan')
             ->get();
-        $juris = User::where('level', '=', '2JURIPBB')->get();
+        $jenisVariasis = Jenis::where('tipe', '=', '3VARIASI')
+            ->whereHas('tingkatan', function ($query) use ($tingkatanId) {
+                $query->where('id', $tingkatanId);
+            })
+            ->orderBy('urutan')
+            ->get();
+        $jenisFormasis = Jenis::where('tipe', '=', '4FORMASI')
+            ->whereHas('tingkatan', function ($query) use ($tingkatanId) {
+                $query->where('id', $tingkatanId);
+            })
+            ->orderBy('urutan')
+            ->get();
+        $juriPDs = User::where('level', '=', '2JURIPBB')->get();
+        $juriVFs = User::where('level', '=', '3JURIVARFOR')->get();
         $edPeserta = User::findOrFail($id);
         $abaabaPBBs = Abaaba::join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
             ->where('jenis.tipe', '=', '1PBB')
@@ -182,60 +169,6 @@ class RekapController extends Controller
             ->select('abaabas.*')
             ->orderBy('abaabas.urutan_abaaba')
             ->get();
-        $nilaipbbdantons = Nilaipbbdanton::join('abaabas', 'nilaipbbdantons.abaaba_id', '=', 'abaabas.id')
-            ->join('pesertas', 'nilaipbbdantons.peserta_id', '=', 'pesertas.id')
-            ->join('users', 'pesertas.user_id', '=', 'users.id')
-            ->where('pesertas.user_id', '=', $id)
-            ->select('nilaipbbdantons.*', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
-            ->orderBy('abaabas.urutan_abaaba')
-            ->get();
-        return [
-            'title'           => "Rekap Nilai PBB dan Danton",
-            'abaabaPBBs'      => $abaabaPBBs,
-            'abaabaDantons'   => $abaabaDantons,
-            'juris'           => $juris,
-            'jenisPBBs'       => $jenisPBBs,
-            'jenisDantons'    => $jenisDantons,
-            'nilaipbbdantons' => $nilaipbbdantons,
-            'edPeserta'       => $edPeserta,
-            'peserta'         => $peserta,
-            'tingkatans'      => Tingkatan::all(),
-        ];
-    }
-
-    public function varforPdf($id)
-    {
-        set_time_limit(300);
-        $peserta = Peserta::where('user_id', '=', $id)->firstOrFail();
-        $users   = $peserta->user_id;
-        if (auth()->user()->id !== $users) {
-            return redirect()->back()->with('error', 'Anda Tidak Memiliki Ijin Untuk Mengakses Data Ini.');
-        }
-        $pdfData = $this->generatePdfDataVarFor($id);
-        // Load view ke dalam PDF
-        $pdf = PDF::loadView('pages.admin.rekap.varforpdf', $pdfData);
-        // Menampilkan PDF di browser
-        return $pdf->stream("rekap_variasi_formasi_{$pdfData['edPeserta']->name}.pdf");
-    }
-
-    private function generatePdfDataVarFor($id)
-    {
-        $peserta = Peserta::where('user_id', '=', $id)->firstOrFail();
-        $tingkatanId = $peserta->tingkatan_id;
-        $jenisVariasis = Jenis::where('tipe', '=', '3VARIASI')
-            ->whereHas('tingkatan', function ($query) use ($tingkatanId) {
-                $query->where('id', $tingkatanId);
-            })
-            ->orderBy('urutan')
-            ->get();
-        $jenisFormasis = Jenis::where('tipe', '=', '4FORMASI')
-            ->whereHas('tingkatan', function ($query) use ($tingkatanId) {
-                $query->where('id', $tingkatanId);
-            })
-            ->orderBy('urutan')
-            ->get();
-        $juris = User::where('level', '=', '3JURIVARFOR')->get();
-        $edPeserta = User::findOrFail($id);
         $abaabaVariasis = Abaaba::join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
             ->where('jenis.tipe', '=', '3VARIASI')
             ->where('jenis.tingkatan_id', '=', $tingkatanId)
@@ -248,6 +181,13 @@ class RekapController extends Controller
             ->select('abaabas.*')
             ->orderBy('abaabas.urutan_abaaba')
             ->get();
+        $nilaipbbdantons = Nilaipbbdanton::join('abaabas', 'nilaipbbdantons.abaaba_id', '=', 'abaabas.id')
+            ->join('pesertas', 'nilaipbbdantons.peserta_id', '=', 'pesertas.id')
+            ->join('users', 'pesertas.user_id', '=', 'users.id')
+            ->where('pesertas.user_id', '=', $id)
+            ->select('nilaipbbdantons.*', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
+            ->orderBy('abaabas.urutan_abaaba')
+            ->get();
         $nilaivarfors = Nilaivarfor::join('abaabas', 'nilaivarfors.abaaba_id', '=', 'abaabas.id')
             ->join('pesertas', 'nilaivarfors.peserta_id', '=', 'pesertas.id')
             ->join('users', 'pesertas.user_id', '=', 'users.id')
@@ -256,12 +196,18 @@ class RekapController extends Controller
             ->orderBy('abaabas.urutan_abaaba')
             ->get();
         return [
-            'title'           => "Nilai Variasi dan Formasi",
+            'title'           => "Rekap Nilai Peserta",
+            'abaabaPBBs'      => $abaabaPBBs,
+            'abaabaDantons'   => $abaabaDantons,
             'abaabaVariasis'  => $abaabaVariasis,
             'abaabaFormasis'  => $abaabaFormasis,
-            'juris'           => $juris,
+            'juriPDs'         => $juriPDs,
+            'juriVFs'         => $juriVFs,
+            'jenisPBBs'       => $jenisPBBs,
+            'jenisDantons'    => $jenisDantons,
             'jenisVariasis'   => $jenisVariasis,
             'jenisFormasis'   => $jenisFormasis,
+            'nilaipbbdantons' => $nilaipbbdantons,
             'nilaivarfors'    => $nilaivarfors,
             'edPeserta'       => $edPeserta,
             'peserta'         => $peserta,
@@ -295,7 +241,7 @@ class RekapController extends Controller
         return $pesertas;
     }
 
-    public function rekappbbdanton(Request $request, $id)
+    public function rekapnilaiakhir($id)
     {
         $tingkatan = Tingkatan::findOrFail($id);
         $pesertas = Peserta::join('users', 'pesertas.user_id', '=', 'users.id')
@@ -317,12 +263,43 @@ class RekapController extends Controller
                 ->where('nilaipbbdantons.peserta_id', '=', $peserta->peserta_id)
                 ->sum('nilaipbbdantons.points');
 
-            $peserta->total_utama = $peserta->total_pbb + $peserta->total_danton;
+            $peserta->total_variasi = Nilaivarfor::join('abaabas', 'nilaivarfors.abaaba_id', '=', 'abaabas.id')
+                ->join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
+                ->where('jenis.tipe', '=', '3VARIASI')
+                ->where('nilaivarfors.peserta_id', '=', $peserta->peserta_id)
+                ->sum('nilaivarfors.points');
+
+            $peserta->total_formasi = Nilaivarfor::join('abaabas', 'nilaivarfors.abaaba_id', '=', 'abaabas.id')
+                ->join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
+                ->where('jenis.tipe', '=', '4FORMASI')
+                ->where('nilaivarfors.peserta_id', '=', $peserta->peserta_id)
+                ->sum('nilaivarfors.points');
+
+            $peserta->total_utama  = $peserta->total_pbb + $peserta->total_danton;
+            $peserta->total_varfor = $peserta->total_variasi + $peserta->total_formasi;
+            $peserta->total_umum   = $peserta->total_utama + $peserta->total_varfor;
         }
 
         $pesertas = $this->calculateRank($pesertas, 'total_pbb', 'rank_pbb');
         $pesertas = $this->calculateRank($pesertas, 'total_danton', 'rank_danton');
+        $pesertas = $this->calculateRank($pesertas, 'total_varfor', 'rank_varfor');
         $pesertas = $this->calculateRank($pesertas, 'total_utama', 'rank_utama');
+        $pesertas = $this->calculateRank($pesertas, 'total_umum', 'rank_umum');
+        
+        $benefitumums = Benefit::where('tingkatan_id', '=', $tingkatan->id)
+            ->where('tipe', '=', '1UMUM')
+            ->orderby('prioritas')
+            ->get();
+
+        $benefitutamas = Benefit::where('tingkatan_id', '=', $tingkatan->id)
+            ->where('tipe', '=', '2UTAMA')
+            ->orderby('prioritas')
+            ->get();
+
+        $benefitvarfors = Benefit::where('tingkatan_id', '=', $tingkatan->id)
+            ->where('tipe', '=', '3VARFOR')
+            ->orderby('prioritas')
+            ->get();
 
         $benefitpbbs = Benefit::where('tingkatan_id', '=', $tingkatan->id)
             ->where('tipe', '=', '4PBB')
@@ -334,34 +311,31 @@ class RekapController extends Controller
             ->orderby('prioritas')
             ->get();
 
-        $benefitutamas = Benefit::where('tingkatan_id', '=', $tingkatan->id)
-            ->where('tipe', '=', '2UTAMA')
-            ->orderby('prioritas')
-            ->get();
-
-        return view('pages.admin.rekap.rekappbbdanton', [
-            'title'          => 'PBB dan Danton',
+        return view('pages.admin.rekap.rekapnilaiakhir', [
+            'title'          => "Rekap Nilai Akhir $tingkatan->nama_tingkatan",
             'id'             => $tingkatan->id,
             'pesertas'       => $pesertas,
+            'benefitumums'   => $benefitumums,
+            'benefitutamas'  => $benefitutamas,
+            'benefitvarfors' => $benefitvarfors,
             'benefitpbbs'    => $benefitpbbs,
             'benefitdantons' => $benefitdantons,
-            'benefitutamas'  => $benefitutamas,
         ]);
     }
 
-    public function rekapPbbDantonPdf($id)
+    public function rekapnilaiakhirpdf($id)
     {
         set_time_limit(300);
         // Mengambil data yang akan dimasukkan ke PDF
-        $pdfData = $this->generateRekapPdfDataPbbDanton($id);
+        $pdfData = $this->generateRekapNilaiAkhirPDF($id);
         // Load view ke dalam PDF dengan orientasi landscape
-        $pdf = PDF::loadView('pages.admin.rekap.rekappdfpbbdanton', $pdfData)
+        $pdf = PDF::loadView('pages.admin.rekap.rekapnilaiakhirpdf', $pdfData)
             ->setPaper('a4', 'landscape');
         // Menampilkan PDF di browser
-        return $pdf->stream("rekap_akhir_pbb_danton_{$pdfData['title']}.pdf");
+        return $pdf->stream("rekap_akhir_{$pdfData['title']}.pdf");
     }
 
-    private function generateRekapPdfDataPbbDanton($id)
+    private function generateRekapNilaiAkhirPDF($id)
     {
         $tingkatan = Tingkatan::findOrFail($id);
         $pesertas = Peserta::join('users', 'pesertas.user_id', '=', 'users.id')
@@ -383,12 +357,43 @@ class RekapController extends Controller
                 ->where('nilaipbbdantons.peserta_id', '=', $peserta->peserta_id)
                 ->sum('nilaipbbdantons.points');
 
-            $peserta->total_utama = $peserta->total_pbb + $peserta->total_danton;
+            $peserta->total_variasi = Nilaivarfor::join('abaabas', 'nilaivarfors.abaaba_id', '=', 'abaabas.id')
+                ->join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
+                ->where('jenis.tipe', '=', '3VARIASI')
+                ->where('nilaivarfors.peserta_id', '=', $peserta->peserta_id)
+                ->sum('nilaivarfors.points');
+
+            $peserta->total_formasi = Nilaivarfor::join('abaabas', 'nilaivarfors.abaaba_id', '=', 'abaabas.id')
+                ->join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
+                ->where('jenis.tipe', '=', '4FORMASI')
+                ->where('nilaivarfors.peserta_id', '=', $peserta->peserta_id)
+                ->sum('nilaivarfors.points');
+
+            $peserta->total_utama  = $peserta->total_pbb + $peserta->total_danton;
+            $peserta->total_varfor = $peserta->total_variasi + $peserta->total_formasi;
+            $peserta->total_umum   = $peserta->total_utama + $peserta->total_varfor;
         }
 
         $pesertas = $this->calculateRank($pesertas, 'total_pbb', 'rank_pbb');
         $pesertas = $this->calculateRank($pesertas, 'total_danton', 'rank_danton');
+        $pesertas = $this->calculateRank($pesertas, 'total_varfor', 'rank_varfor');
         $pesertas = $this->calculateRank($pesertas, 'total_utama', 'rank_utama');
+        $pesertas = $this->calculateRank($pesertas, 'total_umum', 'rank_umum');
+        
+        $benefitumums = Benefit::where('tingkatan_id', '=', $tingkatan->id)
+            ->where('tipe', '=', '1UMUM')
+            ->orderby('prioritas')
+            ->get();
+
+        $benefitutamas = Benefit::where('tingkatan_id', '=', $tingkatan->id)
+            ->where('tipe', '=', '2UTAMA')
+            ->orderby('prioritas')
+            ->get();
+
+        $benefitvarfors = Benefit::where('tingkatan_id', '=', $tingkatan->id)
+            ->where('tipe', '=', '3VARFOR')
+            ->orderby('prioritas')
+            ->get();
 
         $benefitpbbs = Benefit::where('tingkatan_id', '=', $tingkatan->id)
             ->where('tipe', '=', '4PBB')
@@ -400,113 +405,14 @@ class RekapController extends Controller
             ->orderby('prioritas')
             ->get();
 
-        $benefitutamas = Benefit::where('tingkatan_id', '=', $tingkatan->id)
-            ->where('tipe', '=', '2UTAMA')
-            ->orderby('prioritas')
-            ->get();
-
         return [
-            'title'          => "Rekap Nilai PBB dan Danton",
+            'title'          => "Rekap Nilai Akhir $tingkatan->nama_tingkatan",
             'pesertas'       => $pesertas,
+            'benefitumums'   => $benefitumums,
+            'benefitutamas'  => $benefitutamas,
+            'benefitvarfors' => $benefitvarfors,
             'benefitpbbs'    => $benefitpbbs,
             'benefitdantons' => $benefitdantons,
-            'benefitutamas'  => $benefitutamas,
-            'tingkatans'     => Tingkatan::all(),
-        ];
-    }
-
-    public function rekapvarfor($id)
-    {
-        $tingkatan = Tingkatan::findOrFail($id);
-        $pesertas = Peserta::join('users', 'pesertas.user_id', '=', 'users.id')
-            ->select('pesertas.id as peserta_id', 'pesertas.no_urut', 'users.name')
-            ->where('pesertas.tingkatan_id', '=', $id)
-            ->orderby('pesertas.no_urut')
-            ->get();
-
-        foreach ($pesertas as $peserta) {
-            $peserta->total_variasi = Nilaivarfor::join('abaabas', 'nilaivarfors.abaaba_id', '=', 'abaabas.id')
-                ->join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
-                ->where('jenis.tipe', '=', '3VARIASI')
-                ->where('nilaivarfors.peserta_id', '=', $peserta->peserta_id)
-                ->sum('nilaivarfors.points');
-
-            $peserta->total_formasi = Nilaivarfor::join('abaabas', 'nilaivarfors.abaaba_id', '=', 'abaabas.id')
-                ->join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
-                ->where('jenis.tipe', '=', '4FORMASI')
-                ->where('nilaivarfors.peserta_id', '=', $peserta->peserta_id)
-                ->sum('nilaivarfors.points');
-
-            $peserta->total_varfor = $peserta->total_variasi + $peserta->total_formasi;
-        }
-
-        $pesertas = $this->calculateRank($pesertas, 'total_variasi', 'rank_variasi');
-        $pesertas = $this->calculateRank($pesertas, 'total_formasi', 'rank_formasi');
-        $pesertas = $this->calculateRank($pesertas, 'total_varfor', 'rank_varfor');
-
-        $benefitvarfors = Benefit::where('tingkatan_id', '=', $tingkatan->id)
-            ->where('tipe', '=', '3VARFOR')
-            ->orderby('prioritas')
-            ->get();
-
-        return view('pages.admin.rekap.rekapvarfor', [
-            'title'          => 'Variasi dan Formasi',
-            'id'             => $tingkatan->id,
-            'pesertas'       => $pesertas,
-            'benefitvarfors' => $benefitvarfors,
-        ]);
-    }
-
-    public function rekapvarforPdf($id)
-    {
-        set_time_limit(300);
-        // Mengambil data yang akan dimasukkan ke PDF
-        $pdfData = $this->generateRekapPdfDataVarfor($id);
-        // Load view ke dalam PDF dengan orientasi landscape
-        $pdf = PDF::loadView('pages.admin.rekap.rekappdfvarfor', $pdfData)
-            ->setPaper('a4', 'landscape');
-        // Menampilkan PDF di browser
-        return $pdf->stream("rekap_akhir_variasi_formasi_{$pdfData['title']}.pdf");
-    }
-
-    private function generateRekapPdfDataVarfor($id)
-    {
-        $tingkatan = Tingkatan::findOrFail($id);
-        $pesertas = Peserta::join('users', 'pesertas.user_id', '=', 'users.id')
-            ->select('pesertas.id as peserta_id', 'pesertas.no_urut', 'users.name')
-            ->where('pesertas.tingkatan_id', '=', $id)
-            ->orderby('pesertas.no_urut')
-            ->get();
-
-        foreach ($pesertas as $peserta) {
-            $peserta->total_variasi = Nilaivarfor::join('abaabas', 'nilaivarfors.abaaba_id', '=', 'abaabas.id')
-                ->join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
-                ->where('jenis.tipe', '=', '3VARIASI')
-                ->where('nilaivarfors.peserta_id', '=', $peserta->peserta_id)
-                ->sum('nilaivarfors.points');
-
-            $peserta->total_formasi = Nilaivarfor::join('abaabas', 'nilaivarfors.abaaba_id', '=', 'abaabas.id')
-                ->join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
-                ->where('jenis.tipe', '=', '4FORMASI')
-                ->where('nilaivarfors.peserta_id', '=', $peserta->peserta_id)
-                ->sum('nilaivarfors.points');
-
-            $peserta->total_varfor = $peserta->total_variasi + $peserta->total_formasi;
-        }
-
-        $pesertas = $this->calculateRank($pesertas, 'total_variasi', 'rank_variasi');
-        $pesertas = $this->calculateRank($pesertas, 'total_formasi', 'rank_formasi');
-        $pesertas = $this->calculateRank($pesertas, 'total_varfor', 'rank_varfor');
-
-        $benefitvarfors = Benefit::where('tingkatan_id', '=', $tingkatan->id)
-            ->where('tipe', '=', '3VARFOR')
-            ->orderby('prioritas')
-            ->get();
-
-        return [
-            'title'          => "Rekap Nilai Variasi dan Formasi",
-            'pesertas'       => $pesertas,
-            'benefitvarfors' => $benefitvarfors,
             'tingkatans'     => Tingkatan::all(),
         ];
     }

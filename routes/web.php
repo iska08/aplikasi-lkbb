@@ -159,24 +159,14 @@ Route::prefix('dashboard')
         // Rekap Nilai
         Route::get('rekap/peserta', [RekapController::class, 'index'])
             ->name('rekap.index');
-        Route::get('rekap/peserta/pbb-danton/{id}', [RekapController::class, 'pbbdanton'])
-            ->name('rekap.pbbdanton');
-        Route::get('rekap/peserta/pbb-danton/{id}/view-pdf', [RekapController::class, 'pbbDantonPdf'])
-            ->name('rekap.pbbdanton.pbbDantonPdf');
-        Route::get('rekap/peserta/variasi-formasi/{id}', [RekapController::class, 'varfor']) 
-            ->name('rekap.varfor');
-        Route::get('rekap/peserta/variasi-formasi/{id}/view-pdf', [RekapController::class, 'varforPdf'])
-            ->name('rekap.varfor.varforPdf');
+        Route::get('rekap/peserta/view-pdf', [RekapController::class, 'nilaiPesertaPdf'])
+            ->name('rekap.nilaipeserta');
         Route::get('rekap/rekap-akhir', [RekapController::class, 'rekapakhir'])
             ->name('rekap.rekapakhir');
-        Route::get('rekap/rekap-akhir/pbb-danton/{id}', [RekapController::class, 'rekappbbdanton'])
-            ->name('rekap.rekappbbdanton');
-        Route::get('rekap/rekap-akhir/pbb-danton/{id}/view-pdf', [RekapController::class, 'rekapPbbDantonPdf'])
-            ->name('rekap.rekappbbdantonpdf');
-        Route::get('rekap/rekap-akhir/variasi-formasi/{id}', [RekapController::class, 'rekapvarfor']) 
-            ->name('rekap.rekapvarfor');
-        Route::get('rekap/rekap-akhir/variasi-formasi/{id}/view-pdf', [RekapController::class, 'rekapvarforPdf'])
-            ->name('rekap.rekapvarforpdf');
+        Route::get('rekap/rekap-akhir/{id}', [RekapController::class, 'rekapnilaiakhir'])
+            ->name('rekap.rekapnilaiakhir');
+        Route::get('rekap/rekap-akhir/{id}/view-pdf', [RekapController::class, 'rekapnilaiakhirpdf'])
+            ->name('rekap.rekapnilaiakhirpdf');
         // Foto dan Rekomendasi
         Route::get('administrasi/foto', [FotoController::class, 'index'])
             ->name('foto.index');
