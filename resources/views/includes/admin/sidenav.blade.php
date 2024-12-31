@@ -159,6 +159,12 @@ $tingkatanPurna = $tingkatans->where('nama_tingkatan', 'Purna/Manajemen')->first
                         </div>
                         Skala Penilaian
                     </a>
+                    <a class="nav-link {{ Request::is('dashboard/teknis/pengurangan*') ? 'active' : '' }} child" href="{{ route('pengurangan.index') }}">
+                        <div class="sb-nav-link-icon col-1">
+                            <i class="fas"></i>
+                        </div>
+                        Pengurangan Nilai
+                    </a>
                     @elseif(auth()->user()->level === '4PESERTA' || auth()->user()->level === '5CALONPESERTA')
                     <a class="nav-link {{ Request::is('dashboard/teknis/penilaian*') ? 'active' : '' }} child" href="{{ route('penilaian.index') }}">
                         <div class="sb-nav-link-icon col-1">

@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\NilaivarforpurnaController;
 use App\Http\Controllers\Admin\NilaivarforsdController;
 use App\Http\Controllers\Admin\NilaivarforsmpController;
 use App\Http\Controllers\Admin\NilaivarforsmaController;
+use App\Http\Controllers\Admin\PenguranganController;
 use App\Http\Controllers\Admin\PenilaianController;
 use App\Http\Controllers\Admin\PesertaController;
 use App\Http\Controllers\Admin\PletonController;
@@ -73,6 +74,7 @@ Route::prefix('dashboard')
             'teknis/aba-aba'        => AbaabaController::class,
             'teknis/cp'             => CpController::class,
             'teknis/jenis'          => JenisController::class,
+            'teknis/pengurangan'    => PenguranganController::class,
             'teknis/penilaian'      => PenilaianController::class,
             'teknis/posisi'         => PosisiController::class,
             'teknis/tingkatan'      => TingkatanController::class,

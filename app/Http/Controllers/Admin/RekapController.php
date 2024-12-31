@@ -305,6 +305,9 @@ class RekapController extends Controller
         $pesertas = $this->calculateRank($pesertas, 'total_utama', 'rank_utama', ['total_pbb', 'total_danton', 'total_varfor']);
         $pesertas = $this->calculateRank($pesertas, 'total_umum', 'rank_umum', ['total_pbb', 'total_danton', 'total_varfor']);
 
+        // **Urutkan berdasarkan rank_utama**
+        $pesertas = $pesertas->sortBy('rank_utama')->values();
+
         $benefitumums = Benefit::where('tingkatan_id', '=', $tingkatan->id)
             ->where('tipe', '=', '1UMUM')
             ->orderby('prioritas')
@@ -398,6 +401,9 @@ class RekapController extends Controller
         $pesertas = $this->calculateRank($pesertas, 'total_varfor', 'rank_varfor', ['total_pbb', 'total_danton']);
         $pesertas = $this->calculateRank($pesertas, 'total_utama', 'rank_utama', ['total_pbb', 'total_danton', 'total_varfor']);
         $pesertas = $this->calculateRank($pesertas, 'total_umum', 'rank_umum', ['total_pbb', 'total_danton', 'total_varfor']);
+
+        // **Urutkan berdasarkan rank_utama**
+        $pesertas = $pesertas->sortBy('rank_utama')->values();
 
         $benefitumums = Benefit::where('tingkatan_id', '=', $tingkatan->id)
             ->where('tipe', '=', '1UMUM')

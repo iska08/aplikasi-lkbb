@@ -45,14 +45,14 @@
                                 <td style="vertical-align: middle !important;">{{ $peserta->no_urut }}</td>
                                 <td style="vertical-align: middle !important;">{{ $peserta->name }}</td>
                                 <td 
-                                    @if ($pesertas->where('total_pbb', $peserta->total_pbb)->count() > 1) style="background-color: #dc3545; vertical-align: middle !important;"
+                                    @if ($pesertas->where('total_pbb', $peserta->total_pbb)->count() > 1) style="background-color: #F0F0F0; vertical-align: middle !important;"
                                     @else style="vertical-align: middle !important;"
                                     @endif
                                 >
                                     {{ $peserta->total_pbb }}
                                 </td>
                                 <td 
-                                    @if ($pesertas->where('total_danton', $peserta->total_danton)->count() > 1) style="background-color: #dc3545; vertical-align: middle !important;"
+                                    @if ($pesertas->where('total_danton', $peserta->total_danton)->count() > 1) style="background-color: #000000; vertical-align: middle !important; color: white;"
                                     @else style="vertical-align: middle !important;"
                                     @endif
                                 >
@@ -61,21 +61,21 @@
                                 <td style="vertical-align: middle !important;">{{ $peserta->total_variasi }}</td>
                                 <td style="vertical-align: middle !important;">{{ $peserta->total_formasi }}</td>
                                 <td 
-                                    @if ($pesertas->where('total_varfor', $peserta->total_varfor)->count() > 1) style="background-color: #dc3545; vertical-align: middle !important;"
+                                    @if ($pesertas->where('total_varfor', $peserta->total_varfor)->count() > 1) style="background-color: #333333; vertical-align: middle !important; color: white;"
                                     @else style="vertical-align: middle !important;"
                                     @endif
                                 >
                                     {{ $peserta->total_varfor }}
                                 </td>
                                 <td 
-                                    @if ($pesertas->where('total_utama', $peserta->total_utama)->count() > 1) style="background-color: #dc3545; vertical-align: middle !important;"
+                                    @if ($pesertas->where('total_utama', $peserta->total_utama)->count() > 1) style="background-color: #FFD700; vertical-align: middle !important;"
                                     @else style="vertical-align: middle !important;"
                                     @endif
                                 >
                                     {{ $peserta->total_utama }}
                                 </td>
                                 <td 
-                                    @if ($pesertas->where('total_umum', $peserta->total_umum)->count() > 1) style="background-color: #dc3545; vertical-align: middle !important;"
+                                    @if ($pesertas->where('total_umum', $peserta->total_umum)->count() > 1) style="background-color: #8B0000; vertical-align: middle !important; color: white;"
                                     @else style="vertical-align: middle !important;"
                                     @endif
                                 >
@@ -95,7 +95,7 @@
                                     @endphp
                                     @if ($juara)
                                     <i>
-                                        {{ $juara->nama_juara }}
+                                        ({{ $juara->nama_juara }})
                                     </i>
                                     @else
                                     @endif
@@ -114,7 +114,7 @@
                                     @endphp
                                     @if ($juara)
                                     <i>
-                                        {{ $juara->nama_juara }}
+                                        ({{ $juara->nama_juara }})
                                     </i>
                                     @else
                                     @endif
@@ -153,7 +153,7 @@
                                     @endphp
                                     @if ($juara)
                                     <i>
-                                        {{ $juara->nama_juara }}
+                                        ({{ $juara->nama_juara }})
                                     </i>
                                     @else
                                     @endif
@@ -192,7 +192,7 @@
                                     @endphp
                                     @if ($juara)
                                     <i>
-                                        {{ $juara->nama_juara }}
+                                        ({{ $juara->nama_juara }})
                                     </i>
                                     @else
                                     @endif
@@ -213,7 +213,7 @@
                                     @endphp
                                     @if ($juara)
                                     <i>
-                                        {{ $juara->nama_juara }}
+                                        ({{ $juara->nama_juara }})
                                     </i>
                                     @else
                                     @endif
@@ -240,10 +240,16 @@
         <div class="card mb-4 bg-secondary alert">
             <h5 class="mb-2"><strong>Keterangan Warna</strong></h5>
             <ul>
-                <li><span class="badge" style="background-color: #198754; padding: 5px; border-radius: 3px; color: #000;">Hijau</span> - Peringkat 1</li>
-                <li><span class="badge" style="background-color: #0dcaf0; padding: 5px; border-radius: 3px; color: #000;">Biru</span> - Peringkat 2</li>
-                <li><span class="badge" style="background-color: #ffc107; padding: 5px; border-radius: 3px; color: #000;">Kuning</span> - Peringkat 3</li>
-                <li><span class="badge" style="background-color: #dc3545; padding: 5px; border-radius: 3px; color: #000;">Merah</span> - Peringkat sama (terjadi duplikasi peringkat)</li>
+                <li><span class="badge" style="background-color: #8B0000; padding: 5px; border-radius: 3px; color: #000;">Merah Gelap</span> - Nilai Duplikat di PBB</li>
+                <li><span class="badge" style="background-color: #FFCC80; padding: 5px; border-radius: 3px; color: #000;">Oranye Muda</span> - Nilai Duplikat di Danton</li>
+                <li><span class="badge" style="background-color: #FFD700; padding: 5px; border-radius: 3px; color: #000;">Kuning Emas	</span> - Nilai Duplikat di Varfor</li>
+                <li><span class="badge" style="background-color: #333333; padding: 5px; border-radius: 3px; color: #000;">Abu-abu Tua</span> - Nilai Duplikat di Utama</li>
+                <li><span class="badge" style="background-color: #F0F0F0; padding: 5px; border-radius: 3px; color: #000;">Putih Pudar</span> - Nilai Duplikat di Umum</li>
+                <br>
+                <li><span class="badge" style="background-color: #198754; padding: 5px; border-radius: 3px; color: #000;">Hijau</span> - Peringkat 1 (PBB & Danton)</li>
+                <li><span class="badge" style="background-color: #0dcaf0; padding: 5px; border-radius: 3px; color: #000;">Biru</span> - Peringkat 2 (PBB & Danton)</li>
+                <li><span class="badge" style="background-color: #ffc107; padding: 5px; border-radius: 3px; color: #000;">Kuning</span> - Peringkat 3 (PBB & Danton)</li>
+                <br>
                 @if ($benefitutamas->count() == 3)
                 <li><span class="badge" style="background-color: #FFFF99; padding: 5px; border-radius: 3px; color: #000;">Kuning Terang</span> - Peringkat 1-3 (Utama & Varfor)</li>
                 @elseif ($benefitutamas->count() == 6)
