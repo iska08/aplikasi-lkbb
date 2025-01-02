@@ -34,7 +34,7 @@ class PesertaSeeder extends Seeder
             $pesertas[] = [
                 'user_id'      => $i,
                 'tingkatan_id' => 2,
-                'no_urut'      => $i - 17,
+                'no_urut'      => $i - 25,
                 'foto_pleton'  => '-',
                 'rekomendasi'  => '-',
                 'created_at'   => $now,
@@ -46,7 +46,7 @@ class PesertaSeeder extends Seeder
             $pesertas[] = [
                 'user_id'      => $i,
                 'tingkatan_id' => 3,
-                'no_urut'      => $i - 29,
+                'no_urut'      => $i - 55,
                 'foto_pleton'  => '-',
                 'rekomendasi'  => '-',
                 'created_at'   => $now,

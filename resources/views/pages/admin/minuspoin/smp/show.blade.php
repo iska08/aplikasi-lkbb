@@ -7,7 +7,7 @@
                 <h1 class="mt-4">{{ $title }}</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('minus-poin-sd.index') }}">Data Pengurangan Nilai</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('minus-poin-smp.index') }}">Data Pengurangan Nilai</a></li>
                     <li class="breadcrumb-item active">{{ $title }}</li>
                 </ol>
             </div>

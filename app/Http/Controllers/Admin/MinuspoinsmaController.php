@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\NilaipbbdantonStoreRequest;
-use App\Models\Abaaba;
-use App\Models\Jenis;
-use App\Models\Nilaipbbdanton;
+use App\Http\Requests\Admin\MinuspoinStoreRequest;
+use App\Models\Minuspoin;
+use App\Models\Pengurangan;
 use App\Models\Peserta;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,35 +13,29 @@ use Illuminate\Http\Request;
 class MinuspoinsmaController extends Controller
 {
     protected $limit = 10;
-    protected $fields = array('nilaipbbdantons.*', 'abaabas.*', 'pletons.*');
+    protected $fields = array('minuspoins.*', 'pengurangans.*');
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        if (auth()->user()->level !== '1ADMIN' && auth()->user()->level !== '2JURIPBB') {
+        if (auth()->user()->level !== '1ADMIN') {
             return redirect()->back()->with('error', 'Anda Tidak Memiliki Ijin Untuk Melakukan Tindakan Ini.');
         }
 
-        $query = Nilaipbbdanton::join('pesertas', 'nilaipbbdantons.peserta_id', '=', 'pesertas.id')
+        $minuspoins = Minuspoin::join('pesertas', 'minuspoins.peserta_id', '=', 'pesertas.id')
             ->join('users', 'pesertas.user_id', '=', 'users.id')
-            ->join('tingkatans', 'pesertas.tingkatan_id', '=', 'tingkatans.id')
+            ->join('tingkatans', 'pesertas.tingkatan_id', '=', 'tingkatans.id')    
             ->select('pesertas.id', 'pesertas.no_urut', 'pesertas.user_id', 'users.name')
-            ->where('tingkatans.nama_tingkatan', '=', 'SD/MI Sederajat')
-            ->distinct();
+            ->where('tingkatans.nama_tingkatan',  '=', 'SMA/SMK/MA Sederajat')
+            ->distinct()
+            ->get();
 
-        // Filter berdasarkan level pengguna
-        if (auth()->user()->level === '2JURIPBB') {
-            $query->where('nilaipbbdantons.user_id', '=', auth()->user()->id);
-        }
-
-        $nilaipbbdantons = $query->get();
-
-        return view('pages.admin.pbbdanton.sd.data', [
-            'title'           => 'Data Nilai PBB dan Danton',
-            'nilaipbbdantons' => $nilaipbbdantons,
+        return view('pages.admin.minuspoin.sma.data', [
+            'title'      => 'Data Pengurangan Nilai',
+            'minuspoins' => $minuspoins,
         ]);
     }
 
@@ -53,45 +46,24 @@ class MinuspoinsmaController extends Controller
      */
     public function create()
     {
-        if (auth()->user()->level !== '2JURIPBB') {
+        if (auth()->user()->level !== '1ADMIN') {
             return redirect()->back()->with('error', 'Anda Tidak Memiliki Ijin Untuk Melakukan Tindakan Ini.');
         }
 
-        $nilaipbbdantons = Peserta::join('users', 'pesertas.user_id', '=', 'users.id')
+        $minuspoins = Peserta::join('users', 'pesertas.user_id', '=', 'users.id')
             ->whereNotIn('pesertas.id', function ($query) {
                 $query->select('peserta_id')
-                    ->from('nilaipbbdantons')
+                    ->from('minuspoins')
                     ->where('user_id', auth()->id());
             })
             ->select('pesertas.id', 'pesertas.no_urut', 'users.name')
             ->orderby('pesertas.no_urut')
             ->get();
 
-        $pbbs = Abaaba::join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
-            ->join('penilaians', 'abaabas.id', '=', 'penilaians.abaaba_id')
-            ->join('tingkatans', 'jenis.tingkatan_id', '=', 'tingkatans.id')
-            ->where('tingkatans.nama_tingkatan', '=', 'SD/MI Sederajat')
-            ->where('jenis.tipe', '=', '1PBB')
-            ->select('abaabas.*', 'jenis.jenis_name', 'penilaians.skala1', 'penilaians.skala2', 'penilaians.skala3', 'penilaians.skala4', 'penilaians.skala5', 'penilaians.skala6', 'penilaians.skala7')
-            ->orderby('jenis.urutan')
-            ->orderby('abaabas.urutan_abaaba')
-            ->get();
-
-        $dantons = Abaaba::join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
-            ->join('penilaians', 'abaabas.id', '=', 'penilaians.abaaba_id')
-            ->join('tingkatans', 'jenis.tingkatan_id', '=', 'tingkatans.id')
-            ->where('tingkatans.nama_tingkatan', '=', 'SD/MI Sederajat')
-            ->where('jenis.tipe', '=', '2DANTON')
-            ->select('abaabas.*', 'jenis.jenis_name', 'penilaians.skala1', 'penilaians.skala2', 'penilaians.skala3', 'penilaians.skala4', 'penilaians.skala5', 'penilaians.skala6', 'penilaians.skala7')
-            ->orderby('jenis.urutan')
-            ->orderby('abaabas.urutan_abaaba')
-            ->get();
-
-        return view('pages.admin.pbbdanton.sd.create', [
-            'title'           => 'Tambah Form Nilai',
-            'nilaipbbdantons' => $nilaipbbdantons,
-            'pbbs'            => $pbbs,
-            'dantons'         => $dantons,
+        return view('pages.admin.minuspoin.sma.create', [
+            'title'        => 'Tambah Pengurangan Nilai',
+            'minuspoins'   => $minuspoins,
+            'pengurangans' => Pengurangan::all(),
         ]);
     }
 
@@ -101,26 +73,39 @@ class MinuspoinsmaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(NilaipbbdantonStoreRequest $request)
+    public function store(MinuspoinStoreRequest $request)
     {
-        if (auth()->user()->level !== '2JURIPBB') {
+        if (auth()->user()->level !== '1ADMIN') {
             return redirect()->back()->with('error', 'Anda Tidak Memiliki Ijin Untuk Melakukan Tindakan Ini.');
         }
 
+        // Validasi input
         $validatedData = $request->validated();
 
-        foreach ($validatedData['abaaba_id'] as $key => $abaaba_id) {
-            $data = [
-                'peserta_id' => $validatedData['peserta_id'],
-                'user_id'    => auth()->id(),
-                'abaaba_id'  => $abaaba_id,
-                'points'     => $validatedData['points'][$key],
-            ];
-
-            Nilaipbbdanton::create($data);
+        // Pastikan semua array memiliki jumlah elemen yang sama
+        if (
+            count($validatedData['pengurangan_id']) !== count($validatedData['minus']) || 
+            count($validatedData['pengurangan_id']) !== count($validatedData['jumlah'])
+        ) {
+            return redirect()->back()->with('error', 'Data pengurangan nilai tidak valid.');
         }
 
-        return redirect('/dashboard/pbb-danton/sd')->with('success', 'Nilai berhasil ditambahkan!');
+        // Loop melalui data pengurangan
+        foreach ($validatedData['pengurangan_id'] as $key => $pengurangan_id) {
+            // Pastikan setiap elemen array memiliki nilai valid
+            $data = [
+                'peserta_id'     => $validatedData['peserta_id'],
+                'user_id'        => auth()->id(),
+                'pengurangan_id' => $pengurangan_id ?? null,
+                'minus'          => $validatedData['minus'][$key] ?? 0,
+                'jumlah'         => $validatedData['jumlah'][$key] ?? 0,
+            ];
+
+            // Simpan data ke dalam database
+            Minuspoin::create($data);
+        }
+
+        return redirect('/dashboard/minus-poin/sma')->with('success', 'Pengurangan Nilai Berhasil Ditambahkan!');
     }
 
     /**
@@ -129,62 +114,78 @@ class MinuspoinsmaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        if (auth()->user()->level !== '1ADMIN' && auth()->user()->level !== '2JURIPBB') {
-            return redirect()->back()->with('error', 'Anda Tidak Memiliki Ijin Untuk Melakukan Tindakan Ini.');
-        }
-        
-        $jenisPBBs = Jenis::where('tipe', '=', '1PBB')
-            ->whereHas('tingkatan', function ($query) {
-                $query->where('nama_tingkatan', 'SD/MI Sederajat');
-            })
-            ->orderBy('urutan')
-            ->get();
-        $jenisDantons = Jenis::where('tipe', '=', '2DANTON')
-            ->whereHas('tingkatan', function ($query) {
-                $query->where('nama_tingkatan', 'SD/MI Sederajat');
-            })
-            ->orderBy('urutan')
-            ->get();
+        $peserta      = Peserta::where('id', '=', $id)->first();
+        $edPeserta    = User::findOrFail($peserta->user_id); // Pastikan ID peserta diambil dari relasi
+        $pengurangans = Minuspoin::join('pengurangans', 'minuspoins.pengurangan_id', '=', 'pengurangans.id')
+            ->join('pesertas', 'minuspoins.peserta_id', '=', 'pesertas.id')
+            ->join('users', 'minuspoins.user_id', '=', 'users.id')
+            ->where('pesertas.id', '=', $id) // Gunakan ID peserta
+            ->select('minuspoins.minus', 'minuspoins.jumlah', 'pengurangans.*')
+            ->orderby('pengurangans.id')
+            ->get(); // Pastikan query dieksekusi dengan `get()`
 
-        $juris = User::where('level', '=', '2JURIPBB')->get();
-        $edPeserta = User::FindOrFail($id);
-        $peserta = Peserta::where('user_id', '=', $id)->first();
-        $abaabaPBBs = Abaaba::join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
-            ->where('jenis.tipe', '=', '1PBB')
-            ->select('abaabas.id', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
-            ->orderby('abaabas.urutan_abaaba')
-            ->get();
-        $abaabaDantons = Abaaba::join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
-            ->where('jenis.tipe', '=', '2DANTON')
-            ->select('abaabas.id', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
-            ->orderby('abaabas.urutan_abaaba')
-            ->get();
-        $nilaipbbdantons = Nilaipbbdanton::join('abaabas', 'nilaipbbdantons.abaaba_id', '=', 'abaabas.id')
-            ->join('pesertas', 'nilaipbbdantons.peserta_id', '=', 'pesertas.id')
-            ->join('users', 'pesertas.user_id', '=', 'users.id')
-            ->where('pesertas.user_id', '=', $id)
-            ->select('nilaipbbdantons.*', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
-            ->orderby('abaabas.urutan_abaaba')
-            ->get();
-        
-        if (auth()->user()->level === '2JURIPBB'){
-            $title = "Nilai PBB dan Danton: Pleton No. Urut $peserta->no_urut";
-        }else{
+        if (auth()->user()->level === '1ADMIN') {
+            $title = "Pengurangan Nilai: Pleton No. Urut $peserta->no_urut";
+        } else {
             $title = "Nilai PBB dan Danton $edPeserta->name";
         }
 
-        return view('pages.admin.pbbdanton.sd.show', [
-            'title'           => $title,
-            'abaabaPBBs'      => $abaabaPBBs,
-            'abaabaDantons'   => $abaabaDantons,
-            'juris'           => $juris,
-            'jenisPBBs'       => $jenisPBBs,
-            'jenisDantons'    => $jenisDantons,
-            'nilaipbbdantons' => $nilaipbbdantons,
-            'id'              => $id,
+        return view('pages.admin.minuspoin.sma.show', [
+            'title'        => $title,
+            'id'           => $id,
+            'pengurangans' => $pengurangans,
         ]);
+    }
+
+    public function edit($id)
+    {
+        if (auth()->user()->level !== '1ADMIN') {
+            return redirect()->back()->with('error', 'Anda Tidak Memiliki Izin Untuk Melakukan Tindakan Ini.');
+        }
+
+        // Ambil data peserta berdasarkan ID
+        $peserta = Peserta::where('id', '=', $id)->first();
+        if (!$peserta) {
+            return redirect()->back()->with('error', 'Peserta Tidak Ditemukan.');
+        }
+
+        // Ambil data yang sudah disimpan untuk peserta ini
+        $minuspoins = Minuspoin::join('pengurangans', 'minuspoins.pengurangan_id', '=', 'pengurangans.id')
+            ->where('peserta_id', '=', $id)
+            ->select('minuspoins.*', 'pengurangans.keterangan', 'pengurangans.poin', 'pengurangans.per')
+            ->get();
+
+        return view('pages.admin.minuspoin.sma.edit', [
+            'title'      => "Edit Pengurangan Nilai - Pleton No. Urut $peserta->no_urut",
+            'peserta'    => $peserta,
+            'minuspoins' => $minuspoins,
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        if (auth()->user()->level !== '1ADMIN') {
+            return redirect()->back()->with('error', 'Anda Tidak Memiliki Izin Untuk Melakukan Tindakan Ini.');
+        }
+
+        $validatedData = $request->validate([
+            'minuspoins.*.id'      => 'required|exists:minuspoins,id',
+            'minuspoins.*.jumlah'  => 'required|numeric|min:0',
+        ]);
+
+        foreach ($validatedData['minuspoins'] as $data) {
+            // Perbarui data untuk setiap pengurangan nilai
+            $minuspoin = Minuspoin::find($data['id']);
+            if ($minuspoin) {
+                $minuspoin->update([
+                    'jumlah' => $data['jumlah'],
+                ]);
+            }
+        }
+
+        return redirect('/dashboard/minus-poin/sma')->with('success', 'Pengurangan Nilai Berhasil Diperbarui!');
     }
     
     /**
@@ -200,15 +201,15 @@ class MinuspoinsmaController extends Controller
         }
 
         // Cari semua data dengan peserta_id yang sesuai
-        $nilaipbbdantons = Nilaipbbdanton::where('peserta_id', $peserta_id);
+        $minuspoins = Minuspoin::where('peserta_id', $peserta_id);
 
         // Periksa apakah ada data yang ditemukan
-        if ($nilaipbbdantons->exists()) {
+        if ($minuspoins->exists()) {
             // Hapus semua data dengan peserta_id yang sesuai
-            $nilaipbbdantons->delete();
-            return redirect('/dashboard/pbb-danton/sd')->with('success', 'Semua Nilai yang Berhubungan Telah Dihapus!');
+            $minuspoins->delete();
+            return redirect('/dashboard/minus-poin/sma')->with('success', 'Semua Nilai yang Berhubungan Telah Dihapus!');
         } else {
-            return redirect('/dashboard/pbb-danton/sd')->with('error', 'Tidak Ada Data Nilai yang Ditemukan!');
+            return redirect('/dashboard/minus-poin/sma')->with('error', 'Tidak Ada Data Nilai yang Ditemukan!');
         }
     }
 }
