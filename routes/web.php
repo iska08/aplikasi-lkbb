@@ -9,14 +9,18 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DetailController;
 use App\Http\Controllers\Admin\FotoController;
 use App\Http\Controllers\Admin\JenisController;
+use App\Http\Controllers\Admin\MinuspoinpurnaController;
+use App\Http\Controllers\Admin\MinuspoinsdController;
+use App\Http\Controllers\Admin\MinuspoinsmaController;
+use App\Http\Controllers\Admin\MinuspoinsmpController;
 use App\Http\Controllers\Admin\NilaipbbdantonpurnaController;
 use App\Http\Controllers\Admin\NilaipbbdantonsdController;
-use App\Http\Controllers\Admin\NilaipbbdantonsmpController;
 use App\Http\Controllers\Admin\NilaipbbdantonsmaController;
+use App\Http\Controllers\Admin\NilaipbbdantonsmpController;
 use App\Http\Controllers\Admin\NilaivarforpurnaController;
 use App\Http\Controllers\Admin\NilaivarforsdController;
-use App\Http\Controllers\Admin\NilaivarforsmpController;
 use App\Http\Controllers\Admin\NilaivarforsmaController;
+use App\Http\Controllers\Admin\NilaivarforsmpController;
 use App\Http\Controllers\Admin\PenguranganController;
 use App\Http\Controllers\Admin\PenilaianController;
 use App\Http\Controllers\Admin\PesertaController;
@@ -84,6 +88,41 @@ Route::prefix('dashboard')
             ->name('aba-aba.show');
         Route::get('teknis/penilaian/{penilaian:slug}', [PenilaianController::class, 'show'])
             ->name('penilaian.show');
+        // Route untuk Minus Poin
+        Route::prefix('minus-poin')->group(function () {
+            // SD
+            Route::get('/sd', [MinuspoinsdController::class, 'index'])->name('minus-poin-sd.index');
+            Route::get('/sd/create', [MinuspoinsdController::class, 'create'])->name('minus-poin-sd.create');
+            Route::post('/sd', [MinuspoinsdController::class, 'store'])->name('minus-poin-sd.store');
+            Route::get('/sd/{id}', [MinuspoinsdController::class, 'show'])->name('minus-poin-sd.show');
+            Route::get('/sd/{id}/edit', [MinuspoinsdController::class, 'edit'])->name('minus-poin-sd.edit');
+            Route::put('/sd/{id}', [MinuspoinsdController::class, 'update'])->name('minus-poin-sd.update');
+            Route::delete('/sd/{id}', [MinuspoinsdController::class, 'destroy'])->name('minus-poin-sd.destroy');
+            // SMP
+            Route::get('/smp', [MinuspoinsmpController::class, 'index'])->name('minus-poin-smp.index');
+            Route::get('/smp/create', [MinuspoinsmpController::class, 'create'])->name('minus-poin-smp.create');
+            Route::post('/smp', [MinuspoinsmpController::class, 'store'])->name('minus-poin-smp.store');
+            Route::get('/smp/{id}', [MinuspoinsmpController::class, 'show'])->name('minus-poin-smp.show');
+            Route::get('/smp/{id}/edit', [MinuspoinsmpController::class, 'edit'])->name('minus-poin-smp.edit');
+            Route::put('/smp/{id}', [MinuspoinsmpController::class, 'update'])->name('minus-poin-smp.update');
+            Route::delete('/smp/{id}', [MinuspoinsmpController::class, 'destroy'])->name('minus-poin-smp.destroy');
+            // SMA
+            Route::get('/sma', [MinuspoinsmaController::class, 'index'])->name('minus-poin-sma.index');
+            Route::get('/sma/create', [MinuspoinsmaController::class, 'create'])->name('minus-poin-sma.create');
+            Route::post('/sma', [MinuspoinsmaController::class, 'store'])->name('minus-poin-sma.store');
+            Route::get('/sma/{id}', [MinuspoinsmaController::class, 'show'])->name('minus-poin-sma.show');
+            Route::get('/sma/{id}/edit', [MinuspoinsmaController::class, 'edit'])->name('minus-poin-sma.edit');
+            Route::put('/sma/{id}', [MinuspoinsmaController::class, 'update'])->name('minus-poin-sma.update');
+            Route::delete('/sma/{id}', [MinuspoinsmaController::class, 'destroy'])->name('minus-poin-sma.destroy');
+            // Purna
+            Route::get('/purna', [MinuspoinpurnaController::class, 'index'])->name('minus-poin-purna.index');
+            Route::get('/purna/create', [MinuspoinpurnaController::class, 'create'])->name('minus-poin-purna.create');
+            Route::post('/purna', [MinuspoinpurnaController::class, 'store'])->name('minus-poin-purna.store');
+            Route::get('/purna/{id}', [MinuspoinpurnaController::class, 'show'])->name('minus-poin-purna.show');
+            Route::get('/purna/{id}/edit', [MinuspoinpurnaController::class, 'edit'])->name('minus-poin-purna.edit');
+            Route::put('/purna/{id}', [MinuspoinpurnaController::class, 'update'])->name('minus-poin-purna.update');
+            Route::delete('/purna/{id}', [MinuspoinpurnaController::class, 'destroy'])->name('minus-poin-purna.destroy');
+        });
         // Route untuk PBB & Danton
         Route::prefix('pbb-danton')->group(function () {
             // SD

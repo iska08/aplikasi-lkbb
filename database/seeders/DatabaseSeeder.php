@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             \Database\Seeders\Sample\PesertaSeeder::class,
             \Database\Seeders\Sample\BayarSeeder::class,
             \Database\Seeders\Sample\PletonSeeder::class,
+            \Database\Seeders\Sample\PenguranganSeeder::class,
             \Database\Seeders\Sample\NilaipbbdantonSeeder::class,
             \Database\Seeders\Sample\NilaivarforSeeder::class,
         ]);

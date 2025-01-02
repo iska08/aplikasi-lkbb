@@ -57,7 +57,11 @@
                                 <tr>
                                     <td>{{ $loop->iteration + $pengurangans->firstItem() - 1 }}</td>
                                     <td>{{ Str::ucfirst($pengurangan->keterangan) }}</td>
-                                    <td>{{ $pengurangan->poin }}/{{ $pengurangan->per }}</td>
+                                    @if ($pengurangan->per == "" || $pengurangan->per == "-")
+                                    <td>-{{ $pengurangan->poin }}</td>
+                                    @else
+                                    <td>-{{ $pengurangan->poin }} per {{ $pengurangan->per }}</td>
+                                    @endif
                                     <td>
                                         <a href="{{ route('pengurangan.edit', $pengurangan->id) }}" class="badge bg-warning">
                                             <i class="fa-solid fa-pen-to-square"></i>

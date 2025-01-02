@@ -174,9 +174,56 @@ $tingkatanPurna = $tingkatans->where('nama_tingkatan', 'Purna/Manajemen')->first
                     </a>
                     @endif
                 </div>
+                <!-- Minus Poin -->
+                @if(auth()->user()->level === '1ADMIN' || auth()->user()->level === '4PESERTA')
+                <a href="#" class="nav-link collapsed {{ Request::is('dashboard/minus-poin*') ? 'active' : '' }} parent" data-bs-toggle="collapse" data-bs-target="#masterDataCollapse4" aria-expanded="{{ Request::is('dashboard/minus-poin*') ? 'true' : 'false' }}">
+                    <div class="sb-nav-link-icon col-1">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <b>Minus Poin</b>
+                    <i class="fas fa-caret-down ms-auto"></i>
+                </a>
+                @endif
+                <div class="collapse {{ Request::is('dashboard/minus-poin*') ? 'show' : '' }}" id="masterDataCollapse4" data-bs-parent="#sidenavAccordion">
+                    @if(auth()->user()->level === '1ADMIN')
+                    @if($tingkatanSD)
+                    <a class="nav-link {{ Request::is('dashboard/minus-poin/sd*') ? 'active' : '' }} child" href="{{ route('minus-poin-sd.index') }}">
+                        <div class="sb-nav-link-icon col-1">
+                            <i class="fas"></i>
+                        </div>
+                        SD/MI Sederajat
+                    </a>
+                    @endif
+                    @if($tingkatanSMP)
+                    <a class="nav-link {{ Request::is('dashboard/minus-poin/smp*') ? 'active' : '' }} child" href="{{ route('minus-poin-smp.index') }}">
+                        <div class="sb-nav-link-icon col-1">
+                            <i class="fas"></i>
+                        </div>
+                        SMP/MTs Sederajat
+                    </a>
+                    @endif
+                    @if($tingkatanSMA)
+                    <a class="nav-link {{ Request::is('dashboard/minus-poin/sma*') ? 'active' : '' }} child" href="{{ route('minus-poin-sma.index') }}">
+                        <div class="sb-nav-link-icon col-1">
+                            <i class="fas"></i>
+                        </div>
+                        SMA/SMK/MA Sederajat
+                    </a>
+                    @endif
+                    @if($tingkatanPurna)
+                    <a class="nav-link {{ Request::is('dashboard/minus-poin/purna*') ? 'active' : '' }} child" href="{{ route('minus-poin-purna.index') }}">
+                        <div class="sb-nav-link-icon col-1">
+                            <i class="fas"></i>
+                        </div>
+                        Purna/Manajemen
+                    </a>
+                    @endif
+                    @elseif(auth()->user()->level === '4PESERTA')
+                    @endif
+                </div>
                 <!-- Nilai PBB dan Danton -->
                 @if(auth()->user()->level === '1ADMIN' || auth()->user()->level === '2JURIPBB')
-                <a href="#" class="nav-link collapsed {{ Request::is('dashboard/pbb-danton*') ? 'active' : '' }} parent" data-bs-toggle="collapse" data-bs-target="#masterDataCollapse4" aria-expanded="{{ Request::is('dashboard/pbb-danton*') ? 'true' : 'false' }}">
+                <a href="#" class="nav-link collapsed {{ Request::is('dashboard/pbb-danton*') ? 'active' : '' }} parent" data-bs-toggle="collapse" data-bs-target="#masterDataCollapse5" aria-expanded="{{ Request::is('dashboard/pbb-danton*') ? 'true' : 'false' }}">
                     <div class="sb-nav-link-icon col-1">
                         <i class="fas fa-chart-bar"></i>
                     </div>
@@ -184,7 +231,7 @@ $tingkatanPurna = $tingkatans->where('nama_tingkatan', 'Purna/Manajemen')->first
                     <i class="fas fa-caret-down ms-auto"></i>
                 </a>
                 @endif
-                <div class="collapse {{ Request::is('dashboard/pbb-danton*') ? 'show' : '' }}" id="masterDataCollapse4" data-bs-parent="#sidenavAccordion">
+                <div class="collapse {{ Request::is('dashboard/pbb-danton*') ? 'show' : '' }}" id="masterDataCollapse5" data-bs-parent="#sidenavAccordion">
                     @if(auth()->user()->level === '1ADMIN')
                     @if($tingkatanSD)
                     <a class="nav-link {{ Request::is('dashboard/pbb-danton/sd*') ? 'active' : '' }} child" href="{{ route('pbb-danton-sd.index') }}">
@@ -255,7 +302,7 @@ $tingkatanPurna = $tingkatans->where('nama_tingkatan', 'Purna/Manajemen')->first
                 </div>
                 <!-- Nilai Variasi dan Formasi -->
                 @if(auth()->user()->level === '1ADMIN' || auth()->user()->level === '3JURIVARFOR')
-                <a href="#" class="nav-link collapsed {{ Request::is('dashboard/variasi-formasi*') ? 'active' : '' }} parent" data-bs-toggle="collapse" data-bs-target="#masterDataCollapse5" aria-expanded="{{ Request::is('dashboard/variasi-formasi*') ? 'true' : 'false' }}">
+                <a href="#" class="nav-link collapsed {{ Request::is('dashboard/variasi-formasi*') ? 'active' : '' }} parent" data-bs-toggle="collapse" data-bs-target="#masterDataCollapse6" aria-expanded="{{ Request::is('dashboard/variasi-formasi*') ? 'true' : 'false' }}">
                     <div class="sb-nav-link-icon col-1">
                         <i class="fas fa-chart-bar"></i>
                     </div>
@@ -263,7 +310,7 @@ $tingkatanPurna = $tingkatans->where('nama_tingkatan', 'Purna/Manajemen')->first
                     <i class="fas fa-caret-down ms-auto"></i>
                 </a>
                 @endif
-                <div class="collapse {{ Request::is('dashboard/variasi-formasi*') ? 'show' : '' }}" id="masterDataCollapse5" data-bs-parent="#sidenavAccordion">
+                <div class="collapse {{ Request::is('dashboard/variasi-formasi*') ? 'show' : '' }}" id="masterDataCollapse6" data-bs-parent="#sidenavAccordion">
                     @if(auth()->user()->level === '1ADMIN')
                     @if($tingkatanSD)
                     <a class="nav-link {{ Request::is('dashboard/variasi-formasi/sd*') ? 'active' : '' }} child" href="{{ route('variasi-formasi-sd.index') }}">
@@ -334,7 +381,7 @@ $tingkatanPurna = $tingkatans->where('nama_tingkatan', 'Purna/Manajemen')->first
                 </div>
                 <!-- Rekap Nilai -->
                 @if(auth()->user()->level === '1ADMIN' || auth()->user()->level === '4PESERTA')
-                <a href="#" class="nav-link collapsed {{ Request::is('dashboard/rekap*') ? 'active' : '' }} parent" data-bs-toggle="collapse" data-bs-target="#masterDataCollapse6" aria-expanded="{{ Request::is('dashboard/rekap*') ? 'true' : 'false' }}">
+                <a href="#" class="nav-link collapsed {{ Request::is('dashboard/rekap*') ? 'active' : '' }} parent" data-bs-toggle="collapse" data-bs-target="#masterDataCollapse7" aria-expanded="{{ Request::is('dashboard/rekap*') ? 'true' : 'false' }}">
                     <div class="sb-nav-link-icon col-1">
                         <i class="fas fa-chart-bar"></i>
                     </div>
@@ -342,7 +389,7 @@ $tingkatanPurna = $tingkatans->where('nama_tingkatan', 'Purna/Manajemen')->first
                     <i class="fas fa-caret-down ms-auto"></i>
                 </a>
                 @endif
-                <div class="collapse {{ Request::is('dashboard/rekap*') ? 'show' : '' }}" id="masterDataCollapse6" data-bs-parent="#sidenavAccordion">
+                <div class="collapse {{ Request::is('dashboard/rekap*') ? 'show' : '' }}" id="masterDataCollapse7" data-bs-parent="#sidenavAccordion">
                     @if(auth()->user()->level === '1ADMIN')
                     <a class="nav-link {{ Request::is('dashboard/rekap/rekap-akhir*') ? 'active' : '' }} child" href="{{ route('rekap.rekapakhir') }}">
                         <div class="sb-nav-link-icon col-1">
@@ -360,14 +407,14 @@ $tingkatanPurna = $tingkatans->where('nama_tingkatan', 'Purna/Manajemen')->first
                     @endif
                 </div>
                 <!-- Setting Pengguna -->
-                <a href="#" class="nav-link collapsed {{ Request::is('dashboard/pengguna*') ? 'active' : '' }} parent" data-bs-toggle="collapse" data-bs-target="#masterDataCollapse7" aria-expanded="{{ Request::is('dashboard/pengguna*') ? 'true' : 'false' }}">
+                <a href="#" class="nav-link collapsed {{ Request::is('dashboard/pengguna*') ? 'active' : '' }} parent" data-bs-toggle="collapse" data-bs-target="#masterDataCollapse8" aria-expanded="{{ Request::is('dashboard/pengguna*') ? 'true' : 'false' }}">
                     <div class="sb-nav-link-icon col-1">
                         <i class="fas fa-user-cog"></i>
                     </div>
                     <b>Setting Pengguna</b>
                     <i class="fas fa-caret-down ms-auto"></i>
                 </a>
-                <div class="collapse {{ Request::is('dashboard/pengguna*') ? 'show' : '' }}" id="masterDataCollapse7" data-bs-parent="#sidenavAccordion">
+                <div class="collapse {{ Request::is('dashboard/pengguna*') ? 'show' : '' }}" id="masterDataCollapse8" data-bs-parent="#sidenavAccordion">
                     @if(auth()->user()->level === '1ADMIN')
                     <a class="nav-link {{ Request::is('dashboard/pengguna/user*') ? 'active' : '' }} child" href="{{ route('user.index') }}">
                         <div class="sb-nav-link-icon col-1">
