@@ -248,7 +248,7 @@
                                 <th style="background-color: #4682B4;">Variasi</th>
                                 <th style="background-color: #4682B4;">Formasi</th>
                                 <th style="background-color: #4682B4;">Varfor</th>
-                                <th style="background-color: #0DCAF0; color: #000;">Ranking Varfor</th>
+                                <th style="background-color: #0DCAF0; color: #000; width: 5.5cm">Ranking Varfor</th>
                             </tr>
                         </thead>
                         <tbody class="text-center">

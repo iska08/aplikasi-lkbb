@@ -58,6 +58,13 @@
                 margin: 0;
                 font-size: 18px;
             }
+            .card-body h4 {
+                margin: 0;
+                font-size: 24px;
+            }
+            .page-break {
+                page-break-before: always;
+            }
         </style>
     </head>
     <body>
@@ -90,7 +97,10 @@
         <br>
         <div class="card mb-4 bg-secondary">
             <div class="card-body">
-                <h4 class="text-center" style="font-size: 30px">Rekap Nilai Keseluruhan</h4>
+                <h4 class="text-center">
+                    <u>Rekap Nilai Keseluruhan</u>
+                </h4>
+                <br>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead class="bg-dark align-middle text-center text-white">
@@ -178,8 +188,12 @@
                     </table>
                 </div>
             </div>
-            <h4 class="text-center" style="font-size: 30px">Ranking Utama dan Best PBB/Danton</h4>
+            <div class="page-break"></div>
             <div class="card-body">
+                <h4 class="text-center">
+                    <u>Ranking Utama dan Best PBB/Danton</u>
+                </h4>
+                <br>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead class="bg-dark align-middle text-center text-white">
@@ -313,8 +327,12 @@
                     </table>
                 </div>
             </div>
-            <h4 class="text-center" style="font-size: 30px">Ranking Varfor</h4>
+            <div class="page-break"></div>
             <div class="card-body">
+                <h4 class="text-center">
+                    <u>Ranking Varfor</u>
+                </h4>
+                <br>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead class="bg-dark align-middle text-center text-white">
@@ -395,8 +413,9 @@
                 </div>
             </div>
         </div>
+        <div class="page-break"></div>
         <div class="card mb-4 bg-secondary alert">
-            <h5 class="mb-2"><strong>Keterangan Warna</strong></h5>
+            <h5 class="mb-2" style="margin: 0;"><strong>Keterangan Warna</strong></h5>
             <ul>
                 <li><span class="badge" style="background-color: #8B0000; padding: 5px; border-radius: 3px;">Merah Gelap</span> - Nilai Duplikat</li>
                 <li><span class="badge" style="background-color: #FFD700; padding: 5px; border-radius: 3px; color: #000;">Emas</span> - Peringkat 1 (PBB & Danton)</li>
