@@ -254,9 +254,28 @@
                                 <th>TOTAL NILAI DANTON</th>
                                 <th style="width: 20%" class="text-center">{{ $totalNilaiDanton }}</th>
                             </tr>
+                            @php
+                            $totalMinusPoin = 0;
+                            @endphp
+                            @if ($pengurangans->count())
+                            @foreach ($pengurangans as $pengurangan)
+                            @php
+                            $total = $pengurangan->poin * $pengurangan->jumlah;
+                            $totalMinusPoin += $total;
+                            @endphp
+                            @endforeach
+                            @endif
+                            <tr>
+                                <th>PENGURANGAN NILAI</th>
+                                <th style="width: 20%" class="text-center">-{{ $totalMinusPoin }}</th>
+                            </tr>
                             <tr>
                                 <th>TOTAL NILAI PERINGKAT</th>
-                                <th style="width: 20%" class="text-center">{{ $totalNilaiPBB + $totalNilaiDanton }}</th>
+                                @php
+                                $totalNilaiPeringkat = $totalNilaiPBB + $totalNilaiDanton;
+                                $nilaiPeringkatFiks = $totalNilaiPeringkat - $totalMinusPoin;
+                                @endphp
+                                <th style="width: 20%" class="text-center">{{ $totalNilaiPeringkat}} - {{ $totalMinusPoin }} = {{ $nilaiPeringkatFiks }}</th>
                             </tr>
                         </thead>
                     </table>

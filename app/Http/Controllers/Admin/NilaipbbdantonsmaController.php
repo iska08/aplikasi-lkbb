@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\NilaipbbdantonStoreRequest;
 use App\Models\Abaaba;
 use App\Models\Jenis;
+use App\Models\Minuspoin;
 use App\Models\Nilaipbbdanton;
 use App\Models\Peserta;
 use App\Models\User;
@@ -140,6 +141,7 @@ class NilaipbbdantonsmaController extends Controller
             return redirect()->back()->with('error', 'Anda Tidak Memiliki Ijin Untuk Melakukan Tindakan Ini.');
         }
         
+        $peserta   = Peserta::where('id', '=', $id)->first();
         $jenisPBBs = Jenis::where('tipe', '=', '1PBB')
             ->whereHas('tingkatan', function ($query) {
                 $query->where('nama_tingkatan', 'SMA/SMK/MA Sederajat');
@@ -172,6 +174,13 @@ class NilaipbbdantonsmaController extends Controller
             ->select('nilaipbbdantons.*', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
             ->orderby('abaabas.urutan_abaaba')
             ->get();
+        $pengurangans = Minuspoin::join('pengurangans', 'minuspoins.pengurangan_id', '=', 'pengurangans.id')
+            ->join('pesertas', 'minuspoins.peserta_id', '=', 'pesertas.id')
+            ->join('users', 'minuspoins.user_id', '=', 'users.id')
+            ->where('pesertas.id', '=', $peserta->id)
+            ->select('minuspoins.minus', 'minuspoins.jumlah', 'pengurangans.*')
+            ->orderby('pengurangans.id')
+            ->get();
         
         if (auth()->user()->level === '2JURIPBB'){
             $title = "Nilai PBB dan Danton: Pleton No. Urut $peserta->no_urut";
@@ -187,6 +196,7 @@ class NilaipbbdantonsmaController extends Controller
             'jenisPBBs'       => $jenisPBBs,
             'jenisDantons'    => $jenisDantons,
             'nilaipbbdantons' => $nilaipbbdantons,
+            'pengurangans'    => $pengurangans,
             'id'              => $id,
         ]);
     }

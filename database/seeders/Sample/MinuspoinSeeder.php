@@ -21,7 +21,7 @@ class MinuspoinSeeder extends Seeder
         // Ambil semua peserta yang sudah ada
         $pesertas = Peserta::all();
         // Ambil semua pengurangan yang sudah di-seed sebelumnya
-        $pengurangans = Pengurangan::all();
+        $pengurangans = Pengurangan::all();        
         // Jika tabel peserta atau pengurangan kosong, hentikan proses
         if ($pesertas->isEmpty() || $pengurangans->isEmpty()) {
             $this->command->info('Tabel Peserta atau Pengurangan kosong. Pastikan tabel sudah diisi sebelum menjalankan seeder ini.');
@@ -32,13 +32,15 @@ class MinuspoinSeeder extends Seeder
         // Looping setiap peserta untuk menambahkan data pengurangan
         foreach ($pesertas as $peserta) {
             foreach ($pengurangans as $pengurangan) {
+                // Tentukan nilai jumlah hanya jika minus <= 25
+                $jumlah = $pengurangan->poin <= 25 ? rand(0, 1) : 0; // Random 1-5 atau 0
                 // Tambahkan data Minuspoin untuk setiap pengurangan
                 $minuspoinData[] = [
                     'peserta_id'     => $peserta->id,
                     'user_id'        => 1, // Default user ID (ubah jika perlu)
                     'pengurangan_id' => $pengurangan->id,
                     'minus'          => $pengurangan->poin,
-                    'jumlah'         => rand(0, 1), // Jumlah pengurangan secara acak (0-5)
+                    'jumlah'         => $jumlah,
                     'created_at'     => $now,
                     'updated_at'     => $now,
                 ];

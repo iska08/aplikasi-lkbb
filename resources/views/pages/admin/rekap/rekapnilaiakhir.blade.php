@@ -14,202 +14,73 @@
         </div>
         <div class="card mb-4 bg-secondary">
             <div class="card-body">
+                <h4 class="text-center" style="font-size: 30px">Rekap Nilai Keseluruhan</h4>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead class="bg-dark align-middle text-center text-white">
                             <tr>
-                                <th rowspan="2" style="width: 5%">No. Urut</th>
-                                <th rowspan="2">Asal Sekolah</th>
-                                <th colspan="7">Nilai</th>
-                                <th colspan="5">Ranking</th>
-                            </tr>
-                            <tr>
-                                <th>PBB</th>
-                                <th>Danton</th>
-                                <th>Variasi</th>
-                                <th>Formasi</th>
-                                <th>Varfor</th>
-                                <th>Utama</th>
-                                <th>Umum</th>
-                                <th>PBB</th>
-                                <th>Danton</th>
-                                <th>Varfor</th>
-                                <th>Utama</th>
-                                <th>Umum</th>
+                                <th style="vertical-align: middle !important; background-color: #198754; width: 2cm;">No. Urut</th>
+                                <th style="vertical-align: middle !important; background-color: #198754; width: 4cm;">Asal Sekolah</th>
+                                <th style="background-color: #4682B4;">PBB</th>
+                                <th style="background-color: #4682B4;">Danton</th>
+                                <th style="background-color: #4682B4;">Pengurangan<br>Nilai</th>
+                                <th style="background-color: #4682B4;">Utama</th>
+                                <th style="background-color: sandybrown;">Variasi</th>
+                                <th style="background-color: sandybrown;">Formasi</th>
+                                <th style="background-color: sandybrown;">Varfor</th>
+                                <th style="background-color: #0DCAF0; color: #000;">Umum</th>
                             </tr>
                         </thead>
                         <tbody class="text-center">
-                            @if ($pesertas->count())
-                            @foreach ($pesertas as $peserta)
+                            @if ($rekapNilais->count())
+                            @foreach ($rekapNilais as $rekapNilai)
                             <tr>
-                                <td style="vertical-align: middle !important;">{{ $peserta->no_urut }}</td>
-                                <td style="vertical-align: middle !important;">{{ $peserta->name }}</td>
+                                <td style="vertical-align: middle !important;">{{ $rekapNilai->no_urut }}</td>
+                                <td style="vertical-align: middle !important; width: max-content;">{{ $rekapNilai->name }}</td>
                                 <td 
-                                    @if ($pesertas->where('total_pbb', $peserta->total_pbb)->count() > 1) style="background-color: #F0F0F0; vertical-align: middle !important;"
+                                    @if ($rekapNilais->where('total_pbb', $rekapNilai->total_pbb)->count() > 1) style="background-color: #8B0000; vertical-align: middle !important; color: white;"
                                     @else style="vertical-align: middle !important;"
                                     @endif
                                 >
-                                    {{ $peserta->total_pbb }}
+                                    {{ $rekapNilai->total_pbb }}
                                 </td>
                                 <td 
-                                    @if ($pesertas->where('total_danton', $peserta->total_danton)->count() > 1) style="background-color: #000000; vertical-align: middle !important; color: white;"
+                                    @if ($rekapNilais->where('total_danton', $rekapNilai->total_danton)->count() > 1) style="background-color: #8B0000; vertical-align: middle !important; color: white;"
                                     @else style="vertical-align: middle !important;"
                                     @endif
                                 >
-                                    {{ $peserta->total_danton }}
+                                    {{ $rekapNilai->total_danton }}
                                 </td>
-                                <td style="vertical-align: middle !important;">{{ $peserta->total_variasi }}</td>
-                                <td style="vertical-align: middle !important;">{{ $peserta->total_formasi }}</td>
+                                <td style="vertical-align: middle !important;">-{{ $rekapNilai->minus_poin }}</td>
                                 <td 
-                                    @if ($pesertas->where('total_varfor', $peserta->total_varfor)->count() > 1) style="background-color: #333333; vertical-align: middle !important; color: white;"
+                                    @if ($rekapNilais->where('total_utama', $rekapNilai->total_utama)->count() > 1) style="background-color: #8B0000; vertical-align: middle !important; color: white;"
                                     @else style="vertical-align: middle !important;"
                                     @endif
                                 >
-                                    {{ $peserta->total_varfor }}
+                                    {{ $rekapNilai->total_utama }}
                                 </td>
+                                <td style="vertical-align: middle !important;">{{ $rekapNilai->total_variasi }}</td>
+                                <td style="vertical-align: middle !important;">{{ $rekapNilai->total_formasi }}</td>
                                 <td 
-                                    @if ($pesertas->where('total_utama', $peserta->total_utama)->count() > 1) style="background-color: #FFD700; vertical-align: middle !important;"
+                                    @if ($rekapNilais->where('total_varfor', $rekapNilai->total_varfor)->count() > 1) style="background-color: #8B0000; vertical-align: middle !important; color: white;"
                                     @else style="vertical-align: middle !important;"
                                     @endif
                                 >
-                                    {{ $peserta->total_utama }}
+                                    {{ $rekapNilai->total_varfor }}
                                 </td>
                                 <td 
-                                    @if ($pesertas->where('total_umum', $peserta->total_umum)->count() > 1) style="background-color: #8B0000; vertical-align: middle !important; color: white;"
-                                    @else style="vertical-align: middle !important;"
-                                    @endif
-                                >
-                                    {{ $peserta->total_umum }}
-                                </td>
-                                <td 
-                                    @if ($peserta->rank_pbb === 1) style="background-color: #198754; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_pbb === 2) style="background-color: #0dcaf0; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_pbb === 3) style="background-color: #ffc107; vertical-align: middle !important;"
-                                    @else style="vertical-align: middle !important;"
-                                    @endif
-                                >
-                                    {{ $peserta->rank_pbb }}
-                                    <br>
-                                    @php
-                                    $juara = $benefitpbbs->where('prioritas', $peserta->rank_pbb)->first();
-                                    @endphp
-                                    @if ($juara)
-                                    <i>
-                                        ({{ $juara->nama_juara }})
-                                    </i>
-                                    @else
-                                    @endif
-                                </td>
-                                <td 
-                                    @if ($peserta->rank_danton === 1) style="background-color: #198754; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_danton === 2) style="background-color: #0dcaf0; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_danton === 3) style="background-color: #ffc107; vertical-align: middle !important;"
-                                    @else style="vertical-align: middle !important;"
-                                    @endif
-                                >
-                                    {{ $peserta->rank_danton }}
-                                    <br>
-                                    @php
-                                    $juara = $benefitdantons->where('prioritas', $peserta->rank_danton)->first();
-                                    @endphp
-                                    @if ($juara)
-                                    <i>
-                                        ({{ $juara->nama_juara }})
-                                    </i>
-                                    @else
-                                    @endif
-                                </td>
-                                <td 
-                                    @if (!$benefitvarfors->where('prioritas', $peserta->rank_varfor)->first()) 
-                                        style="vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_varfor === 1 || $peserta->rank_varfor === 2 || $peserta->rank_varfor === 3) 
-                                        style="background-color: #FFFF99; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_varfor === 4 || $peserta->rank_varfor === 5 || $peserta->rank_varfor === 6) 
-                                        style="background-color: #99FF99; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_varfor === 7 || $peserta->rank_varfor === 8 || $peserta->rank_varfor === 9) 
-                                        style="background-color: #99FFFF; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_varfor === 10 || $peserta->rank_varfor === 11 || $peserta->rank_varfor === 12) 
-                                        style="background-color: #FFD699; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_varfor === 13 || $peserta->rank_varfor === 14 || $peserta->rank_varfor === 15) 
-                                        style="background-color: #D8BFD8; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_varfor === 16 || $peserta->rank_varfor === 17 || $peserta->rank_varfor === 18) 
-                                        style="background-color: #99CCFF; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_varfor === 19 || $peserta->rank_varfor === 20 || $peserta->rank_varfor === 21) 
-                                        style="background-color: #FFCCCB; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_varfor === 22 || $peserta->rank_varfor === 23 || $peserta->rank_varfor === 24) 
-                                        style="background-color: #D3D3D3; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_varfor === 25 || $peserta->rank_varfor === 26 || $peserta->rank_varfor === 27) 
-                                        style="background-color: #D2B48C; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_varfor === 28 || $peserta->rank_varfor === 29 || $peserta->rank_varfor === 30) 
-                                        style="background-color: #4682B4; vertical-align: middle !important;"
+                                    @if ($rekapNilais->where('total_umum', $rekapNilai->total_umum)->count() > 1) 
+                                        style="background-color: #8B0000; vertical-align: middle !important; color: white;"
+                                    @elseif ($rekapNilai->rank_umum === 1) 
+                                        style="background-color: #FFD700; vertical-align: middle !important;"
                                     @else 
                                         style="vertical-align: middle !important;"
                                     @endif
                                 >
-                                    {{ $peserta->rank_varfor }}
+                                    {{ $rekapNilai->total_umum }}
                                     <br>
                                     @php
-                                    $juara = $benefitvarfors->where('prioritas', $peserta->rank_varfor)->first();
-                                    @endphp
-                                    @if ($juara)
-                                    <i>
-                                        ({{ $juara->nama_juara }})
-                                    </i>
-                                    @else
-                                    @endif
-                                </td>
-                                <td 
-                                    @if (!$benefitutamas->where('prioritas', $peserta->rank_utama)->first()) 
-                                        style="vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_utama === 1 || $peserta->rank_utama === 2 || $peserta->rank_utama === 3) 
-                                        style="background-color: #FFFF99; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_utama === 4 || $peserta->rank_utama === 5 || $peserta->rank_utama === 6) 
-                                        style="background-color: #99FF99; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_utama === 7 || $peserta->rank_utama === 8 || $peserta->rank_utama === 9) 
-                                        style="background-color: #99FFFF; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_utama === 10 || $peserta->rank_utama === 11 || $peserta->rank_utama === 12) 
-                                        style="background-color: #FFD699; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_utama === 13 || $peserta->rank_utama === 14 || $peserta->rank_utama === 15) 
-                                        style="background-color: #D8BFD8; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_utama === 16 || $peserta->rank_utama === 17 || $peserta->rank_utama === 18) 
-                                        style="background-color: #99CCFF; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_utama === 19 || $peserta->rank_utama === 20 || $peserta->rank_utama === 21) 
-                                        style="background-color: #FFCCCB; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_utama === 22 || $peserta->rank_utama === 23 || $peserta->rank_utama === 24) 
-                                        style="background-color: #D3D3D3; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_utama === 25 || $peserta->rank_utama === 26 || $peserta->rank_utama === 27) 
-                                        style="background-color: #D2B48C; vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_utama === 28 || $peserta->rank_utama === 29 || $peserta->rank_utama === 30) 
-                                        style="background-color: #4682B4; vertical-align: middle !important;"
-                                    @else 
-                                        style="vertical-align: middle !important;"
-                                    @endif
-                                >
-                                    {{ $peserta->rank_utama }}
-                                    <br>
-                                    @php
-                                    $juara = $benefitutamas->where('prioritas', $peserta->rank_utama)->first();
-                                    @endphp
-                                    @if ($juara)
-                                    <i>
-                                        ({{ $juara->nama_juara }})
-                                    </i>
-                                    @else
-                                    @endif
-                                </td>
-                                <td 
-                                    @if (!$benefitumums->where('prioritas', $peserta->rank_umum)->first()) 
-                                        style="vertical-align: middle !important;"
-                                    @elseif ($peserta->rank_umum === 1) 
-                                        style="background-color: gold; vertical-align: middle !important;"
-                                    @else 
-                                        style="vertical-align: middle !important;"
-                                    @endif
-                                >
-                                    {{ $peserta->rank_umum }}
-                                    <br>
-                                    @php
-                                    $juara = $benefitumums->where('prioritas', $peserta->rank_umum)->first();
+                                    $juara = $benefitumums->where('prioritas', $rekapNilai->rank_umum)->first();
                                     @endphp
                                     @if ($juara)
                                     <i>
@@ -222,7 +93,223 @@
                             @endforeach
                             @else
                             <tr>
-                                <td colspan="8" class="text-danger text-center">
+                                <td colspan="10" class="text-danger text-center">
+                                    <h4>Belum Ada Data Nilai</h4>
+                                </td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <h4 class="text-center" style="font-size: 30px">Ranking Utama dan Best PBB/Danton</h4>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="bg-dark align-middle text-center text-white">
+                            <tr>
+                                <th style="vertical-align: middle !important; background-color: #198754; width: 2cm;">No. Urut</th>
+                                <th style="vertical-align: middle !important; background-color: #198754; width: 4cm;">Asal Sekolah</th>
+                                <th style="background-color: #4682B4;">PBB</th>
+                                <th style="background-color: #4682B4;">Danton</th>
+                                <th style="background-color: #4682B4;">Pengurangan<br>Nilai</th>
+                                <th style="background-color: #4682B4;">Utama</th>
+                                <th style="background-color: #0DCAF0; color: #000;">Ranking<br>PBB</th>
+                                <th style="background-color: #0DCAF0; color: #000;">Ranking<br>Danton</th>
+                                <th style="background-color: #0DCAF0; color: #000;">Ranking<br>Utama</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            @if ($rankingPBBs->count())
+                            @foreach ($rankingPBBs as $rankingPBB)
+                            <tr>
+                            <td style="vertical-align: middle !important;">{{ $rankingPBB->no_urut }}</td>
+                                <td style="vertical-align: middle !important; width: max-content;">{{ $rankingPBB->name }}</td>
+                                <td 
+                                    @if ($rankingPBBs->where('total_pbb', $rankingPBB->total_pbb)->count() > 1) style="background-color: #8B0000; vertical-align: middle !important; color: white;"
+                                    @else style="vertical-align: middle !important;"
+                                    @endif
+                                >
+                                    {{ $rankingPBB->total_pbb }}
+                                </td>
+                                <td 
+                                    @if ($rankingPBBs->where('total_danton', $rankingPBB->total_danton)->count() > 1) style="background-color: #8B0000; vertical-align: middle !important; color: white;"
+                                    @else style="vertical-align: middle !important;"
+                                    @endif
+                                >
+                                    {{ $rankingPBB->total_danton }}
+                                </td>
+                                <td style="vertical-align: middle !important;">-{{ $rankingPBB->minus_poin }}</td>
+                                <td 
+                                    @if ($rankingPBBs->where('total_utama', $rankingPBB->total_utama)->count() > 1) style="background-color: #8B0000; vertical-align: middle !important; color: white;"
+                                    @else style="vertical-align: middle !important;"
+                                    @endif
+                                >
+                                    {{ $rankingPBB->total_utama }}
+                                </td>
+                                <td 
+                                    @if ($rankingPBB->rank_pbb === 1) style="background-color: #FFD700; vertical-align: middle !important;"
+                                    @elseif ($rankingPBB->rank_pbb === 2) style="background-color: #C0C0C0; vertical-align: middle !important;"
+                                    @elseif ($rankingPBB->rank_pbb === 3) style="background-color: #CD7F32; vertical-align: middle !important;"
+                                    @else style="vertical-align: middle !important;"
+                                    @endif
+                                >
+                                    {{ $rankingPBB->rank_pbb }}
+                                    <br>
+                                    @php
+                                    $juara = $benefitpbbs->where('prioritas', $rankingPBB->rank_pbb)->first();
+                                    @endphp
+                                    @if ($juara)
+                                    <i>
+                                        ({{ $juara->nama_juara }})
+                                    </i>
+                                    @else
+                                    @endif
+                                </td>
+                                <td 
+                                    @if ($rankingPBB->rank_danton === 1) style="background-color: #FFD700; vertical-align: middle !important;"
+                                    @elseif ($rankingPBB->rank_danton === 2) style="background-color: #C0C0C0; vertical-align: middle !important;"
+                                    @elseif ($rankingPBB->rank_danton === 3) style="background-color: #CD7F32; vertical-align: middle !important;"
+                                    @else style="vertical-align: middle !important;"
+                                    @endif
+                                >
+                                    {{ $rankingPBB->rank_danton }}
+                                    <br>
+                                    @php
+                                    $juara = $benefitdantons->where('prioritas', $rankingPBB->rank_danton)->first();
+                                    @endphp
+                                    @if ($juara)
+                                    <i>
+                                        ({{ $juara->nama_juara }})
+                                    </i>
+                                    @else
+                                    @endif
+                                </td>
+                                <td 
+                                    @if (!$benefitutamas->where('prioritas', $rankingPBB->rank_utama)->first()) 
+                                        style="vertical-align: middle !important;"
+                                    @elseif ($rankingPBB->rank_utama === 1 || $rankingPBB->rank_utama === 2 || $rankingPBB->rank_utama === 3) 
+                                        style="background-color: #FFFF99; vertical-align: middle !important;"
+                                    @elseif ($rankingPBB->rank_utama === 4 || $rankingPBB->rank_utama === 5 || $rankingPBB->rank_utama === 6) 
+                                        style="background-color: #99FF99; vertical-align: middle !important;"
+                                    @elseif ($rankingPBB->rank_utama === 7 || $rankingPBB->rank_utama === 8 || $rankingPBB->rank_utama === 9) 
+                                        style="background-color: #99FFFF; vertical-align: middle !important;"
+                                    @elseif ($rankingPBB->rank_utama === 10 || $rankingPBB->rank_utama === 11 || $rankingPBB->rank_utama === 12) 
+                                        style="background-color: #FFD699; vertical-align: middle !important;"
+                                    @elseif ($rankingPBB->rank_utama === 13 || $rankingPBB->rank_utama === 14 || $rankingPBB->rank_utama === 15) 
+                                        style="background-color: #D8BFD8; vertical-align: middle !important;"
+                                    @elseif ($rankingPBB->rank_utama === 16 || $rankingPBB->rank_utama === 17 || $rankingPBB->rank_utama === 18) 
+                                        style="background-color: #99CCFF; vertical-align: middle !important;"
+                                    @elseif ($rankingPBB->rank_utama === 19 || $rankingPBB->rank_utama === 20 || $rankingPBB->rank_utama === 21) 
+                                        style="background-color: #FFCCCB; vertical-align: middle !important;"
+                                    @elseif ($rankingPBB->rank_utama === 22 || $rankingPBB->rank_utama === 23 || $rankingPBB->rank_utama === 24) 
+                                        style="background-color: #D3D3D3; vertical-align: middle !important;"
+                                    @elseif ($rankingPBB->rank_utama === 25 || $rankingPBB->rank_utama === 26 || $rankingPBB->rank_utama === 27) 
+                                        style="background-color: #D2B48C; vertical-align: middle !important;"
+                                    @elseif ($rankingPBB->rank_utama === 28 || $rankingPBB->rank_utama === 29 || $rankingPBB->rank_utama === 30) 
+                                        style="background-color: #4682B4; vertical-align: middle !important;"
+                                    @else 
+                                        style="vertical-align: middle !important;"
+                                    @endif
+                                >
+                                    {{ $rankingPBB->rank_utama }}
+                                    <br>
+                                    @php
+                                    $juara = $benefitutamas->where('prioritas', $rankingPBB->rank_utama)->first();
+                                    @endphp
+                                    @if ($juara)
+                                    <i>
+                                        ({{ $juara->nama_juara }})
+                                    </i>
+                                    @else
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                            <tr>
+                                <td colspan="9" class="text-danger text-center">
+                                    <h4>Belum Ada Data Nilai</h4>
+                                </td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <h4 class="text-center" style="font-size: 30px">Ranking Varfor</h4>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="bg-dark align-middle text-center text-white">
+                            <tr>
+                                <th style="vertical-align: middle !important; background-color: #198754; width: 2cm;">No. Urut</th>
+                                <th style="vertical-align: middle !important; background-color: #198754; width: 4cm;">Asal Sekolah</th>
+                                <th style="background-color: #4682B4;">Variasi</th>
+                                <th style="background-color: #4682B4;">Formasi</th>
+                                <th style="background-color: #4682B4;">Varfor</th>
+                                <th style="background-color: #0DCAF0; color: #000;">Ranking Varfor</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            @if ($rankingVarfors->count())
+                            @foreach ($rankingVarfors as $rankingVarfor)
+                            <tr>
+                                <td style="vertical-align: middle !important;">{{ $rankingVarfor->no_urut }}</td>
+                                <td style="vertical-align: middle !important; width: max-content;">{{ $rankingVarfor->name }}</td>
+                                <td style="vertical-align: middle !important;">{{ $rankingVarfor->total_variasi }}</td>
+                                <td style="vertical-align: middle !important;">{{ $rankingVarfor->total_formasi }}</td>
+                                <td 
+                                    @if ($rankingVarfors->where('total_varfor', $rankingVarfor->total_varfor)->count() > 1) style="background-color: #8B0000; vertical-align: middle !important; color: white;"
+                                    @else style="vertical-align: middle !important;"
+                                    @endif
+                                >
+                                    {{ $rankingVarfor->total_varfor }}
+                                </td>
+                                <td 
+                                    @if (!$benefitvarfors->where('prioritas', $rankingVarfor->rank_varfor)->first()) 
+                                        style="vertical-align: middle !important;"
+                                    @elseif ($rankingVarfor->rank_varfor === 1 || $rankingVarfor->rank_varfor === 2 || $rankingVarfor->rank_varfor === 3) 
+                                        style="background-color: #FFFF99; vertical-align: middle !important;"
+                                    @elseif ($rankingVarfor->rank_varfor === 4 || $rankingVarfor->rank_varfor === 5 || $rankingVarfor->rank_varfor === 6) 
+                                        style="background-color: #99FF99; vertical-align: middle !important;"
+                                    @elseif ($rankingVarfor->rank_varfor === 7 || $rankingVarfor->rank_varfor === 8 || $rankingVarfor->rank_varfor === 9) 
+                                        style="background-color: #99FFFF; vertical-align: middle !important;"
+                                    @elseif ($rankingVarfor->rank_varfor === 10 || $rankingVarfor->rank_varfor === 11 || $rankingVarfor->rank_varfor === 12) 
+                                        style="background-color: #FFD699; vertical-align: middle !important;"
+                                    @elseif ($rankingVarfor->rank_varfor === 13 || $rankingVarfor->rank_varfor === 14 || $rankingVarfor->rank_varfor === 15) 
+                                        style="background-color: #D8BFD8; vertical-align: middle !important;"
+                                    @elseif ($rankingVarfor->rank_varfor === 16 || $rankingVarfor->rank_varfor === 17 || $rankingVarfor->rank_varfor === 18) 
+                                        style="background-color: #99CCFF; vertical-align: middle !important;"
+                                    @elseif ($rankingVarfor->rank_varfor === 19 || $rankingVarfor->rank_varfor === 20 || $rankingVarfor->rank_varfor === 21) 
+                                        style="background-color: #FFCCCB; vertical-align: middle !important;"
+                                    @elseif ($rankingVarfor->rank_varfor === 22 || $rankingVarfor->rank_varfor === 23 || $rankingVarfor->rank_varfor === 24) 
+                                        style="background-color: #D3D3D3; vertical-align: middle !important;"
+                                    @elseif ($rankingVarfor->rank_varfor === 25 || $rankingVarfor->rank_varfor === 26 || $rankingVarfor->rank_varfor === 27) 
+                                        style="background-color: #D2B48C; vertical-align: middle !important;"
+                                    @elseif ($rankingVarfor->rank_varfor === 28 || $rankingVarfor->rank_varfor === 29 || $rankingVarfor->rank_varfor === 30) 
+                                        style="background-color: #4682B4; vertical-align: middle !important;"
+                                    @else 
+                                        style="vertical-align: middle !important;"
+                                    @endif
+                                >
+                                    {{ $rankingVarfor->rank_varfor }}
+                                    <br>
+                                    @php
+                                    $juara = $benefitvarfors->where('prioritas', $rankingVarfor->rank_varfor)->first();
+                                    @endphp
+                                    @if ($juara)
+                                    <i>
+                                        ({{ $juara->nama_juara }})
+                                    </i>
+                                    @else
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                            <tr>
+                                <td colspan="6" class="text-danger text-center">
                                     <h4>Belum Ada Data Nilai</h4>
                                 </td>
                             </tr>
@@ -240,16 +327,10 @@
         <div class="card mb-4 bg-secondary alert">
             <h5 class="mb-2"><strong>Keterangan Warna</strong></h5>
             <ul>
-                <li><span class="badge" style="background-color: #8B0000; padding: 5px; border-radius: 3px; color: #000;">Merah Gelap</span> - Nilai Duplikat di PBB</li>
-                <li><span class="badge" style="background-color: #FFCC80; padding: 5px; border-radius: 3px; color: #000;">Oranye Muda</span> - Nilai Duplikat di Danton</li>
-                <li><span class="badge" style="background-color: #FFD700; padding: 5px; border-radius: 3px; color: #000;">Kuning Emas	</span> - Nilai Duplikat di Varfor</li>
-                <li><span class="badge" style="background-color: #333333; padding: 5px; border-radius: 3px; color: #000;">Abu-abu Tua</span> - Nilai Duplikat di Utama</li>
-                <li><span class="badge" style="background-color: #F0F0F0; padding: 5px; border-radius: 3px; color: #000;">Putih Pudar</span> - Nilai Duplikat di Umum</li>
-                <br>
-                <li><span class="badge" style="background-color: #198754; padding: 5px; border-radius: 3px; color: #000;">Hijau</span> - Peringkat 1 (PBB & Danton)</li>
-                <li><span class="badge" style="background-color: #0dcaf0; padding: 5px; border-radius: 3px; color: #000;">Biru</span> - Peringkat 2 (PBB & Danton)</li>
-                <li><span class="badge" style="background-color: #ffc107; padding: 5px; border-radius: 3px; color: #000;">Kuning</span> - Peringkat 3 (PBB & Danton)</li>
-                <br>
+                <li><span class="badge" style="background-color: #8B0000; padding: 5px; border-radius: 3px;">Merah Gelap</span> - Nilai Duplikat</li>
+                <li><span class="badge" style="background-color: #FFD700; padding: 5px; border-radius: 3px; color: #000;">Emas</span> - Peringkat 1 (PBB & Danton)</li>
+                <li><span class="badge" style="background-color: #C0C0C0; padding: 5px; border-radius: 3px; color: #000;">Perak</span> - Peringkat 2 (PBB & Danton)</li>
+                <li><span class="badge" style="background-color: #CD7F32; padding: 5px; border-radius: 3px; color: #000;">Perunggu</span> - Peringkat 3 (PBB & Danton)</li>
                 @if ($benefitutamas->count() == 3)
                 <li><span class="badge" style="background-color: #FFFF99; padding: 5px; border-radius: 3px; color: #000;">Kuning Terang</span> - Peringkat 1-3 (Utama & Varfor)</li>
                 @elseif ($benefitutamas->count() == 6)

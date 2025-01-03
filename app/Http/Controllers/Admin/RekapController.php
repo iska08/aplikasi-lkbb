@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Abaaba;
 use App\Models\Benefit;
 use App\Models\Jenis;
+use App\Models\Minuspoin;
 use App\Models\Nilaipbbdanton;
 use App\Models\Nilaivarfor;
 use App\Models\Peserta;
@@ -294,7 +295,24 @@ class RekapController extends Controller
                 ->where('nilaivarfors.peserta_id', '=', $peserta->peserta_id)
                 ->sum('nilaivarfors.points');
 
-            $peserta->total_utama  = $peserta->total_pbb + $peserta->total_danton;
+            $pengurangans = Minuspoin::join('pengurangans', 'minuspoins.pengurangan_id', '=', 'pengurangans.id')
+                ->join('pesertas', 'minuspoins.peserta_id', '=', 'pesertas.id')
+                ->join('users', 'minuspoins.user_id', '=', 'users.id')
+                ->where('pesertas.id', '=', $peserta->peserta_id)
+                ->select('minuspoins.minus', 'minuspoins.jumlah', 'pengurangans.*')
+                ->orderby('pengurangans.id')
+                ->get();
+
+            $totalMinusPoin = 0;
+            if ($pengurangans->count()) {
+                foreach ($pengurangans as $pengurangan) {
+                    $total = $pengurangan->poin * $pengurangan->jumlah;
+                    $totalMinusPoin += $total;
+                }
+            }
+
+            $peserta->minus_poin   = $totalMinusPoin;
+            $peserta->total_utama  = $peserta->total_pbb + $peserta->total_danton - $peserta->minus_poin;
             $peserta->total_varfor = $peserta->total_variasi + $peserta->total_formasi;
             $peserta->total_umum   = $peserta->total_utama + $peserta->total_varfor;
         }
@@ -305,8 +323,9 @@ class RekapController extends Controller
         $pesertas = $this->calculateRank($pesertas, 'total_utama', 'rank_utama', ['total_pbb', 'total_danton', 'total_varfor']);
         $pesertas = $this->calculateRank($pesertas, 'total_umum', 'rank_umum', ['total_pbb', 'total_danton', 'total_varfor']);
 
-        // **Urutkan berdasarkan rank_utama**
-        $pesertas = $pesertas->sortBy('rank_utama')->values();
+        $rekapNilais    = $pesertas->sortBy('rank_umum')->values();
+        $rankingPBBs    = $pesertas->sortBy('rank_utama')->values();
+        $rankingVarfors = $pesertas->sortBy('rank_varfor')->values();
 
         $benefitumums = Benefit::where('tingkatan_id', '=', $tingkatan->id)
             ->where('tipe', '=', '1UMUM')
@@ -333,17 +352,29 @@ class RekapController extends Controller
             ->orderby('prioritas')
             ->get();
 
+        $benefitpbbs = Benefit::where('tingkatan_id', '=', $tingkatan->id)
+            ->where('tipe', '=', '4PBB')
+            ->orderby('prioritas')
+            ->get();
+
+        $benefitdantons = Benefit::where('tingkatan_id', '=', $tingkatan->id)
+            ->where('tipe', '=', '5DANTON')
+            ->orderby('prioritas')
+            ->get();
+
         return view('pages.admin.rekap.rekapnilaiakhir', [
             'title'          => "Rekap Nilai Akhir $tingkatan->nama_tingkatan",
             'id'             => $tingkatan->id,
-            'pesertas'       => $pesertas,
+            'rekapNilais'    => $rekapNilais,
+            'rankingPBBs'    => $rankingPBBs,
+            'rankingVarfors' => $rankingVarfors,
             'benefitumums'   => $benefitumums,
             'benefitutamas'  => $benefitutamas,
             'benefitvarfors' => $benefitvarfors,
             'benefitpbbs'    => $benefitpbbs,
             'benefitdantons' => $benefitdantons,
         ]);
-    }
+    }    
 
     public function rekapnilaiakhirpdf($id)
     {
@@ -359,6 +390,7 @@ class RekapController extends Controller
 
     private function generateRekapNilaiAkhirPDF($id)
     {
+        $tingkatan = Tingkatan::findOrFail($id);
         $tingkatan = Tingkatan::findOrFail($id);
         $pesertas = Peserta::join('users', 'pesertas.user_id', '=', 'users.id')
             ->select('pesertas.id as peserta_id', 'pesertas.no_urut', 'users.name')
@@ -391,7 +423,24 @@ class RekapController extends Controller
                 ->where('nilaivarfors.peserta_id', '=', $peserta->peserta_id)
                 ->sum('nilaivarfors.points');
 
-            $peserta->total_utama  = $peserta->total_pbb + $peserta->total_danton;
+            $pengurangans = Minuspoin::join('pengurangans', 'minuspoins.pengurangan_id', '=', 'pengurangans.id')
+                ->join('pesertas', 'minuspoins.peserta_id', '=', 'pesertas.id')
+                ->join('users', 'minuspoins.user_id', '=', 'users.id')
+                ->where('pesertas.id', '=', $peserta->peserta_id)
+                ->select('minuspoins.minus', 'minuspoins.jumlah', 'pengurangans.*')
+                ->orderby('pengurangans.id')
+                ->get();
+
+            $totalMinusPoin = 0;
+            if ($pengurangans->count()) {
+                foreach ($pengurangans as $pengurangan) {
+                    $total = $pengurangan->poin * $pengurangan->jumlah;
+                    $totalMinusPoin += $total;
+                }
+            }
+
+            $peserta->minus_poin   = $totalMinusPoin;
+            $peserta->total_utama  = $peserta->total_pbb + $peserta->total_danton - $peserta->minus_poin;
             $peserta->total_varfor = $peserta->total_variasi + $peserta->total_formasi;
             $peserta->total_umum   = $peserta->total_utama + $peserta->total_varfor;
         }
@@ -402,8 +451,9 @@ class RekapController extends Controller
         $pesertas = $this->calculateRank($pesertas, 'total_utama', 'rank_utama', ['total_pbb', 'total_danton', 'total_varfor']);
         $pesertas = $this->calculateRank($pesertas, 'total_umum', 'rank_umum', ['total_pbb', 'total_danton', 'total_varfor']);
 
-        // **Urutkan berdasarkan rank_utama**
-        $pesertas = $pesertas->sortBy('rank_utama')->values();
+        $rekapNilais    = $pesertas->sortBy('rank_umum')->values();
+        $rankingPBBs    = $pesertas->sortBy('rank_utama')->values();
+        $rankingVarfors = $pesertas->sortBy('rank_varfor')->values();
 
         $benefitumums = Benefit::where('tingkatan_id', '=', $tingkatan->id)
             ->where('tipe', '=', '1UMUM')
@@ -430,9 +480,22 @@ class RekapController extends Controller
             ->orderby('prioritas')
             ->get();
 
+        $benefitpbbs = Benefit::where('tingkatan_id', '=', $tingkatan->id)
+            ->where('tipe', '=', '4PBB')
+            ->orderby('prioritas')
+            ->get();
+
+        $benefitdantons = Benefit::where('tingkatan_id', '=', $tingkatan->id)
+            ->where('tipe', '=', '5DANTON')
+            ->orderby('prioritas')
+            ->get();
+
         return [
             'title'          => "Rekap Nilai Akhir $tingkatan->nama_tingkatan",
             'pesertas'       => $pesertas,
+            'rekapNilais'    => $rekapNilais,
+            'rankingPBBs'    => $rankingPBBs,
+            'rankingVarfors' => $rankingVarfors,
             'benefitumums'   => $benefitumums,
             'benefitutamas'  => $benefitutamas,
             'benefitvarfors' => $benefitvarfors,
