@@ -84,6 +84,8 @@ Route::prefix('dashboard')
             'teknis/tingkatan'      => TingkatanController::class,
             'pengguna/user'         => UserController::class,
         ]);
+        Route::post('/detail/update-setting', [DetailController::class, 'updateSetting'])
+            ->name('detail.updateSetting');
         Route::get('teknis/aba-aba/{aba-aba:slug}', [AbaabaController::class, 'show'])
             ->name('aba-aba.show');
         Route::get('teknis/penilaian/{penilaian:slug}', [PenilaianController::class, 'show'])
@@ -204,11 +206,14 @@ Route::prefix('dashboard')
         Route::get('rekap/peserta/view-pdf', [RekapController::class, 'nilaiPesertaPdf'])
             ->name('rekap.nilaipeserta');
         Route::get('rekap/rekap-akhir', [RekapController::class, 'rekapakhir'])
-            ->name('rekap.rekapakhir');
+            ->name('rekap.rekapakhir')
+            ->middleware('check.rekap');;
         Route::get('rekap/rekap-akhir/{id}', [RekapController::class, 'rekapnilaiakhir'])
-            ->name('rekap.rekapnilaiakhir');
+            ->name('rekap.rekapnilaiakhir')
+            ->middleware('check.rekap');;
         Route::get('rekap/rekap-akhir/{id}/view-pdf', [RekapController::class, 'rekapnilaiakhirpdf'])
-            ->name('rekap.rekapnilaiakhirpdf');
+            ->name('rekap.rekapnilaiakhirpdf')
+            ->middleware('check.rekap');;
         // Foto dan Rekomendasi
         Route::get('administrasi/foto', [FotoController::class, 'index'])
             ->name('foto.index');

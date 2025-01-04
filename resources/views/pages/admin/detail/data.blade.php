@@ -19,6 +19,16 @@
                     Tambah Detail LKBB
                 </a>
                 @endif
+                <br>
+                <form action="{{ route('detail.updateSetting') }}" method="POST" class="btn btn-dark mb-3">
+                    @csrf
+                    <label for="rekap_nilai_akhir_peserta">Aktifkan Rekap Nilai Akhir:</label>
+                    <select name="rekap_nilai_akhir_peserta" id="rekap_nilai_akhir_peserta" class="form-control">
+                        <option value="on" {{ \App\Models\Setting::get('rekap_nilai_akhir_peserta') === 'on' ? 'selected' : '' }}>On</option>
+                        <option value="off" {{ \App\Models\Setting::get('rekap_nilai_akhir_peserta') === 'off' ? 'selected' : '' }}>Off</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary mt-2">Simpan</button>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead class="bg-dark align-middle text-center text-white">

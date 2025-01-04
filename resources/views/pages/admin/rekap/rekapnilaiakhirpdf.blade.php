@@ -326,6 +326,14 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="mb-2" style="text-align: justify;">
+                    <strong>NB:</strong>
+                    <ul style="text-align: justify; padding-left: 1.5rem;">
+                        <li>Untuk menentukan Ranking PBB jika nilai PBB sama maka akan dipilih nilai Danton terbesar, tetapi jika masih sama maka akan dipilih nilai Varfor terbesar.</li>
+                        <li>Untuk menentukan Ranking Danton jika nilai Danton sama maka akan dipilih nilai PBB terbesar, tetapi jika masih sama maka akan dipilih nilai Varfor terbesar.</li>
+                        <li>Untuk menentukan Ranking Utama jika nilai Utama sama meskipun telah dikurangi dengan Pengurangan Nilai maka akan dipilih nilai PBB terbesar, jika masih sama maka akan dipilih nilai Danton terbesar, jika masih sama lagi akan dipilih nilai terbesar Varfor.</li>
+                    </ul>
+                </div>
             </div>
             <div class="page-break"></div>
             <div class="card-body">
@@ -410,6 +418,12 @@
                             @endif
                         </tbody>
                     </table>
+                </div>
+                <div class="mb-2" style="text-align: justify;">
+                    <strong>NB:</strong>
+                    <ul style="text-align: justify; padding-left: 1.5rem;">
+                        <li>Untuk menentukan Ranking Varfor jika nilai Varfor sama maka akan dipilih nilai PBB terbesar, jika masih sama maka akan dipilih nilai Danton terbesar.</li>
+                    </ul>
                 </div>
             </div>
         </div>

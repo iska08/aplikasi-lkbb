@@ -22,14 +22,14 @@ class DetailSeeder extends Seeder
         $longitude = $faker->longitude(112, 113);
 
         Detail::create([
-            'cakupan'            => 'Se-Jawa Timur',
-            'alamat'             => $faker->address,
-            'maps'               => "https://www.google.com/maps?q={$latitude},{$longitude}",
-            'keterangan_lkbb'    => $faker->sentence,
-            'total_pembinaan'    => '15000000',
-            'htm'                => '25000',
-            'created_at'         => $now,
-            'updated_at'         => $now,
+            'cakupan'         => 'Se-Jawa Timur',
+            'alamat'          => $faker->address,
+            'maps'            => "https://www.google.com/maps?q={$latitude},{$longitude}",
+            'keterangan_lkbb' => $faker->sentence,
+            'total_pembinaan' => '15000000',
+            'htm'             => '25000',
+            'created_at'      => $now,
+            'updated_at'      => $now,
         ]);
     }
 }

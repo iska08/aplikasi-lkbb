@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DetailStoreRequest;
 use App\Http\Requests\Admin\DetailUpdateRequest;
+use Illuminate\Http\Request;
 use App\Models\Detail;
+use App\Models\Setting;
 
 class DetailController extends Controller
 {
@@ -128,6 +130,20 @@ class DetailController extends Controller
         $details->save();
 
         return redirect('/dashboard/internal/detail')->with('success', 'Detail Telah Diperbarui!');
+    }
+
+    public function updateSetting(Request $request)
+    {
+        $request->validate([
+            'rekap_nilai_akhir_peserta' => 'required|in:on,off',
+        ]);
+
+        Setting::updateOrCreate(
+            ['key' => 'rekap_nilai_akhir_peserta'],
+            ['value' => $request->rekap_nilai_akhir_peserta]
+        );
+
+        return redirect()->back()->with('success', 'Pengaturan berhasil diperbarui.');
     }
 
     /**

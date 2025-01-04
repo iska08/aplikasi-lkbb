@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             \Database\Seeders\Sample\DefaultSeeder::class,
             \Database\Seeders\Sample\UserSeeder::class,
+            \Database\Seeders\Sample\SettingSeeder::class,
             \Database\Seeders\Sample\DetailSeeder::class,
             \Database\Seeders\Sample\TimelineSeeder::class,
             \Database\Seeders\Sample\SosmedSeeder::class,

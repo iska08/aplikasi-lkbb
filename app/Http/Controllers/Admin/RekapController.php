@@ -10,6 +10,7 @@ use App\Models\Minuspoin;
 use App\Models\Nilaipbbdanton;
 use App\Models\Nilaivarfor;
 use App\Models\Peserta;
+use App\Models\Setting;
 use App\Models\Tingkatan;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\PDF;
@@ -281,6 +282,10 @@ class RekapController extends Controller
 
     public function rekapnilaiakhir($id)
     {
+        if (Setting::get('rekap_nilai_akhir_peserta') === 'off' && auth()->user()->level !== '1ADMIN') {
+            return redirect()->back()->with('error', 'Akses ditolak. Fitur ini sedang dinonaktifkan oleh admin.');
+        }
+
         $tingkatan = Tingkatan::findOrFail($id);
         $pesertas = Peserta::join('users', 'pesertas.user_id', '=', 'users.id')
             ->select('pesertas.id as peserta_id', 'pesertas.no_urut', 'users.name')
@@ -396,6 +401,10 @@ class RekapController extends Controller
 
     public function rekapnilaiakhirpdf($id)
     {
+        if (Setting::get('rekap_nilai_akhir_peserta') === 'off' && auth()->user()->level !== '1ADMIN') {
+            return redirect()->back()->with('error', 'Akses ditolak. Fitur ini sedang dinonaktifkan oleh admin.');
+        }
+
         set_time_limit(300);
         // Mengambil data yang akan dimasukkan ke PDF
         $pdfData = $this->generateRekapNilaiAkhirPDF($id);
@@ -408,6 +417,10 @@ class RekapController extends Controller
 
     private function generateRekapNilaiAkhirPDF($id)
     {
+        if (Setting::get('rekap_nilai_akhir_peserta') === 'off' && auth()->user()->level !== '1ADMIN') {
+            return redirect()->back()->with('error', 'Akses ditolak. Fitur ini sedang dinonaktifkan oleh admin.');
+        }
+
         $tingkatan = Tingkatan::findOrFail($id);
         $tingkatan = Tingkatan::findOrFail($id);
         $pesertas = Peserta::join('users', 'pesertas.user_id', '=', 'users.id')

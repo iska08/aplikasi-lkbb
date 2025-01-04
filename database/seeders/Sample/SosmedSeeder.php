@@ -17,12 +17,14 @@ class SosmedSeeder extends Seeder
     {
         $now = Carbon::now();
         Sosmed::create([
-            'email'     => 'admin1@gmail.com',
-            'facebook'  => 'https://www.facebook.com/',
-            'instagram' => 'https://www.instagram.com/',
-            'tiktok'    => 'http://tiktok.com/id-id/',
-            'twitter'   => 'http://twitter.com/',
-            'youtube'   => 'https://www.youtube.com/',
+            'email'      => 'admin1@gmail.com',
+            'facebook'   => 'https://www.facebook.com/',
+            'instagram'  => 'https://www.instagram.com/',
+            'tiktok'     => 'http://tiktok.com/id-id/',
+            'twitter'    => 'http://twitter.com/',
+            'youtube'    => 'https://www.youtube.com/',
+            'created_at' => $now,
+            'updated_at' => $now,
         ]);
     }
 }

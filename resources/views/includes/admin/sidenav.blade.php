@@ -433,6 +433,14 @@ $pesertas = Peserta::join('tingkatans', 'pesertas.tingkatan_id', '=', 'tingkatan
                         Rekap Nilai Akhir
                     </a>
                     @elseif(auth()->user()->level === '4PESERTA')
+                    @if(\App\Models\Setting::get('rekap_nilai_akhir_peserta') === 'on')
+                    <a class="nav-link {{ Request::is('dashboard/rekap/rekap-akhir*') ? 'active' : '' }} child" href="{{ route('rekap.rekapakhir') }}">
+                        <div class="sb-nav-link-icon col-1">
+                            <i class="fas"></i>
+                        </div>
+                        Rekap Keseluruhan
+                    </a>
+                    @endif
                     <a class="nav-link {{ Request::is('dashboard/rekap/peserta*') ? 'active' : '' }} child" href="{{ route('rekap.index') }}">
                         <div class="sb-nav-link-icon col-1">
                             <i class="fas"></i>

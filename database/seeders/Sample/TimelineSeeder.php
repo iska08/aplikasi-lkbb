@@ -16,14 +16,21 @@ class TimelineSeeder extends Seeder
     public function run()
     {
         $now = Carbon::now();
+        $tgl_pendaftaran_buka  = $now;
+        $tgl_pendaftaran_tutup = $tgl_pendaftaran_buka->copy()->addMonths(2);
+        $tgl_tm                = $tgl_pendaftaran_tutup->copy()->subWeeks(1);
+        $tgl_pelaksanaan       = $tgl_tm->copy()->addWeeks(2);
+
         Timeline::create([
-            'tgl_pendaftaran_buka'  => '2024-12-02',
-            'tgl_pendaftaran_tutup' => '2024-12-15',
+            'tgl_pendaftaran_buka'  => $tgl_pendaftaran_buka->toDateString(),
+            'tgl_pendaftaran_tutup' => $tgl_pendaftaran_tutup->toDateString(),
             'lokasi_pendaftaran'    => 'Lokasi Pendaftaran',
-            'tgl_tm'                => '2024-12-15',
+            'tgl_tm'                => $tgl_tm->toDateString(),
             'lokasi_tm'             => 'Lokasi Technical Meeting',
-            'tgl_pelaksanaan'       => '2024-12-22',
+            'tgl_pelaksanaan'       => $tgl_pelaksanaan->toDateString(),
             'lokasi_pelaksanaan'    => 'Lokasi Pelaksanaan',
+            'created_at'            => $now,
+            'updated_at'            => $now,
         ]);
     }
 }
