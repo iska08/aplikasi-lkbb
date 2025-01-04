@@ -139,6 +139,32 @@ class MinuspoinsdController extends Controller
         ]);
     }
 
+    public function minuspoin()
+    {
+        $id           = auth()->user()->id;
+        $peserta      = Peserta::where('id', '=', $id)->first();
+        $edPeserta    = User::findOrFail($peserta->user_id); // Pastikan ID peserta diambil dari relasi
+        $pengurangans = Minuspoin::join('pengurangans', 'minuspoins.pengurangan_id', '=', 'pengurangans.id')
+            ->join('pesertas', 'minuspoins.peserta_id', '=', 'pesertas.id')
+            ->join('users', 'minuspoins.user_id', '=', 'users.id')
+            ->where('pesertas.id', '=', $id) // Gunakan ID peserta
+            ->select('minuspoins.minus', 'minuspoins.jumlah', 'pengurangans.*')
+            ->orderby('pengurangans.id')
+            ->get(); // Pastikan query dieksekusi dengan `get()`
+
+        if (auth()->user()->level === '1ADMIN') {
+            $title = "Pengurangan Nilai: Pleton No. Urut $peserta->no_urut";
+        } else {
+            $title = "Nilai PBB dan Danton $edPeserta->name";
+        }
+
+        return view('pages.admin.minuspoin.sd.show', [
+            'title'        => $title,
+            'id'           => $id,
+            'pengurangans' => $pengurangans,
+        ]);
+    }
+
     public function edit($id)
     {
         if (auth()->user()->level !== '1ADMIN') {

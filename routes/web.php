@@ -92,6 +92,7 @@ Route::prefix('dashboard')
         Route::prefix('minus-poin')->group(function () {
             // SD
             Route::get('/sd', [MinuspoinsdController::class, 'index'])->name('minus-poin-sd.index');
+            Route::get('/sd/pengurangan-nilai', [MinuspoinsdController::class, 'minuspoin'])->name('minus-poin-sd.minuspoin');
             Route::get('/sd/create', [MinuspoinsdController::class, 'create'])->name('minus-poin-sd.create');
             Route::post('/sd', [MinuspoinsdController::class, 'store'])->name('minus-poin-sd.store');
             Route::get('/sd/{id}', [MinuspoinsdController::class, 'show'])->name('minus-poin-sd.show');

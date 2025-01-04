@@ -1,10 +1,16 @@
 @php
+use App\Models\Peserta;
 use App\Models\Tingkatan;
-$tingkatans = Tingkatan::all();
-$tingkatanSD  = $tingkatans->where('nama_tingkatan', 'SD/MI Sederajat')->first();
-$tingkatanSMP = $tingkatans->where('nama_tingkatan', 'SMP/MTs Sederajat')->first();
-$tingkatanSMA = $tingkatans->where('nama_tingkatan', 'SMA/SMK/MA Sederajat')->first();
+
+$tingkatans     = Tingkatan::all();
+$tingkatanSD    = $tingkatans->where('nama_tingkatan', 'SD/MI Sederajat')->first();
+$tingkatanSMP   = $tingkatans->where('nama_tingkatan', 'SMP/MTs Sederajat')->first();
+$tingkatanSMA   = $tingkatans->where('nama_tingkatan', 'SMA/SMK/MA Sederajat')->first();
 $tingkatanPurna = $tingkatans->where('nama_tingkatan', 'Purna/Manajemen')->first();
+
+$pesertas = Peserta::join('tingkatans', 'pesertas.tingkatan_id', '=', 'tingkatans.id')
+    ->select('pesertas.*', 'tingkatans.nama_tingkatan')
+    ->first();
 @endphp
 <div id="layoutSidenav_nav">
     <nav class="sb-sidenav accordion sb-sidenav-black" id="sidenavAccordion">
@@ -219,6 +225,35 @@ $tingkatanPurna = $tingkatans->where('nama_tingkatan', 'Purna/Manajemen')->first
                     </a>
                     @endif
                     @elseif(auth()->user()->level === '4PESERTA')
+                    @if ($pesertas->nama_tingkatan == 'SD/MI Sederajat')
+                    <a class="nav-link {{ Request::is('dashboard/minus-poin/sd/pengurangan-nilai*') ? 'active' : '' }} child" href="{{ route('minus-poin-sd.minuspoin') }}">
+                        <div class="sb-nav-link-icon col-1">
+                            <i class="fas"></i>
+                        </div>
+                        Pengurangan Nilai
+                    </a>
+                    @elseif ($pesertas->nama_tingkatan == 'SMP/MTs Sederajat')
+                    <a class="nav-link {{ Request::is('dashboard/minus-poin/smp/pengurangan-nilai*') ? 'active' : '' }} child" href="{{ route('minus-poin-smp.minuspoin') }}">
+                        <div class="sb-nav-link-icon col-1">
+                            <i class="fas"></i>
+                        </div>
+                        Pengurangan Nilai
+                    </a>
+                    @elseif ($pesertas->nama_tingkatan == 'SMA/SMK/MA Sederajat')
+                    <a class="nav-link {{ Request::is('dashboard/minus-poin/sma/pengurangan-nilai*') ? 'active' : '' }} child" href="{{ route('minus-poin-sma.minuspoin') }}">
+                        <div class="sb-nav-link-icon col-1">
+                            <i class="fas"></i>
+                        </div>
+                        Pengurangan Nilai
+                    </a>
+                    @elseif ($pesertas->nama_tingkatan == 'Purna/Manajemen')
+                    <a class="nav-link {{ Request::is('dashboard/minus-poin/purna/pengurangan-nilai*') ? 'active' : '' }} child" href="{{ route('minus-poin-purna.minuspoin') }}">
+                        <div class="sb-nav-link-icon col-1">
+                            <i class="fas"></i>
+                        </div>
+                        Pengurangan Nilai
+                    </a>
+                    @endif
                     @endif
                 </div>
                 <!-- Nilai PBB dan Danton -->

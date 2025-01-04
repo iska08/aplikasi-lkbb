@@ -298,19 +298,35 @@
                                 <th>TOTAL NILAI FORMASI</th>
                                 <th style="width: 30%" class="text-center">{{ $totalNilaiFormasi }}</th>
                             </tr>
+                            @php
+                            $totalMinusPoin = 0;
+                            @endphp
+                            @if ($pengurangans->count())
+                            @foreach ($pengurangans as $pengurangan)
+                            @php
+                            $total = $pengurangan->poin * $pengurangan->jumlah;
+                            $totalMinusPoin += $total;
+                            @endphp
+                            @endforeach
+                            @endif
+                            <tr>
+                                <th>PENGURANGAN NILAI</th>
+                                <th style="width: 20%" class="text-center">-{{ $totalMinusPoin }}</th>
+                            </tr>
                             <tr>
                                 <th>TOTAL NILAI UTAMA</th>
                                 @php
                                 $totalNilaiUtama = $totalNilaiPBB + $totalNilaiDanton;
+                                $nilaiPeringkatFiks = $totalNilaiUtama - $totalMinusPoin;
                                 @endphp
-                                <th style="width: 30%" class="text-center">{{ $totalNilaiPBB }} + {{ $totalNilaiDanton }} = {{ $totalNilaiUtama }}</th>
+                                <th style="width: 30%" class="text-center">{{ $totalNilaiPBB }} + {{ $totalNilaiDanton }} - {{ $totalMinusPoin }} = {{ $nilaiPeringkatFiks }}</th>
                             </tr>
                             <tr>
                                 <th>TOTAL NILAI UMUM</th>
                                 @php
-                                $totalNilaiUmum = $totalNilaiUtama + $totalNilaiVariasi + $totalNilaiFormasi;
+                                $totalNilaiUmum = $nilaiPeringkatFiks + $totalNilaiVariasi + $totalNilaiFormasi;
                                 @endphp
-                                <th style="width: 30%" class="text-center">{{ $totalNilaiUtama }} + {{ $totalNilaiVariasi }} + {{ $totalNilaiFormasi }} = {{ $totalNilaiUmum }}</th>
+                                <th style="width: 30%" class="text-center">{{ $nilaiPeringkatFiks }} + {{ $totalNilaiVariasi }} + {{ $totalNilaiFormasi }} = {{ $totalNilaiUmum }}</th>
                             </tr>
                         </thead>
                     </table>

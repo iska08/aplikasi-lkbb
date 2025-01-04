@@ -92,6 +92,14 @@ class RekapController extends Controller
             ->select('nilaivarfors.*', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
             ->orderBy('abaabas.urutan_abaaba')
             ->get();
+        $pengurangans = Minuspoin::join('pengurangans', 'minuspoins.pengurangan_id', '=', 'pengurangans.id')
+            ->join('pesertas', 'minuspoins.peserta_id', '=', 'pesertas.id')
+            ->join('users', 'minuspoins.user_id', '=', 'users.id')
+            ->where('pesertas.id', '=', $peserta->id)
+            ->select('minuspoins.minus', 'minuspoins.jumlah', 'pengurangans.*')
+            ->orderby('pengurangans.id')
+            ->get();
+
         return view('pages.admin.rekap.nilaipeserta', [
             'title'           => "Rekap Nilai $edPeserta->name",
             'abaabaPBBs'      => $abaabaPBBs,
@@ -106,6 +114,7 @@ class RekapController extends Controller
             'jenisFormasis'   => $jenisFormasis,
             'nilaipbbdantons' => $nilaipbbdantons,
             'nilaivarfors'    => $nilaivarfors,
+            'pengurangans'    => $pengurangans,
             'id'              => $id,
         ]);
     }
@@ -196,6 +205,14 @@ class RekapController extends Controller
             ->select('nilaivarfors.*', 'abaabas.nama_abaaba', 'abaabas.urutan_abaaba', 'abaabas.jenis_id')
             ->orderBy('abaabas.urutan_abaaba')
             ->get();
+        $pengurangans = Minuspoin::join('pengurangans', 'minuspoins.pengurangan_id', '=', 'pengurangans.id')
+            ->join('pesertas', 'minuspoins.peserta_id', '=', 'pesertas.id')
+            ->join('users', 'minuspoins.user_id', '=', 'users.id')
+            ->where('pesertas.id', '=', $peserta->id)
+            ->select('minuspoins.minus', 'minuspoins.jumlah', 'pengurangans.*')
+            ->orderby('pengurangans.id')
+            ->get();
+
         return [
             'title'           => "Rekap Nilai Peserta",
             'abaabaPBBs'      => $abaabaPBBs,
@@ -212,6 +229,7 @@ class RekapController extends Controller
             'nilaivarfors'    => $nilaivarfors,
             'edPeserta'       => $edPeserta,
             'peserta'         => $peserta,
+            'pengurangans'    => $pengurangans,
             'tingkatans'      => Tingkatan::all(),
         ];
     }
