@@ -19,7 +19,7 @@ class SettingSeeder extends Seeder
 
         Setting::create([
             'key'        => 'rekap_nilai_akhir_peserta',
-            'value'      => 'on',
+            'value'      => 'off',
             'created_at' => $now,
             'updated_at' => $now,
         ]);

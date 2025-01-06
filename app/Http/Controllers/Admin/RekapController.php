@@ -282,8 +282,13 @@ class RekapController extends Controller
 
     public function rekapnilaiakhir($id)
     {
-        if (Setting::get('rekap_nilai_akhir_peserta') === 'off' && auth()->user()->level !== '1ADMIN') {
+        $featureStatus = Setting::get('rekap_nilai_akhir_peserta');
+        if ($featureStatus === 'off' && auth()->user()->level !== '1ADMIN') {
             return redirect()->back()->with('error', 'Akses ditolak. Fitur ini sedang dinonaktifkan oleh admin.');
+        }
+
+        if ($featureStatus === 'on' && !in_array(auth()->user()->level, ['1ADMIN', '4PESERTA'])) {
+            return redirect()->back()->with('error', 'Akses ditolak. Anda tidak memiliki izin.');
         }
 
         $tingkatan = Tingkatan::findOrFail($id);
@@ -292,7 +297,7 @@ class RekapController extends Controller
             ->where('pesertas.tingkatan_id', '=', $id)
             ->orderby('pesertas.no_urut')
             ->get();
-        
+
         foreach ($pesertas as $peserta) {
             $peserta->total_pbb = Nilaipbbdanton::join('abaabas', 'nilaipbbdantons.abaaba_id', '=', 'abaabas.id')
                 ->join('jenis', 'abaabas.jenis_id', '=', 'jenis.id')
@@ -397,12 +402,17 @@ class RekapController extends Controller
             'benefitpbbs'    => $benefitpbbs,
             'benefitdantons' => $benefitdantons,
         ]);
-    }    
+    }
 
     public function rekapnilaiakhirpdf($id)
     {
-        if (Setting::get('rekap_nilai_akhir_peserta') === 'off' && auth()->user()->level !== '1ADMIN') {
+        $featureStatus = Setting::get('rekap_nilai_akhir_peserta');
+        if ($featureStatus === 'off' && auth()->user()->level !== '1ADMIN') {
             return redirect()->back()->with('error', 'Akses ditolak. Fitur ini sedang dinonaktifkan oleh admin.');
+        }
+
+        if ($featureStatus === 'on' && !in_array(auth()->user()->level, ['1ADMIN', '4PESERTA'])) {
+            return redirect()->back()->with('error', 'Akses ditolak. Anda tidak memiliki izin.');
         }
 
         set_time_limit(300);
@@ -417,8 +427,13 @@ class RekapController extends Controller
 
     private function generateRekapNilaiAkhirPDF($id)
     {
-        if (Setting::get('rekap_nilai_akhir_peserta') === 'off' && auth()->user()->level !== '1ADMIN') {
+        $featureStatus = Setting::get('rekap_nilai_akhir_peserta');
+        if ($featureStatus === 'off' && auth()->user()->level !== '1ADMIN') {
             return redirect()->back()->with('error', 'Akses ditolak. Fitur ini sedang dinonaktifkan oleh admin.');
+        }
+
+        if ($featureStatus === 'on' && !in_array(auth()->user()->level, ['1ADMIN', '4PESERTA'])) {
+            return redirect()->back()->with('error', 'Akses ditolak. Anda tidak memiliki izin.');
         }
 
         $tingkatan = Tingkatan::findOrFail($id);

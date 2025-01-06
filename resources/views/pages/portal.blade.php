@@ -121,6 +121,7 @@ Portal
                     @if($berkas && $berkas->poster)
                     <div class="col-xl-3 col-md-6 mb-4" data-aos="zoom-out">
                         <div class="service-item position-relative">
+                            <br>
                             <div class="icon">
                                 <a href="{{ $berkas->poster }}" target="_blank">
                                     <i class="bi-file-earmark-image"></i>
@@ -135,6 +136,7 @@ Portal
                     @if($berkas && $berkas->rekom)
                     <div class="col-xl-3 col-md-6 mb-4" data-aos="zoom-out" data-aos-delay="200">
                         <div class="service-item position-relative">
+                            <br>
                             <div class="icon">
                                 <a href="{{ $berkas->rekom }}" target="_blank">
                                     <i class="bi-file-earmark-pdf"></i>
@@ -149,6 +151,7 @@ Portal
                     @if($berkas && $berkas->juknis)
                     <div class="col-xl-3 col-md-6 mb-4" data-aos="zoom-out" data-aos-delay="400">
                         <div class="service-item position-relative">
+                            <br>
                             <div class="icon">
                                 <a href="{{ $berkas->juknis }}" target="_blank">
                                     <i class="bi-file-earmark-pdf"></i>
@@ -191,7 +194,7 @@ Portal
                                     <td>{{ $benefit->nama_juara }}</td>
                                     <td>:</td>
                                     <td>
-                                        @if($benefit->hadiah == "TIDAK ADA")
+                                        @if($benefit->hadiah == "Tidak Ada")
                                             {{ $benefit->trophy }}
                                         @elseif($benefit->uang == "0")
                                             {{ $benefit->trophy }} + {{ $benefit->hadiah }}
