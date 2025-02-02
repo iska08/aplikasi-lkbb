@@ -25,30 +25,33 @@ class PesertaSeeder extends Seeder
                 'no_urut'      => $i - 5,
                 'foto_pleton'  => '-',
                 'rekomendasi'  => '-',
+                'status'       => 'AKTIF',
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
         }
-        // SMP/MTs Sederajat: user_id 18-27, tingkatan_id = 2
-        for ($i = 26; $i <= 55; $i++) {
+        // SMP/MTs Sederajat: user_id 28-57, tingkatan_id = 2
+        for ($i = 28; $i <= 57; $i++) {
             $pesertas[] = [
                 'user_id'      => $i,
                 'tingkatan_id' => 2,
-                'no_urut'      => $i - 25,
+                'no_urut'      => $i - 27,
                 'foto_pleton'  => '-',
                 'rekomendasi'  => '-',
+                'status'       => 'AKTIF',
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];
         }
-        // SMA/SMK/MA Sederajat: user_id 30-39, tingkatan_id = 3
-        for ($i = 56; $i <= 95; $i++) {
+        // SMA/SMK/MA Sederajat: user_id 56-95, tingkatan_id = 3
+        for ($i = 60; $i <= 99; $i++) {
             $pesertas[] = [
                 'user_id'      => $i,
                 'tingkatan_id' => 3,
-                'no_urut'      => $i - 55,
+                'no_urut'      => $i - 59,
                 'foto_pleton'  => '-',
                 'rekomendasi'  => '-',
+                'status'       => 'AKTIF',
                 'created_at'   => $now,
                 'updated_at'   => $now,
             ];

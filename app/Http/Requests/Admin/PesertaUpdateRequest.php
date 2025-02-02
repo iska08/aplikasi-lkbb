@@ -28,6 +28,7 @@ class PesertaUpdateRequest extends FormRequest
             'no_urut'     => 'nullable',
             'foto_pleton' => 'nullable|file|image|max:2048',
             'rekomendasi' => 'nullable|file|image|max:2048',
+            'status'      => 'nullable',
         ];
     }
 }

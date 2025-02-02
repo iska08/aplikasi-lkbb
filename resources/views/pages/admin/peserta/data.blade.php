@@ -34,11 +34,11 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="search" class="form-label">Search</label>
-                            <input type="text" name="search" id="search" class="form-control" placeholder="Cari Nama atau No Urut" value="{{ request('search') }}">
+                            <input type="text" name="search" id="search" class="form-control" placeholder="Cari Sekolah/No Urut" value="{{ request('search') }}">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <label for="tingkatan" class="form-label">Filter Tingkatan</label>
                             <select name="tingkatan" id="tingkatan" class="form-select" onchange="this.form.submit()">
                                 <option value="" {{ request('tingkatan') == '' ? 'selected' : '' }}>Semua Tingkatan</option>
@@ -46,6 +46,15 @@
                                     <option value="{{ $tingkatanOption->id }}" {{ request('tingkatan') == $tingkatanOption->id ? 'selected' : '' }}>
                                         {{ $tingkatanOption->nama_tingkatan }}
                                     </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="status" class="form-label">Status Keikutsertaan</label>
+                            <select name="status" id="status" class="form-select" onchange="this.form.submit()">
+                                <option value="" {{ request('status') == '' ? 'selected' : '' }}>Semua Status Keikutsertaan</option>
+                                @foreach ($statusOptions as $key => $value)
+                                    <option value="{{ $key }}" {{ request('status') == $key ? 'selected' : '' }}>{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -59,59 +68,65 @@
                         <thead class="bg-dark align-middle text-center text-white">
                             <tr>
                                 <th style="width: 5%">No</th>
-                                <th style="width: 15%">No Urut Pleton</th>
+                                <th>No Urut Pleton</th>
                                 <th>Foto Pleton</th>
                                 <th>Scan Surat Rekomendasi</th>
-                                <th style="width: 15%">Asal Sekolah</th>
-                                <th style="width: 15%">Tingkatan</th>
+                                <th>Asal Sekolah</th>
+                                <th>Tingkatan</th>
+                                <th>Status Keikutsertaan</th>
                                 <th style="width: 10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if ($pesertas->count())
-                                @foreach ($pesertas as $peserta)
-                                <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td class="text-center">{{ $peserta->no_urut }}</td>
-                                    <td class="text-center">
-                                        @if($peserta->foto_pleton == "" || $peserta->foto_pleton == "-")
-                                        <img src="{{ url('frontend/images/No Image Pleton.png') }}" alt="Gambar" style="width: 5cm;">
-                                        @else
-                                        <img src="{{ asset('storage/' . $peserta->foto_pleton) }}" alt="Gambar" style="width: 5cm;">
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        @if($peserta->rekomendasi == "" || $peserta->rekomendasi == "-")
-                                        <img src="{{ url('frontend/images/No Image.png') }}" alt="Gambar" style="width: 5cm;">
-                                        @else
-                                        <img src="{{ asset('storage/' . $peserta->rekomendasi) }}" alt="Gambar" style="width: 5cm;">
-                                        @endif
-                                    </td>
-                                    <td class="text-center">{{ $peserta->user->name }}</td>
-                                    <td class="text-center">{{ $peserta->nama_tingkatan }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('peserta.show', $peserta->user_id) }}" class="badge bg-info">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                        <a href="{{ route('peserta.edit', $peserta->id) }}" class="badge bg-warning">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <form action="{{ route('peserta.destroy', $peserta->id) }}" method="POST" class="d-inline">
-                                            @method('delete')
-                                            @csrf
-                                            <button class="badge bg-danger border-0 btnDelPeserta" data-object="{{ $peserta->user->name }}">
-                                                <i class="fa-solid fa-trash-can"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
+                            @foreach ($pesertas as $peserta)
+                            <tr>
+                                <td class="text-center">{{ $loop->iteration }}</td>
+                                <td class="text-center">{{ $peserta->no_urut }}</td>
+                                <td class="text-center">
+                                    @if($peserta->foto_pleton == "" || $peserta->foto_pleton == "-")
+                                    <img src="{{ url('frontend/images/No Image Pleton.png') }}" alt="Gambar" style="width: 5cm;">
+                                    @else
+                                    <img src="{{ asset('storage/' . $peserta->foto_pleton) }}" alt="Gambar" style="width: 5cm;">
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if($peserta->rekomendasi == "" || $peserta->rekomendasi == "-")
+                                    <img src="{{ url('frontend/images/No Image.png') }}" alt="Gambar" style="width: 5cm;">
+                                    @else
+                                    <img src="{{ asset('storage/' . $peserta->rekomendasi) }}" alt="Gambar" style="width: 5cm;">
+                                    @endif
+                                </td>
+                                <td class="text-center">{{ $peserta->user->name }}</td>
+                                <td class="text-center">{{ $peserta->nama_tingkatan }}</td>
+                                @if ($peserta->status == "BATAL")
+                                <td class="text-center"><b class="badge bg-danger border-0">BATAL</b></td>
+                                @elseif ($peserta->status == "AKTIF")
+                                <td class="text-center"><b class="badge bg-success border-0">AKTIF</b></td>
+                                @endif
+                                <td class="text-center">
+                                    <a href="{{ route('peserta.show', $peserta->user_id) }}" class="badge bg-info">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('peserta.edit', $peserta->id) }}" class="badge bg-warning">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                    <form action="{{ route('peserta.destroy', $peserta->id) }}" method="POST" class="d-inline">
+                                        @method('delete')
+                                        @csrf
+                                        <button class="badge bg-danger border-0 btnDelPeserta" data-object="{{ $peserta->user->name }}">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
                             @else
-                                <tr>
-                                    <td colspan="7" class="text-danger text-center">
-                                        <h4>Data tidak ditemukan</h4>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td colspan="8" class="text-danger text-center">
+                                    <h4>Data tidak ditemukan</h4>
+                                </td>
+                            </tr>
                             @endif
                         </tbody>
                     </table>

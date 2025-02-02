@@ -23,8 +23,8 @@ class UserSeeder extends Seeder
             ['name' => 'Juri Varfor 1', 'username' => 'jurivarfor1', 'email' => 'jurivarfor1@gmail.com', 'password' => bcrypt('jurivarfor1'), 'level' => '3JURIVARFOR', 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'Juri Varfor 2', 'username' => 'jurivarfor2', 'email' => 'jurivarfor2@gmail.com', 'password' => bcrypt('jurivarfor2'), 'level' => '3JURIVARFOR', 'created_at' => $now, 'updated_at' => $now],
         ];
-        // Generate data SD-MI (12 Users)
-        for ($i = 1; $i <= 20; $i++) {
+        // Generate data SD-MI (22 Users)
+        for ($i = 1; $i <= 22; $i++) {
             $users[] = [
                 'name'       => "SD-MI $i",
                 'username'   => "sdmi$i",
@@ -35,8 +35,8 @@ class UserSeeder extends Seeder
                 'updated_at' => $now,
             ];
         }
-        // Generate data SMP-MTs (12 Users)
-        for ($i = 1; $i <= 30; $i++) {
+        // Generate data SMP-MTs (32 Users)
+        for ($i = 1; $i <= 32; $i++) {
             $users[] = [
                 'name'       => "SMP-MTs $i",
                 'username'   => "smpmts$i",
@@ -47,8 +47,8 @@ class UserSeeder extends Seeder
                 'updated_at' => $now,
             ];
         }
-        // Generate data SMA-SMK-MA (12 Users)
-        for ($i = 1; $i <= 40; $i++) {
+        // Generate data SMA-SMK-MA (42 Users)
+        for ($i = 1; $i <= 42; $i++) {
             $users[] = [
                 'name'       => "SMA-SMK-MA $i",
                 'username'   => "smasmkma$i",

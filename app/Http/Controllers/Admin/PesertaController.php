@@ -30,6 +30,7 @@ class PesertaController extends Controller
         // Ambil nilai filter dari request
         $search    = $request->query('search');
         $tingkatan = $request->query('tingkatan');
+        $status    = $request->query('status');
         $pesertas = Peserta::join('users', 'pesertas.user_id', '=', 'users.id')
             ->join('tingkatans', 'pesertas.tingkatan_id', '=', 'tingkatans.id')
             ->where('users.level', '=', '4PESERTA')
@@ -46,6 +47,10 @@ class PesertaController extends Controller
         if ($tingkatan) {
             $pesertas->where('tingkatans.id', $tingkatan);
         }
+        // Filter berdasarkan status keikutsertaan
+        if ($status) {
+            $pesertas->where('pesertas.status', $status);
+        }
 
         $pesertas->select('pesertas.*', 'users.name', 'tingkatans.nama_tingkatan')
                 ->orderby('pesertas.id');
@@ -56,6 +61,12 @@ class PesertaController extends Controller
         $pesertas       = $pesertas->paginate($perPage, $this->fields, 'page', $page);
         $tingkatans     = Tingkatan::orderBy('id')->get();
 
+        // Opsi keikutsertaan
+        $statusOptions = [
+            'BATAL' => 'Batal',
+            'AKTIF' => 'Aktif',
+        ];
+
         return view('pages.admin.peserta.data', [
             'title'          => 'Data Peserta',
             'pesertas'       => $pesertas,
@@ -64,6 +75,8 @@ class PesertaController extends Controller
             'search'         => $search,
             'tingkatan'      => $tingkatan,
             'tingkatans'     => $tingkatans,
+            'status'         => $status,
+            'statusOptions'  => $statusOptions,
         ]);
     }
 
@@ -106,6 +119,7 @@ class PesertaController extends Controller
         $pesertas->user_id      = $request->user_id;
         $pesertas->tingkatan_id = $request->tingkatan_id;
         $pesertas->no_urut      = $request->no_urut;
+        $pesertas->status       = $request->status;
         $pesertas->save();
 
         return redirect('/dashboard/administrasi/peserta')->with('success', 'Peserta Baru Telah Ditambahkan!');
@@ -189,6 +203,7 @@ class PesertaController extends Controller
         if ($userLevel === '1ADMIN') {
             $edPeserta->no_urut      = $request->no_urut;
             $edPeserta->tingkatan_id = $request->tingkatan_id;
+            $edPeserta->status       = $request->status;
         } elseif($userLevel === '4PESERTA') {
             if ($request->hasFile('foto_pleton')) {
                 if ($edPeserta->foto_pleton && Storage::disk('public')->exists($edPeserta->foto_pleton)) {

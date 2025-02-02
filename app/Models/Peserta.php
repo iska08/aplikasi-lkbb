@@ -13,7 +13,8 @@ class Peserta extends Model
         'tingkatan_id',
         'no_urut',
         'foto_pleton',
-        'rekomendasi'
+        'rekomendasi',
+        'status'
     ];
 
     public function user()

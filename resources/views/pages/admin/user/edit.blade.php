@@ -56,7 +56,7 @@
             <div class="mb-3">
                 <label for="level" class="form-label">Level Pengguna</label>
                 <select class="form-select @error('level') is-invalid @enderror" id="level" name="level" required>
-                    <option value="" disabled selected>Choose One</option>
+                    <option value="" disabled selected>Pilih Level Pengguna</option>
                     <option value="1ADMIN" {{ old('level', $user->level) === '1ADMIN' ? 'selected' : '' }}>Admin</option>
                     <option value="2JURIPBB" {{ old('level', $user->level) === '2JURIPBB' ? 'selected' : '' }}>Juri PBB</option>
                     <option value="3JURIVARFOR" {{ old('level', $user->level) === '3JURIVARFOR' ? 'selected' : '' }}>Juri Varfor</option>

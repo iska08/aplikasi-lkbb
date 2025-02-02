@@ -48,6 +48,19 @@
                     </div>
                 @enderror
             </div>
+            <div class="mb-3">
+                <label for="status" class="form-label">Status Keikutsertaan</label>
+                <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
+                    <option value="" disabled selected>Pilih Status Keikutsertaan</option>
+                    <option value="BATAL" {{ old('status', $edPeserta->status) == 'BATAL' ? 'selected' : '' }}>Batal</option>
+                    <option value="AKTIF" {{ old('status', $edPeserta->status) == 'AKTIF' ? 'selected' : '' }}>Aktif</option>
+                </select>
+                @error('status')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+                @enderror
+            </div>
             <button type="submit" class="btn btn-dark mb-3">Simpan Perubahan</button>
             <a href="/dashboard/pesertas" class="btn btn-danger mb-3">Cancel</a>
         </form>

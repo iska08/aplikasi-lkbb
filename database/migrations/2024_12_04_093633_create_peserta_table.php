@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('no_urut')->default('0');
             $table->string('foto_pleton')->default('-');
             $table->string('rekomendasi')->default('-');
+            $table->string('status')->default('AKTIF');
             $table->timestamps();
         });
     }

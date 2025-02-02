@@ -50,6 +50,7 @@
                     </div>
                 @enderror
             </div>
+            <input type="hidden" name="status" value="AKTIF">
             <button type="submit" class="btn btn-dark mb-3">Simpan</button>
             <a href="{{ route('peserta.index') }}" class="btn btn-danger mb-3">Cancel</a>
         </form>
