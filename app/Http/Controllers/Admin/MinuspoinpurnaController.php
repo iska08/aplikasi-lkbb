@@ -51,6 +51,9 @@ class MinuspoinpurnaController extends Controller
         }
 
         $minuspoins = Peserta::join('users', 'pesertas.user_id', '=', 'users.id')
+        ->join('tingkatans', 'pesertas.tingkatan_id', '=', 'tingkatans.id')
+        ->where('tingkatans.nama_tingkatan', '=', 'Purna/Manajemen')
+        ->where('pesertas.status', '=', 'AKTIF')
             ->whereNotIn('pesertas.id', function ($query) {
                 $query->select('peserta_id')
                     ->from('minuspoins')

@@ -51,6 +51,9 @@ class MinuspoinsdController extends Controller
         }
 
         $minuspoins = Peserta::join('users', 'pesertas.user_id', '=', 'users.id')
+            ->join('tingkatans', 'pesertas.tingkatan_id', '=', 'tingkatans.id')
+            ->where('tingkatans.nama_tingkatan', '=', 'SD/MI Sederajat')
+            ->where('pesertas.status', '=', 'AKTIF')
             ->whereNotIn('pesertas.id', function ($query) {
                 $query->select('peserta_id')
                     ->from('minuspoins')
@@ -142,12 +145,12 @@ class MinuspoinsdController extends Controller
     public function minuspoin()
     {
         $id           = auth()->user()->id;
-        $peserta      = Peserta::where('id', '=', $id)->first();
+        $peserta      = Peserta::where('user_id', '=', $id)->first();
         $edPeserta    = User::findOrFail($peserta->user_id); // Pastikan ID peserta diambil dari relasi
         $pengurangans = Minuspoin::join('pengurangans', 'minuspoins.pengurangan_id', '=', 'pengurangans.id')
             ->join('pesertas', 'minuspoins.peserta_id', '=', 'pesertas.id')
             ->join('users', 'minuspoins.user_id', '=', 'users.id')
-            ->where('pesertas.id', '=', $id) // Gunakan ID peserta
+            ->where('pesertas.id', '=', $peserta->id) // Gunakan ID peserta
             ->select('minuspoins.minus', 'minuspoins.jumlah', 'pengurangans.*')
             ->orderby('pengurangans.id')
             ->get(); // Pastikan query dieksekusi dengan `get()`

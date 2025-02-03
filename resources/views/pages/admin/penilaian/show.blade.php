@@ -9,7 +9,7 @@
                     <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('penilaian.index') }}">Data Penilaian</a></li>
                     <li class="breadcrumb-item active">{{ $title }}</li>
-                </ol>
+                </ol>x
             </div>
         </div>
         {{-- datatable --}}

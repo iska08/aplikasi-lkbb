@@ -100,13 +100,25 @@ class PletonController extends Controller
         }
 
         $userId    = auth()->user()->id;
-        $pesertaId = Peserta::where('user_id', $userId)->value('id');
-        $pletons   = new Pleton();
-        $pletons->peserta_id    = $pesertaId;
+        $peserta   = Peserta::where('user_id', $userId)->first();
+
+        // Cek apakah peserta memiliki status "BATAL"
+        if ($peserta && $peserta->status === 'BATAL') {
+            return redirect()->back()->with('error', 'Anda Tidak Dapat Menambahkan Anggota Pleton Karena Status Anda Telah Dibatalkan.');
+        }
+
+        // Jika peserta tidak ditemukan
+        if (!$peserta) {
+            return redirect()->back()->with('error', 'Data peserta tidak ditemukan.');
+        }
+
+        $pletons = new Pleton();
+        $pletons->peserta_id    = $peserta->id;
         $pletons->nama_anggota  = $request->nama_anggota;
         $pletons->kelas_anggota = $request->kelas_anggota;
         $pletons->nis_anggota   = $request->nis_anggota;
         $pletons->posisi        = $request->posisi;
+
         if ($request->hasFile('foto_anggota')) {
             $file                  = $request->file('foto_anggota');
             $filePath              = $file->store('foto_anggota', 'public');
@@ -168,7 +180,15 @@ class PletonController extends Controller
             return redirect()->back()->with('error', 'Anda Tidak Memiliki Ijin Untuk Melakukan Tindakan Ini.');
         }
 
-        $edPleton = Pleton::FindOrFail($id);
+        // Ambil data Pleton
+        $edPleton = Pleton::findOrFail($id);
+
+        // Cek apakah status peserta adalah "BATAL"
+        if ($edPleton->peserta->status === 'BATAL') {
+            return redirect()->back()->with('error', 'Peserta telah dibatalkan, Anda tidak dapat mengedit data ini.');
+        }
+
+        // Update data Pleton
         $edPleton->nama_anggota  = $request->nama_anggota;
         $edPleton->kelas_anggota = $request->kelas_anggota;
         $edPleton->nis_anggota   = $request->nis_anggota;

@@ -53,7 +53,15 @@
                             @endforeach
                             <tr>
                                 <td colspan="4" class="text-center"><strong>Total Pengurangan Nilai</strong></td>
-                                <td class="text-center"><strong>-{{ $totalKeseluruhan }}</strong></td>
+                                <td class="text-center">
+                                    <strong>
+                                        @if ($totalKeseluruhan == 0)
+                                        {{ $totalKeseluruhan }}
+                                        @else
+                                        -{{ $totalKeseluruhan }}
+                                        @endif
+                                    </strong>
+                                </td>
                             </tr>
                             @else
                             <tr>

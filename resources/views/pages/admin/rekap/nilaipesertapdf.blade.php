@@ -134,7 +134,7 @@
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead class="thead-pbb">
-                <tr>
+                    <tr>
                         <th colspan="4 + {{ $juriPDs->count() }}" class="fw-bold">Nilai PBB</th>
                     </tr>
                     <tr>
@@ -395,7 +395,13 @@
                     @endif
                     <tr style="background-color: #8B0000;">
                         <th style="color: #D3D3D3;">PENGURANGAN NILAI</th>
-                        <th style="color: #D3D3D3; width: 20%" class="text-center">-{{ $totalMinusPoin }}</th>
+                        <th style="color: #D3D3D3; width: 20%" class="text-center">
+                            @if ($totalMinusPoin == 0)
+                            {{ $totalMinusPoin }}
+                            @else
+                            -{{ $totalMinusPoin }}
+                            @endif
+                        </th>
                     </tr>
                     <tr style="background-color: #99FF99">
                         <th>TOTAL NILAI UTAMA</th>

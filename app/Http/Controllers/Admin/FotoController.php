@@ -13,8 +13,8 @@ class FotoController extends Controller
         $fotos = Peserta::where('user_id', '=', auth()->user()->id)->first();
         $nama  = auth()->user()->name;
         return view('pages.admin.foto.index', [
-            'title'      => "Foto Pleton dan Surat Rekomendasi: $nama",
-            'fotos'      => $fotos,
+            'title' => "Foto Pleton dan Surat Rekomendasi: $nama",
+            'fotos' => $fotos,
         ]);
     }
 
@@ -25,6 +25,11 @@ class FotoController extends Controller
 
         if (!$edFoto) {
             return redirect('/dashboard/administrasi/foto')->with('error', 'Data tidak ditemukan.');
+        }
+
+        // Cek apakah status peserta "BATAL"
+        if ($edFoto->status === 'BATAL') {
+            return redirect('/dashboard/administrasi/foto')->with('error', 'Akses ditolak. Peserta dengan status "BATAL" tidak dapat mengupdate data.');
         }
 
         // Update foto pleton

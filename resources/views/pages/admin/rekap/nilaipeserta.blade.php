@@ -311,7 +311,13 @@
                             @endif
                             <tr>
                                 <th>PENGURANGAN NILAI</th>
-                                <th style="width: 20%" class="text-center">-{{ $totalMinusPoin }}</th>
+                                <th style="width: 20%" class="text-center">
+                                    @if ($totalMinusPoin == 0)
+                                    {{ $totalMinusPoin }}
+                                    @else
+                                    -{{ $totalMinusPoin }}
+                                    @endif
+                                </th>
                             </tr>
                             <tr>
                                 <th>TOTAL NILAI UTAMA</th>

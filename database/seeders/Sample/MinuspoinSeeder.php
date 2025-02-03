@@ -19,7 +19,7 @@ class MinuspoinSeeder extends Seeder
     {
         $now = Carbon::now(); // Waktu sekarang
         // Ambil semua peserta yang sudah ada
-        $pesertas = Peserta::all();
+        $pesertas = Peserta::where('status', '=', 'AKTIF')->get();
         // Ambil semua pengurangan yang sudah di-seed sebelumnya
         $pengurangans = Pengurangan::all();        
         // Jika tabel peserta atau pengurangan kosong, hentikan proses

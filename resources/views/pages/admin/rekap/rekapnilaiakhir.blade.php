@@ -51,7 +51,13 @@
                                 >
                                     {{ $rekapNilai->total_danton }}
                                 </td>
-                                <td style="vertical-align: middle !important;">-{{ $rekapNilai->minus_poin }}</td>
+                                <td style="vertical-align: middle !important;">
+                                    @if ($rekapNilai->minus_poin == 0)
+                                    {{ $rekapNilai->minus_poin }}
+                                    @else
+                                    -{{ $rekapNilai->minus_poin }}
+                                    @endif
+                                </td>
                                 <td 
                                     @if ($rekapNilais->where('total_utama', $rekapNilai->total_utama)->count() > 1) style="background-color: #8B0000; vertical-align: middle !important; color: white;"
                                     @else style="vertical-align: middle !important;"
@@ -139,7 +145,13 @@
                                 >
                                     {{ $rankingPBB->total_danton }}
                                 </td>
-                                <td style="vertical-align: middle !important;">-{{ $rankingPBB->minus_poin }}</td>
+                                <td style="vertical-align: middle !important;">
+                                    @if ($rankingPBB->minus_poin == 0)
+                                    {{ $rankingPBB->minus_poin }}
+                                    @else
+                                    -{{ $rankingPBB->minus_poin }}
+                                    @endif
+                                </td>
                                 <td 
                                     @if ($rankingPBBs->where('total_utama', $rankingPBB->total_utama)->count() > 1) style="background-color: #8B0000; vertical-align: middle !important; color: white;"
                                     @else style="vertical-align: middle !important;"

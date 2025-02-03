@@ -75,8 +75,8 @@ class NilaivarforSeeder extends Seeder
         ];
         $dataSMP = [];
         $userIdSMPs = [4, 5]; // Juri 1 dan Juri 2
-        // Loop untuk peserta_id dari 11 hingga 50
-        for ($pesertaIdSMP = 21; $pesertaIdSMP <= 50; $pesertaIdSMP++) {
+        // Loop untuk peserta_id dari 23 hingga 52
+        for ($pesertaIdSMP = 23; $pesertaIdSMP <= 52; $pesertaIdSMP++) {
             foreach ($userIdSMPs as $userIdSMP) {
                 foreach ($abaabaPointSMPs as $abaabaIdSMP => $pointSMPs) {
                     $dataSMP[] = [
@@ -113,8 +113,8 @@ class NilaivarforSeeder extends Seeder
         ];
         $dataSMA = [];
         $userIdSMAs = [4, 5]; // Juri 1 dan Juri 2
-        // Loop untuk peserta_id dari 21 hingga 30
-        for ($pesertaIdSMA = 51; $pesertaIdSMA <= 90; $pesertaIdSMA++) {
+        // Loop untuk peserta_id dari 55 hingga 94
+        for ($pesertaIdSMA = 55; $pesertaIdSMA <= 94; $pesertaIdSMA++) {
             foreach ($userIdSMAs as $userIdSMA) {
                 foreach ($abaabaPointSMAs as $abaabaIdSMA => $pointSMAs) {
                     $dataSMA[] = [

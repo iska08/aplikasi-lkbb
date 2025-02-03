@@ -293,6 +293,7 @@ class RekapController extends Controller
 
         $tingkatan = Tingkatan::findOrFail($id);
         $pesertas = Peserta::join('users', 'pesertas.user_id', '=', 'users.id')
+            ->where('pesertas.status', '=', 'AKTIF')
             ->select('pesertas.id as peserta_id', 'pesertas.no_urut', 'users.name')
             ->where('pesertas.tingkatan_id', '=', $id)
             ->orderby('pesertas.no_urut')
@@ -439,6 +440,7 @@ class RekapController extends Controller
         $tingkatan = Tingkatan::findOrFail($id);
         $tingkatan = Tingkatan::findOrFail($id);
         $pesertas = Peserta::join('users', 'pesertas.user_id', '=', 'users.id')
+            ->where('pesertas.status', '=', 'AKTIF')
             ->select('pesertas.id as peserta_id', 'pesertas.no_urut', 'users.name')
             ->where('pesertas.tingkatan_id', '=', $id)
             ->orderby('pesertas.no_urut')
