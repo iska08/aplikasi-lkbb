@@ -11,6 +11,10 @@ $tingkatanPurna = $tingkatans->where('nama_tingkatan', 'Purna/Manajemen')->first
 $pesertas = Peserta::join('tingkatans', 'pesertas.tingkatan_id', '=', 'tingkatans.id')
     ->select('pesertas.*', 'tingkatans.nama_tingkatan')
     ->first();
+$data = Peserta::join('tingkatans', 'pesertas.tingkatan_id', '=', 'tingkatans.id')
+    ->where('pesertas.user_id', '=', auth()->user()->id)
+    ->select('pesertas.*', 'tingkatans.nama_tingkatan', 'tingkatans.slug')
+    ->first();
 @endphp
 <div id="layoutSidenav_nav">
     <nav class="sb-sidenav accordion sb-sidenav-black" id="sidenavAccordion">
@@ -118,7 +122,7 @@ $pesertas = Peserta::join('tingkatans', 'pesertas.tingkatan_id', '=', 'tingkatan
                     @endif
                 </div>
                 <!-- Teknis Lomba -->
-                @if(auth()->user()->level === '1ADMIN' || auth()->user()->level === '4PESERTA' || auth()->user()->level === '5CALONPESERTA')
+                @if(auth()->user()->level === '1ADMIN' || auth()->user()->level === '4PESERTA')
                 <a href="#" class="nav-link collapsed {{ Request::is('dashboard/teknis*') ? 'active' : '' }} parent" data-bs-toggle="collapse" data-bs-target="#masterDataCollapse3" aria-expanded="{{ Request::is('dashboard/teknis*') ? 'true' : 'false' }}">
                     <div class="sb-nav-link-icon col-1">
                         <i class="fas fa-cogs"></i>
@@ -171,8 +175,8 @@ $pesertas = Peserta::join('tingkatans', 'pesertas.tingkatan_id', '=', 'tingkatan
                         </div>
                         Pengurangan Nilai
                     </a>
-                    @elseif(auth()->user()->level === '4PESERTA' || auth()->user()->level === '5CALONPESERTA')
-                    <a class="nav-link {{ Request::is('dashboard/teknis/penilaian*') ? 'active' : '' }} child" href="{{ route('penilaian.index') }}">
+                    @elseif(auth()->user()->level === '4PESERTA')
+                    <a class="nav-link {{ Request::is('dashboard/teknis/penilaian*') ? 'active' : '' }} child" href="{{ route('penilaian.show', $data->slug) }}">
                         <div class="sb-nav-link-icon col-1">
                             <i class="fas"></i>
                         </div>
