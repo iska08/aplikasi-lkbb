@@ -9,8 +9,8 @@
             @csrf
             <h4 class="text-center">No Urut Pleton</h4>
             <div class="mb-3">
-                <select class="form-select @error('peserta_id') is-invalid @enderror" id="peserta_id" name="peserta_id" required>
-                    <option value="" disabled selected>Pilih No Urut Pleton</option>
+                <select class="form-select simple-select2 @error('peserta_id') is-invalid @enderror" id="peserta_id" name="peserta_id" required>
+                    <option value="" disabled selected></option>
                     @foreach ($minuspoins as $minuspoin)
                         @if (old('peserta_id') == $minuspoin->id)
                             <option value="{{ $minuspoin->id }}" selected>Pleton No. Urut {{ $minuspoin->no_urut}}</option>

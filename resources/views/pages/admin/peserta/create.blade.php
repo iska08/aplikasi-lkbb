@@ -9,8 +9,8 @@
             @csrf
             <div class="mb-3">
                 <label for="user_id" class="form-label">Asal Sekolah</label>
-                <select class="form-select @error('user_id') is-invalid @enderror" id="user_id" name="user_id" required>
-                    <option value="" disabled selected>Pilih Asal Sekolah</option>
+                <select class="form-select simple-select2 @error('user_id') is-invalid @enderror" id="user_id" name="user_id" required>
+                    <option value="" disabled selected></option>
                     @foreach ($pesertaLunas as $lunas)
                         @if (!in_array($lunas->id, $selectedUserIds))
                             @if (old('user_id') == $lunas->id)

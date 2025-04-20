@@ -4,13 +4,22 @@
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 <script src="{{ url('backend/js/datatables-simple-demo.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <style>
     table.table thead th {
         vertical-align: middle !important;
     }
 </style>
+<script>
+    $(document).ready(function () {
+        $('.simple-select2').select2({
+            placeholder: "-- Pilih --",
+            width: '100%'
+        });
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         let slideIndex = 0;
